@@ -1,9 +1,14 @@
-const express = require('express')
+const express = require('express');
+const cors = require('cors');
+const authRoutes = require('./routes/authRoutes');
 
-const app = express()
+const app = express();
+app.use(cors());
+app.use(express.json());
 
-const PORT = process.env.PORT || 8000
+app.use('/auth', authRoutes);
 
-app.listen(PORT, ()=> {
+const PORT = process.env.PORT || 8000;
+app.listen(PORT, () => {
     console.log(`🚀 Server is connected on http://localhost:${PORT}`)
 })
