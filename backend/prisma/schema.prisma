@@ -1,0 +1,85 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                  Int     @id       @default(autoincrement())
+  name                String  @db.VarChar(255)
+  email               String  @unique
+  passwordHash        String
+  role                Role
+  school              String
+  major               String  
+  description         String?
+  classification      Classification
+  bio                 String
+  availability        String?
+  
+  mentorMentorships      Mentorship[]      @relation("MentorMentorships")
+  menteeMentorships      Mentorship[]      @relation("MenteeMentorships")
+  mentorRequests         Request[]      @relation("MentorRequests")
+  menteeRequests         Request[]      @relation("MenteeRequests")  
+}
+
+model Mentorship {
+  id                  Int     @id       @default(autoincrement())  
+  menteeId            Int
+  mentee              User        @relation("MenteeMentorships", fields:[menteeId], references:[id])
+  mentorId            Int
+  mentor              User        @relation("MentorMentorships", fields:[mentorId], references:[id])
+  status              MentorshipStatus      @default(ACTIVE)
+  startedAt           DateTime    @default(now()) 
+  endedAt             DateTime?
+
+  @@index([mentorId])
+  @@unique([menteeId, mentorId, status])
+}
+
+model Request {
+  id                  Int     @id       @default(autoincrement())
+  menteeId            Int
+  mentee              User    @relation("MenteeRequests", fields: [menteeId], references:[id])
+  mentorId            Int
+  mentor              User    @relation("MentorRequests", fields: [mentorId], references:[id])
+  status              RequestStatus     @default(PENDING)
+  createdAt           DateTime    @default(now())
+  respondedAt         DateTime?
+
+  @@index([mentorId])
+  @@unique([menteeId, mentorId, status])
+}
+
+enum MentorshipStatus {
+  ACTIVE
+  ENDED
+}
+
+enum RequestStatus {
+  ACCEPTED
+  PENDING
+  DECLINED
+}
+
+enum Role {
+  MENTEE
+  MENTOR
+}
+
+enum Classification {
+  FRESHMAN
+  SOPHOMORE
+  JUNIOR
+  SENIOR  
+}
