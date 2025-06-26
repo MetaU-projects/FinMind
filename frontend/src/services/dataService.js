@@ -6,31 +6,13 @@ const createAPiInstance = (baseURL) => {
 
 const auths = createAPiInstance(`http://localhost:8000/auth`);
 
-export const registerUser = async (
-    name,
-    email,
-    password,
-    role,
-    school,
-    major,
-    classification,
-    description,
-    bio,
-    availability) => {
+export const registerUser = async (user) => {
     try {
         const data = {
-            name,
-            email,
-            password,
-            role: role.toUpperCase(),
-            school,
-            major,
-            classification: classification.toUpperCase(),
-            description,
-            bio,
-            availability
+            ...user,
+            role: user.role.toUpperCase(),
+            classification: user.classification.toUpperCase(),
         };
-
         const response = await auths.post('/signup', data);
         return response.data;
     } catch (err) {
