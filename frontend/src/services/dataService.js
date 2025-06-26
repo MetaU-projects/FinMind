@@ -4,7 +4,9 @@ const createAPiInstance = (baseURL) => {
     return axios.create({ baseURL });
 }
 
-const auths = createAPiInstance(`http://localhost:8000/auth`);
+const API_BASE_URL = process.env.VITE_API_BASE_URL || 'http://localhost:8000';
+
+const auths = createAPiInstance(`${API_BASE_URL}/auth`);
 
 export const registerUser = async (user) => {
     try {
