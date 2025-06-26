@@ -6,7 +6,7 @@ export default function WelcomePage() {
     return (
         <div>
             <h1>Welcome to MentorMe</h1>
-            <h2>Are you a?</h2>
+            <h2>Get Started!</h2>
             <button onClick={() => go('mentor')}>Mentor</button>
             <button onClick={() => go('mentee')}>Mentee</button>
         </div>

@@ -4,7 +4,7 @@ const createAPiInstance = (baseURL) => {
     return axios.create({ baseURL });
 }
 
-const auths = createAPiInstance(`http://localhost:8000/auth`);
+const auths = createAPiInstance('http://localhost:8000/auth');
 
 export const registerUser = async (user) => {
     try {
