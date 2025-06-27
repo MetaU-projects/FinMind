@@ -1,7 +1,9 @@
 import axios from 'axios'
 
 const createAPiInstance = (baseURL) => {
-    return axios.create({ baseURL });
+    return axios.create({ baseURL,
+        withCredentials: true
+    });
 }
 
 const auths = createAPiInstance('http://localhost:8000/auth');
@@ -39,9 +41,9 @@ export const loginUser = async (email, password) => {
 export const isLoggedIn = async () => {
     try {
         const response = await auths.get('/me');
-        return response.data
+        return response.data;
     } catch (err) {
-        console.error("Error in deleting board", err);
+        console.error("Log In", err);
         throw err;
     }
 }
