@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { useNavigate, useLocation, Link } from "react-router-dom"
 import { registerUser } from "../../services/dataService";
+import { useUser } from "../../contexts/UserContext";
 
 export default function SignUp() {
     const [name, setName] = useState("");
@@ -13,25 +14,32 @@ export default function SignUp() {
     const [availability, setAvailability] = useState("");
     const [bio, setBio] = useState("");
 
+    const { setUser } = useUser();
+
     const navigate = useNavigate();
     const { state } = useLocation();
     const role = state?.role;
 
     const handleSignUp = async (e) => {
         e.preventDefault();
-        await registerUser(
-            name,
-            email,
-            password,
-            role,
-            school,
-            major,
-            classification,
-            description,
-            bio,
-            availability);
+        try {
+            const data = await registerUser(
+                name,
+                email,
+                password,
+                role,
+                school,
+                major,
+                classification,
+                description,
+                bio,
+                availability);
 
-        navigate('/auth/login');
+            setUser(data);
+            navigate('/auth/login');
+        } catch (err) {
+            console.error("Network error: ", err);
+        }
     }
 
     return (
