@@ -6,13 +6,19 @@ require('dotenv').config();
 const authRoutes = require('./routes/authRoutes');
 
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:5174',
+    credentials: true
+}));
 app.use(express.json());
 
 let sessionConfig = {
     name: 'sessionId',
     secret: process.env.SESSION_SECRET,
-    cookie: { secure: false },
+    cookie: {
+        secure: process.env.RENDER ? true : false,
+        httpOnly: true
+    },
     resave: false,
     saveUninitialized: false
 }
