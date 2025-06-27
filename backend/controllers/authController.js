@@ -60,7 +60,7 @@ const login = async (req, res) => {
 
         req.session.userId = user.id;
 
-        res.json({ message: "Login successful" });
+        res.json({ message: "Login successful", user: { id: req.session.userId, email: user.email, role: user.role } });
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: "Something went wrong logging in" });
@@ -68,16 +68,15 @@ const login = async (req, res) => {
 }
 
 const isLoggedIn = async (req, res) => {
-    
+    if (!req.session.userId) return res.status(401).json({ message: "Not logged In" });
+
     try {
         const user = await prisma.user.findUnique({
             where: { id: req.session.userId },
             select: { email: true }
         });
 
-        if (!req.session.userId) return res.status(401).json({ message: "Not logged In" });
-        
-        res.json({ id: req.session.userId, email: user.email });
+        res.json({ id: req.session.userId, email: user.email, role: user.role });
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: "Try logging in again!" });
