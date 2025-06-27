@@ -1,6 +1,5 @@
 import { useState } from "react"
-import { Link } from "react-router-dom";
-import { useNavigate, useLocation } from "react-router-dom"
+import { useNavigate, useLocation, Link } from "react-router-dom"
 import { registerUser } from "../../services/dataService";
 
 export default function SignUp() {
