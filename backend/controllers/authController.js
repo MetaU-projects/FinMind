@@ -73,7 +73,7 @@ const isLoggedIn = async (req, res) => {
     try {
         const user = await prisma.user.findUnique({
             where: { id: req.session.userId },
-            select: { email: true }
+            select: { email: true, role: true }
         });
 
         res.json({ id: req.session.userId, email: user.email, role: user.role });
