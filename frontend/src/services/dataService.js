@@ -22,16 +22,26 @@ export const registerUser = async (user) => {
 }
 
 export const loginUser = async (email, password) => {
-    try{
+    try {
         const data = {
             email,
             password
         };
-        
+
         const response = await auths.post('/login', data);
         return response.data;
-    }catch(err){
+    } catch (err) {
         console.error("Error logging in", err);
+        throw err;
+    }
+}
+
+export const isLoggedIn = async () => {
+    try {
+        const response = await auths.get('/me');
+        return response.data
+    } catch (err) {
+        console.error("Error in deleting board", err);
         throw err;
     }
 }
