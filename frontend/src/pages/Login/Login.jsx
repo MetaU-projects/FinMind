@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { loginUser } from "../../services/dataService"
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -35,6 +35,7 @@ export default function Login() {
                 </label>
                 <button type="submit">Sign In</button>
             </form>
+            <p>Do not have an account?<Link to="/auth/signup">Sign Up</Link></p> 
         </div>
     );
 }
