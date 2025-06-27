@@ -9,12 +9,12 @@ export default function WithAuth(WrappedComponent, authRoles) {
         const navigate = useNavigate();
 
         useEffect(() => {
-            if (!loading && (!user && !authRoles.includes(user.role))) 
+            if (!loading && (!user || !authRoles.includes(user.role))) 
                 navigate('/auth/login');
-        }, [user, loading, navigate]);
+        }, [user, loading, authRoles, navigate]);
 
         if(loading) return <p>Loading...</p>
-        if (!user && !authRoles.includes(user.role)) return null;
+        if (!user || !authRoles.includes(user.role)) return null;
 
         return <WrappedComponent {...props} />;
     };
