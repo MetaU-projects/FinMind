@@ -13,6 +13,7 @@ export default function SignUp() {
     const [description, setDescription] = useState("");
     const [availability, setAvailability] = useState("");
     const [bio, setBio] = useState("");
+    const [error, setError] = useState("");
 
     const { setUser } = useUser();
 
@@ -38,12 +39,13 @@ export default function SignUp() {
             setUser(data);
             navigate('/auth/login');
         } catch (err) {
-            console.error("Network error: ", err);
+            setError(err.message || "Error occured signing you in. Try again!");
         }
-    }
+    };
 
     return (
         <div>
+            {error && <div className="error">{error}</div>}
             <h2>Sign Up</h2>
             <form id='register-form' onSubmit={handleSignUp}>
                 <label>Full Name
