@@ -1,7 +1,7 @@
 import { useState } from "react"
-import { Link } from "react-router-dom";
-import { useNavigate, useLocation } from "react-router-dom"
+import { useNavigate, useLocation, Link } from "react-router-dom"
 import { registerUser } from "../../services/dataService";
+import { useUser } from "../../contexts/UserContext";
 
 export default function SignUp() {
     const [name, setName] = useState("");
@@ -13,6 +13,9 @@ export default function SignUp() {
     const [description, setDescription] = useState("");
     const [availability, setAvailability] = useState("");
     const [bio, setBio] = useState("");
+    const [error, setError] = useState("");
+
+    const { setUser } = useUser();
 
     const navigate = useNavigate();
     const { state } = useLocation();
@@ -20,23 +23,29 @@ export default function SignUp() {
 
     const handleSignUp = async (e) => {
         e.preventDefault();
-        await registerUser(
-            name,
-            email,
-            password,
-            role,
-            school,
-            major,
-            classification,
-            description,
-            bio,
-            availability);
+        try {
+            const data = await registerUser(
+                name,
+                email,
+                password,
+                role,
+                school,
+                major,
+                classification,
+                description,
+                bio,
+                availability);
 
-        navigate('/auth/login');
-    }
+            setUser(data);
+            navigate('/auth/login');
+        } catch (err) {
+            setError(err.message || "Error occured signing you in. Try again!");
+        }
+    };
 
     return (
         <div>
+            {error && <div className="error">{error}</div>}
             <h2>Sign Up</h2>
             <form id='register-form' onSubmit={handleSignUp}>
                 <label>Full Name

@@ -1,7 +1,9 @@
 import axios from 'axios'
 
 const createAPiInstance = (baseURL) => {
-    return axios.create({ baseURL });
+    return axios.create({ baseURL,
+        withCredentials: true
+    });
 }
 
 const auths = createAPiInstance('http://localhost:8000/auth');
@@ -22,16 +24,26 @@ export const registerUser = async (user) => {
 }
 
 export const loginUser = async (email, password) => {
-    try{
+    try {
         const data = {
             email,
             password
         };
-        
+
         const response = await auths.post('/login', data);
         return response.data;
-    }catch(err){
+    } catch (err) {
         console.error("Error logging in", err);
+        throw err;
+    }
+}
+
+export const isLoggedIn = async () => {
+    try {
+        const response = await auths.get('/me');
+        return response.data;
+    } catch (err) {
+        console.error("Log In", err);
         throw err;
     }
 }

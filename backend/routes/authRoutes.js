@@ -9,7 +9,7 @@ const loginLimiter = rateLimit({
 })
 
 router.post('/signup', signup);
-router.post('/login', loginLimiter, login);
+router.post('/login', login);
 router.get('/me', isLoggedIn);
 router.post('/logout', logout);
 
