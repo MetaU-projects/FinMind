@@ -24,7 +24,7 @@ export default function SignUp() {
     const handleSignUp = async (e) => {
         e.preventDefault();
         try {
-            const data = await registerUser(
+            const data = await registerUser({
                 name,
                 email,
                 password,
@@ -34,7 +34,7 @@ export default function SignUp() {
                 classification,
                 description,
                 bio,
-                availability);
+                availability});
 
             setUser(data);
             navigate('/auth/login');
