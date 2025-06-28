@@ -47,3 +47,13 @@ export const isLoggedIn = async () => {
         throw err;
     }
 }
+
+export const logoutUser = async() => {
+    try {
+        const response = await auths.post('/logout');
+        return response.data;
+    } catch (err) {
+        console.error("Error logging out", err);
+        throw err;
+    }
+}

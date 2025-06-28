@@ -1,5 +1,10 @@
+import Header from "../../components/Header/Header";
+
 export default function HomeMentee () {
     return (
-        <h1>Mentee's Home Page</h1>
+        <div>
+            <Header />
+            <h1>Mentee's Home Page</h1>
+        </div>
     )
 }
