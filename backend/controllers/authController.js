@@ -87,12 +87,12 @@ const isLoggedIn = async (req, res) => {
 const logout = (req, res) => {
     try {
         req.session.destroy(err => {
-            res.json({ message: "bye" })
-        })
-        res.json({ message: "See you next time!" })
+            res.clearCookie("connect.sid");
+            res.json({ message: "See you next time!" })
+        });
     } catch (err) {
         console.error(err)
-        res.status(500).json({ error: "Error logging out" })
+        res.status(500).json({ error: "Failed to log out" })
     }
 }
 
