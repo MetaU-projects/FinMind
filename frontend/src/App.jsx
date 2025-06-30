@@ -11,7 +11,7 @@ function App() {
 
   const ProtectedMentorHome = WithAuth(HomeMentor, ['MENTOR']);
   const ProtectedMenteeHome = WithAuth(HomeMentee, ['MENTEE']);
-  const ProtectedConnections = WithAuth(Connections);
+  const ProtectedConnections = WithAuth(Connections, ['MENTEE', "MENTOR"]);
 
   return (
     <div className='App'>
