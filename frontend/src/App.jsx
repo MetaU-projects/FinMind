@@ -6,11 +6,12 @@ import Login from './pages/Login/Login'
 import WithAuth from './components/auth/WithAuth'
 import HomeMentee from './pages/Mentee/HomeMentee'
 import HomeMentor from './pages/Mentor/HomeMentor'
-
+import Connections from './pages/Connections/Connections'
 function App() {
 
-  const ProtectedMentorHome = WithAuth(HomeMentor, ['MENTOR'])
-  const ProtectedMenteeHome = WithAuth(HomeMentee, ['MENTEE'])
+  const ProtectedMentorHome = WithAuth(HomeMentor, ['MENTOR']);
+  const ProtectedMenteeHome = WithAuth(HomeMentee, ['MENTEE']);
+  const ProtectedConnections = WithAuth(Connections);
 
   return (
     <div className='App'>
@@ -20,6 +21,7 @@ function App() {
         <Route path='/auth/login' element={<Login />} />
         <Route path='/mentor/home' element={<ProtectedMentorHome/>} />
         <Route path='/mentee/home' element={<ProtectedMenteeHome />} />
+        <Route path='/connections' element={<ProtectedConnections />} />
       </Routes>
     </div>
   );
