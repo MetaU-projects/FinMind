@@ -12,6 +12,8 @@ export const registerUser = async (user) => {
     try {
         const data = {
             ...user,
+            availability: user.availability.join(', '),
+            description: user.interests.join(', '),
             role: user.role.toUpperCase(),
             classification: user.classification.toUpperCase(),
         };
