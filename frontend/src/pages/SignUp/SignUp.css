@@ -38,7 +38,7 @@
 select,
 textarea,
 input {
-    @apply w-full rounded px-2 py-1 text-sm shadow-xl;
+    @apply w-full border border-gray-100 rounded px-2 py-1 text-sm shadow-xl;
 }
 
 label {
