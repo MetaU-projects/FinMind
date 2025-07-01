@@ -109,17 +109,18 @@ export default function SignUp() {
                     <label>University/College
                         <input type="text" placeholder="Search your school..." value={selectedSchool} onChange={(e) => handleSearch(e)} required />
                     </label>
+
                     <div className="relative">
                         {showDropDown && selectedSchool &&
                         <div className="search-drop">
-                        {schoolResult.length !== 0 ? schoolResult.map((school, index) => (
+                        {schoolResult.length !==0 ? schoolResult.map((school, index) => (
                             <div
                             className="school"
                             key={index}
                             onClick={() => {setSchool(school.school.name); setShowDropDown(false); setSelectedSchool(school.school.name)}}
                             >{school.school.name}</div>
                         )) : (
-                            <div className="school">No search result!</div>
+                            <div className="school">No search results!</div>
                         )} </div>
                     }
                     </div>
