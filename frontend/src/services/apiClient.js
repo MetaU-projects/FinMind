@@ -8,7 +8,7 @@ export const searchSchool = async (query) => {
         const data = await res.json();
         return data.results;
     } catch (err) {
-        console.error('Error searching for gifs', err)
+        console.error('Error searching for colleges', err)
         return []
     }
 }
