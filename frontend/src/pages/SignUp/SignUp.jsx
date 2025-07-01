@@ -31,10 +31,14 @@ export default function SignUp() {
         try {
             const data = await searchSchool(e.target.value);
             setSchoolResults(data);
-            if(data) setShowDropDown(true);
-            else  setError("No available match");
+            if(data) {
+                setShowDropDown(true);
+            } 
+            else {
+                setError("No available match");
+            }
         }catch(err){
-            console.error(err);
+            setError("An error occured while searching");
         }
     }
 
@@ -108,13 +112,15 @@ export default function SignUp() {
                     <div className="relative">
                         {showDropDown && selectedSchool &&
                         <div className="search-drop">
-                        {schoolResult.map((school, index) => (
+                        {schoolResult.length !== 0 ? schoolResult.map((school, index) => (
                             <div
                             className="school"
                             key={index}
                             onClick={() => {setSchool(school.school.name); setShowDropDown(false); setSelectedSchool(school.school.name)}}
                             >{school.school.name}</div>
-                        ))} </div>
+                        )) : (
+                            <div className="school">No search result!</div>
+                        )} </div>
                     }
                     </div>
 
