@@ -1,8 +1,9 @@
 import { BiPlus } from "react-icons/bi";
-import { useState } from "react"
+import { useState, useEffect} from "react"
 import { useNavigate, useLocation, Link } from "react-router-dom"
 import { registerUser } from "../../services/dataService";
 import { useUser } from "../../contexts/UserContext";
+import { searchSchool } from "../../services/apiClient";
 import "./SignUp.css"
 import logo from "../../assets/logo.png"
 
@@ -11,13 +12,35 @@ export default function SignUp() {
     const [major, setMajor] = useState("");
     const [classification, setClassification] = useState("");
     const [email, setEmail] = useState("");
-    const [school, setSchool] = useState("");
+    
     const [password, setPassword] = useState("");
     const [availability, setAvailability] = useState("");
     const [bio, setBio] = useState("");
     const [interests, setInterests] = useState([]);
     const [description, setDescription] = useState("");
     const [error, setError] = useState("");
+    const [school, setSchool] = useState("");
+
+    const [selectedSchool, setSelectedSchool] = useState("");
+    const [schoolResult, setSchoolResults] = useState([]);
+    const [showDropDown, setShowDropDown] = useState(false);
+
+    const handleSearch = async(e) => {
+        e.preventDefault();
+        setSelectedSchool(e.target.value)
+        try {
+            const data = await searchSchool(e.target.value);
+            setSchoolResults(data);
+            if(data) {
+                setShowDropDown(true);
+            } 
+            else {
+                setError("No available match");
+            }
+        }catch(err){
+            setError("An error occured while searching");
+        }
+    }
 
     const { setUser } = useUser();
     const navigate = useNavigate();
@@ -84,8 +107,23 @@ export default function SignUp() {
                 <h3 className="section-title">Academic Details</h3>
                 <div>
                     <label>University/College
-                        <input type="text" placeholder="Search your school..." value={school} onChange={(e) => setSchool(e.target.value)} required />
+                        <input type="text" placeholder="Search your school..." value={selectedSchool} onChange={(e) => handleSearch(e)} required />
                     </label>
+
+                    <div className="relative">
+                        {showDropDown && selectedSchool &&
+                        <div className="search-drop">
+                        {schoolResult.length !==0 ? schoolResult.map((school, index) => (
+                            <div
+                            className="school"
+                            key={index}
+                            onClick={() => {setSchool(school.school.name); setShowDropDown(false); setSelectedSchool(school.school.name)}}
+                            >{school.school.name}</div>
+                        )) : (
+                            <div className="school">No search results!</div>
+                        )} </div>
+                    }
+                    </div>
 
                     <div className="content">
                         <label>Major

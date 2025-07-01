@@ -16,6 +16,19 @@
     font-weight: 700;
 }
 
+.search-drop {
+    @apply px-3 py-2 w-full absolute h-50 rounded-md shadow-lg bg-white overflow-x-auto;
+}
+
+.search {
+    @apply hidden;
+}
+
+.school {
+    @apply text-sm cursor-pointer hover:bg-[#ADBBDA];
+}
+
+
 .first-section {
     font-size: 1.25rem;
     line-height: 1.75rem;
@@ -61,7 +74,7 @@ form {
 }
 
 .tags span {
-    @apply bg-[#8697C4] text-white px-3 py-1 rounded-full cursor-pointer hover:bg-[#ADBBDA];
+    @apply bg-[#8697C4] text-white px-3 py-1 rounded-full cursor-pointer hover:bg-[#3D52A0];
 }
 
 .add-custom {
@@ -73,7 +86,7 @@ form {
 }
 
 .selected {
-    @apply bg-[#8697C4] text-white px-3 py-1 rounded-full cursor-pointer;
+    @apply bg-[#3D52A0] text-white px-3 py-1 rounded-full cursor-pointer;
 }
 
 .selected button {
