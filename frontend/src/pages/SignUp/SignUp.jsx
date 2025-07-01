@@ -1,7 +1,10 @@
+import { BiPlus } from "react-icons/bi";
 import { useState } from "react"
 import { useNavigate, useLocation, Link } from "react-router-dom"
 import { registerUser } from "../../services/dataService";
 import { useUser } from "../../contexts/UserContext";
+import "./SignUp.css"
+import logo from "../../assets/logo.png"
 
 export default function SignUp() {
     const [name, setName] = useState("");
@@ -10,16 +13,23 @@ export default function SignUp() {
     const [email, setEmail] = useState("");
     const [school, setSchool] = useState("");
     const [password, setPassword] = useState("");
-    const [description, setDescription] = useState("");
     const [availability, setAvailability] = useState("");
     const [bio, setBio] = useState("");
+    const [interests, setInterests] = useState([]);
+    const [description, setDescription] = useState("");
     const [error, setError] = useState("");
 
     const { setUser } = useUser();
-
     const navigate = useNavigate();
     const { state } = useLocation();
     const role = state?.role;
+
+    const popularSkills = [
+        'Data Science',
+        'Public Relations',
+        'UI/UX Design',
+        'Technical Interview'
+    ]
 
     const handleSignUp = async (e) => {
         e.preventDefault();
@@ -32,96 +42,152 @@ export default function SignUp() {
                 school,
                 major,
                 classification,
-                description,
+                interests,
                 bio,
-                availability});
-
+                availability
+            });
             setUser(data);
             navigate('/auth/login');
         } catch (err) {
-            setError(err.message || "Error occured signing you in. Try again!");
+            setError("Error occured creating an account. Try again!");
         }
     };
 
     return (
-        <div>
+        <div className="signup">
             {error && <div className="error">{error}</div>}
-            <h2>Sign Up</h2>
-            <form id='register-form' onSubmit={handleSignUp}>
-                <label>Full Name
-                    <input
-                        type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        required />
-                </label>
-                <label>University/College
-                    <input
-                        type="text"
-                        value={school}
-                        onChange={(e) => setSchool(e.target.value)}
-                        required />
-                </label>
-                <div>
-                    <label>Major
-                        <input
-                            type="text"
-                            value={major}
-                            onChange={(e) => setMajor(e.target.value)}
-                            required />
+
+            <div className="left-side">
+                <img src={logo} />
+                <h2>Create An Account</h2>
+                <p>Join our community and start your jouney towards growth and success</p>
+            </div>
+
+            <form onSubmit={handleSignUp}>
+
+                <h3 className="first-section">Personal Information</h3>
+                <div className="content">
+                    <label>Full Name
+                        <input type="text" placeholder="John Doe" value={name} onChange={(e) => setName(e.target.value)} required />
                     </label>
-                    <label>Classification
-                        <select id="class" value={classification} onChange={(e) => setClassification(e.target.value)} required>
-                            <option value="">Choose one</option>
-                            <option value="Freshman">Freshman</option>
-                            <option value="Sophomore">Sophomore</option>
-                            <option value="Junior">Junior</option>
-                            <option value="Senior">Senior</option>
-                        </select>
-                    </label>
-                </div>
-                <div>
                     <label>School Email
-                        <input
-                            type="text"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required />
-                    </label>
-                    <label>Availability(Days)
-                        <input
-                            type="text"
-                            value={availability}
-                            onChange={(e) => setAvailability(e.target.value)}
-                            required />
+                        <input type="email" placeholder="john.doe@example.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
                     </label>
                 </div>
-                <label>Password
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required />
-                </label>
+
                 <div>
-                    <label>Bio
-                        <input
-                            type="text"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                            required />
-                    </label>
-                    <label>Description
-                        <input
-                            type="text"
-                            value={bio}
-                            onChange={(e) => setBio(e.target.value)}
-                            required />
+                    <label>Password
+                        <input type="password" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)} required />
                     </label>
                 </div>
-                <button type="submit">Create an Account</button>
+
+                <h3 className="section-title">Academic Details</h3>
+                <div>
+                    <label>University/College
+                        <input type="text" placeholder="Search your school..." value={school} onChange={(e) => setSchool(e.target.value)} required />
+                    </label>
+
+                    <div className="content">
+                        <label>Major
+                            <input type="text" placeholder="Enter your major" value={major} onChange={(e) => setMajor(e.target.value)} required />
+                        </label>
+
+                        <label>Classification
+                            <select value={classification} onChange={(e) => setClassification(e.target.value)} required>
+                                <option value="">Select your classification</option>
+                                <option value="Freshman">Freshman</option>
+                                <option value="Sophomore">Sophomore</option>
+                                <option value="Junior">Junior</option>
+                                <option value="Senior">Senior</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+
+                <h3 className="section-title">Tell Us About Yourself</h3>
+                <div>
+                    <label>Short Bio
+                        <textarea placeholder="Share a brief overview of your background, aspirations, and what you hope to gain from mentorship"
+                            maxLength="255" rows="3" value={bio} onChange={(e) => setBio(e.target.value)} required>
+                        </textarea>
+                    </label>
+
+                    <div>
+                        <label>Interest & Experience</label>
+                        <div className="interests-section">
+                            <input type="text" placeholder="Add custom interest or skill (e.g. Python, Leadership)"
+                                value={description} onChange={(e) => setDescription(e.target.value)}
+                            />
+                            <button type="button"
+                                className="add-custom"
+                                onClick={() => {
+                                    if (description && !interests.includes(description)) {
+                                        setInterests([...interests, description]);
+                                        setDescription('');
+                                    }
+                                }}>
+                                <BiPlus />
+                            </button>
+                        </div>
+
+                        <p>Choose from popular skills</p>
+                        <div className="tags">
+                            {popularSkills.map((tag) => (
+                                <span
+                                    key={tag}
+                                    onClick={() => {
+                                        if (!interests.includes(tag)) {
+                                            setInterests([...interests, tag]);
+                                        }
+                                    }}
+                                >
+                                    {tag}
+                                </span>
+                            ))}
+                        </div>
+
+                        {interests.length > 0 && (
+                            <div className="select-interest">
+                                {interests.map((interest) => (
+                                    <div key={interest}
+                                        className="selected">
+                                        <span className="mr-2">{interest}</span>
+                                        <button type="button"
+                                            onClick={() => {
+                                                setInterests(interests.filter((item) => item !== interest))
+                                            }}>
+                                            &times;
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+
+                    </div>
+
+                    <label>Availability(Days) </label>
+                    <div className="days">
+                        {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'].map((day) => (
+                            <button
+                                type="button"
+                                key={day}
+                                onClick={() => setAvailability((prev) =>
+                                    prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]
+                                )
+                                }
+                                className={`avail ${availability.includes(day) ?
+                                    'unpicked' : 'picked'}`}
+                            >
+                                {day}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+                <button className="btn-submit" type="submit">Create an Account</button>
+                <div className="bottom-content">
+                    <p>Already have an account? <Link className="link" to="/auth/login">Sign In</Link></p>
+                </div>
             </form>
-            <p>Already have an account? <Link to="/auth/login">Sign In</Link></p>
         </div>
     );
 }
