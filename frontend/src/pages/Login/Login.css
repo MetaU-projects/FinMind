@@ -51,20 +51,22 @@ input{
     position: absolute;
     bottom: 0;
     right: 0;
-    width: 500px;
-    height: 700px;
+    width: 25%;
+    height: 60%;
     border-top-left-radius: 50%;
     border-top-right-radius: 50%;
     opacity: 0.6;
+    object-fit: cover;
 }
 
 .top-img {
     position: absolute;
     top: 0;
     left: 0;
-    width: 500px;
-    height: 700px;
+    width: 25%;
+    height: 60%;
     border-bottom-left-radius: 50%;
     border-bottom-right-radius: 50%;
     opacity: 0.6;
+    object-fit: cover;
 }
