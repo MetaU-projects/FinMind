@@ -59,15 +59,13 @@ export default function SignUp() {
 
             <div className="left-side">
                 <img src={logo} />
-                <h2 className="text-3xl font-bold mb-4">Create An Account</h2>
-                <p className="text-gray-600">
-                    Join our community and start your jouney towards growth and success
-                </p>
+                <h2>Create An Account</h2>
+                <p>Join our community and start your jouney towards growth and success</p>
             </div>
 
             <form onSubmit={handleSignUp}>
 
-                <h3 className="text-xl font-bold mb-3">Personal Information</h3>
+                <h3 className="first-section">Personal Information</h3>
                 <div className="content">
                     <label>Full Name
                         <input type="text" placeholder="John Doe" value={name} onChange={(e) => setName(e.target.value)} required />
@@ -76,7 +74,8 @@ export default function SignUp() {
                         <input type="email" placeholder="john.doe@example.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
                     </label>
                 </div>
-                <div className="mt-4">
+
+                <div>
                     <label>Password
                         <input type="password" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)} required />
                     </label>
@@ -87,7 +86,8 @@ export default function SignUp() {
                     <label>University/College
                         <input type="text" placeholder="Search your school..." value={school} onChange={(e) => setSchool(e.target.value)} required />
                     </label>
-                    <div className="mt-4 content">
+
+                    <div className="content">
                         <label>Major
                             <input type="text" placeholder="Enter your major" value={major} onChange={(e) => setMajor(e.target.value)} required />
                         </label>
@@ -112,14 +112,14 @@ export default function SignUp() {
                         </textarea>
                     </label>
 
-                    <div className="mt-4">
+                    <div>
                         <label>Interest & Experience</label>
-                        <div className="flex gap-2 mb-2">
+                        <div className="interests-section">
                             <input type="text" placeholder="Add custom interest or skill (e.g. Python, Leadership)"
                                 value={description} onChange={(e) => setDescription(e.target.value)}
                             />
                             <button type="button"
-                                className="border rounded px-2 py-1 text-sm shadow-xl"
+                                className="add-custom"
                                 onClick={() => {
                                     if (description && !interests.includes(description)) {
                                         setInterests([...interests, description]);
@@ -130,8 +130,8 @@ export default function SignUp() {
                             </button>
                         </div>
 
-                        <p className="text-gray-500 font-medium">Choose from popular skills</p>
-                        <div className="flex flex-wrap gap-2 mb-2">
+                        <p>Choose from popular skills</p>
+                        <div className="tags">
                             {popularSkills.map((tag) => (
                                 <span
                                     key={tag}
@@ -140,24 +140,23 @@ export default function SignUp() {
                                             setInterests([...interests, tag]);
                                         }
                                     }}
-                                    className="bg-[#8697C4] text-white px-3 py-1 rounded-full cursor-pointer hover:bg-[#ADBBDA]">
+                                >
                                     {tag}
                                 </span>
                             ))}
                         </div>
-                        
+
                         {interests.length > 0 && (
-                            <div className="mt-2 flex flex-wrap gap-2">
+                            <div className="select-interest">
                                 {interests.map((interest) => (
                                     <div key={interest}
-                                        className="bg-[#8697C4] text-white px-3 py-1 rounded-full cursor-pointer">
+                                        className="selected">
                                         <span className="mr-2">{interest}</span>
                                         <button type="button"
                                             onClick={() => {
                                                 setInterests(interests.filter((item) => item !== interest))
-                                            }}
-                                            className="text-white-500 font-bold cursor-pointer hover:text-gray-700"
-                                        >&times;
+                                            }}>
+                                            &times;
                                         </button>
                                     </div>
                                 ))}
@@ -167,7 +166,7 @@ export default function SignUp() {
                     </div>
 
                     <label>Availability(Days) </label>
-                    <div className=" flex gap-2 flex-wrap items-center">
+                    <div className="days">
                         {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'].map((day) => (
                             <button
                                 type="button"
@@ -177,7 +176,7 @@ export default function SignUp() {
                                 )
                                 }
                                 className={`avail ${availability.includes(day) ?
-                                    'bg-[#8697C4] text-white px-3 py-1 rounded-full' : 'bg-white border-gray-300'}`}
+                                    'unpicked' : 'picked'}`}
                             >
                                 {day}
                             </button>
@@ -185,7 +184,9 @@ export default function SignUp() {
                     </div>
                 </div>
                 <button className="btn-submit" type="submit">Create an Account</button>
-                <p className="mt-4 text-gray-600">Already have an account? <Link className="font-medium text-[#3D52A0]" to="/auth/login">Sign In</Link></p>
+                <div className="bottom-content">
+                    <p>Already have an account? <Link className="link" to="/auth/login">Sign In</Link></p>
+                </div>
             </form>
         </div>
     );
