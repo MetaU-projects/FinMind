@@ -1,7 +1,10 @@
-import { useState } from "react"
-import { loginUser } from "../../services/dataService"
+import { useState } from "react";
+import { loginUser } from "../../services/dataService";
 import { useNavigate, Link } from "react-router-dom";
 import { useUser } from "../../contexts/UserContext";
+import './Login.css';
+import img1 from "../../assets/login-img1.jpg";
+import img2 from "../../assets/login-img2.jpg";
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -24,13 +27,18 @@ export default function Login() {
     };
 
     return (
-        <div>
+        <div className="signIn">
             {error && <div className="error">{error}</div>}
-            <h2>Sign In</h2>
-            <form id="login-form" onSubmit={handleLogin}>
-                <label>School Email
+            <img src={img1} alt="top left image" className="top-img"/>
+            <form className="login-form" onSubmit={handleLogin}>
+                <div className="top-content">
+                <h2>Welcome to MentorMe</h2>
+                <p>Sign in to your account to continue your mentorship journey</p>
+                </div>
+                <label>Email Address
                     <input
                         type="text"
+                        placeholder="name@example.com"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required />
@@ -38,13 +46,18 @@ export default function Login() {
                 <label>Password
                     <input
                         type="password"
+                        placeholder="Enter your password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required />
                 </label>
-                <button type="submit">Sign In</button>
+                <button className="btn-submit" type="submit">Sign In</button>
+                <div className="bottom-content">
+                <p className="link-text">Do not have an account? <Link className="link" to="/auth/signup">Sign Up</Link></p> 
+                </div>
             </form>
-            <p>Do not have an account?<Link to="/auth/signup">Sign Up</Link></p> 
+            <img src={img2} alt="Bottom right image" className="bottom-img" />
         </div>
     );
+
 }

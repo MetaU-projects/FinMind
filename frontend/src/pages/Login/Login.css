@@ -1,0 +1,72 @@
+@import 'tailwindcss';
+
+.signIn {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to left,#EDE8F5, #EDE8F5 ,#ADBBDA);
+}
+
+.login-form {
+    @apply bg-white p-8 rounded shadow-md w-full h-[90vh] max-w-md justify-start ;
+}
+
+.top-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.top-content h2 {
+    @apply text-3xl font-bold mb-1;
+}
+
+.top-content p {
+    font-size: small;
+    color: gray;
+}
+
+.bottom-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.link{
+    @apply font-medium text-[#3D52A0];
+}
+
+.bottom-content p {
+    @apply mt-4 text-gray-600;
+}
+
+input{
+    @apply w-full rounded px-2 py-1 text-sm shadow-xl;
+}
+
+.bottom-img {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 25%;
+    height: 60%;
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    opacity: 0.6;
+    object-fit: cover;
+}
+
+.top-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 25%;
+    height: 60%;
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    opacity: 0.6;
+    object-fit: cover;
+}
