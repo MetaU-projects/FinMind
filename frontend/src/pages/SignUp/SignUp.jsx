@@ -1,5 +1,5 @@
 import { BiPlus } from "react-icons/bi";
-import { useState, useEffect} from "react"
+import { useState } from "react"
 import { useNavigate, useLocation, Link } from "react-router-dom"
 import { registerUser } from "../../services/dataService";
 import { useUser } from "../../contexts/UserContext";
@@ -12,47 +12,40 @@ export default function SignUp() {
     const [major, setMajor] = useState("");
     const [classification, setClassification] = useState("");
     const [email, setEmail] = useState("");
-    
     const [password, setPassword] = useState("");
     const [availability, setAvailability] = useState("");
     const [bio, setBio] = useState("");
-    const [interests, setInterests] = useState([]);
-    const [description, setDescription] = useState("");
     const [error, setError] = useState("");
     const [school, setSchool] = useState("");
-
+    const [description, setDescription] = useState("");
+    const [interests, setInterests] = useState([]);
     const [selectedSchool, setSelectedSchool] = useState("");
     const [schoolResult, setSchoolResults] = useState([]);
     const [showDropDown, setShowDropDown] = useState(false);
-
-    const handleSearch = async(e) => {
-        e.preventDefault();
-        setSelectedSchool(e.target.value)
-        try {
-            const data = await searchSchool(e.target.value);
-            setSchoolResults(data);
-            if(data) {
-                setShowDropDown(true);
-            } 
-            else {
-                setError("No available match");
-            }
-        }catch(err){
-            setError("An error occured while searching");
-        }
-    }
 
     const { setUser } = useUser();
     const navigate = useNavigate();
     const { state } = useLocation();
     const role = state?.role;
 
-    const popularSkills = [
-        'Data Science',
-        'Public Relations',
-        'UI/UX Design',
-        'Technical Interview'
-    ]
+    const popularSkills = ['Data Science', 'Public Relations', 'UI/UX Design', 'Technical Interview']
+
+    const handleSearch = async (e) => {
+        e.preventDefault();
+        setSelectedSchool(e.target.value)
+        try {
+            const data = await searchSchool(e.target.value);
+            setSchoolResults(data);
+            if (data) {
+                setShowDropDown(true);
+            }
+            else {
+                setError("No available match");
+            }
+        } catch (err) {
+            setError("An error occured while searching");
+        }
+    }
 
     const handleSignUp = async (e) => {
         e.preventDefault();
@@ -78,6 +71,7 @@ export default function SignUp() {
 
     return (
         <div className="signup">
+
             {error && <div className="error">{error}</div>}
 
             <div className="left-side">
@@ -98,11 +92,9 @@ export default function SignUp() {
                     </label>
                 </div>
 
-                <div>
-                    <label>Password
-                        <input type="password" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-                    </label>
-                </div>
+                <label>Password
+                    <input type="password" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                </label>
 
                 <h3 className="section-title">Academic Details</h3>
                 <div>
@@ -112,17 +104,17 @@ export default function SignUp() {
 
                     <div className="relative">
                         {showDropDown && selectedSchool &&
-                        <div className="search-drop">
-                        {schoolResult.length !==0 ? schoolResult.map((school, index) => (
-                            <div
-                            className="school"
-                            key={index}
-                            onClick={() => {setSchool(school.school.name); setShowDropDown(false); setSelectedSchool(school.school.name)}}
-                            >{school.school.name}</div>
-                        )) : (
-                            <div className="school">No search results!</div>
-                        )} </div>
-                    }
+                            <div className="search-drop">
+                                {schoolResult.length !== 0 ? schoolResult.map((school, index) => (
+                                    <div
+                                        className="school"
+                                        key={index}
+                                        onClick={() => { setSchool(school.school.name); setShowDropDown(false); setSelectedSchool(school.school.name) }}
+                                    >{school.school.name}</div>
+                                )) : (
+                                    <div className="school">No search results!</div>
+                                )} </div>
+                        }
                     </div>
 
                     <div className="content">
@@ -187,20 +179,16 @@ export default function SignUp() {
                         {interests.length > 0 && (
                             <div className="select-interest">
                                 {interests.map((interest) => (
-                                    <div key={interest}
-                                        className="selected">
+                                    <div key={interest} className="selected">
                                         <span className="mr-2">{interest}</span>
                                         <button type="button"
-                                            onClick={() => {
-                                                setInterests(interests.filter((item) => item !== interest))
-                                            }}>
+                                            onClick={() => { setInterests(interests.filter((item) => item !== interest)) }}>
                                             &times;
                                         </button>
                                     </div>
                                 ))}
                             </div>
                         )}
-
                     </div>
 
                     <label>Availability(Days) </label>
@@ -210,12 +198,8 @@ export default function SignUp() {
                                 type="button"
                                 key={day}
                                 onClick={() => setAvailability((prev) =>
-                                    prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]
-                                )
-                                }
-                                className={`avail ${availability.includes(day) ?
-                                    'unpicked' : 'picked'}`}
-                            >
+                                    prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day])}
+                                className={`avail ${availability.includes(day) ? 'unpicked' : 'picked'}`}>
                                 {day}
                             </button>
                         ))}
