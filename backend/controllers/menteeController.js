@@ -24,8 +24,8 @@ const getMentors = async (req, res) => {
                 school: mentee.school,
                 major: mentee.major,
                 classification: { in: allowedClasses },
-                mentorMentorships: { none: { menteeId: userId } },
-                mentorRequests: { none: { menteeId: userId } }
+                mentorMentorships: { none: { menteeId: menteeId } },
+                mentorRequests: { none: { menteeId: menteeId } }
             }
         });
         res.json(mentors);
