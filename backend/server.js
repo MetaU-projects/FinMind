@@ -4,6 +4,7 @@ const session = require('express-session');
 require('dotenv').config();
 
 const authRoutes = require('./routes/authRoutes');
+const mentorshipRoutes = require('./routes/mentorshipRoutes');
 
 const app = express();
 app.use(cors({
@@ -25,6 +26,7 @@ let sessionConfig = {
 
 app.use(session(sessionConfig))
 app.use('/auth', authRoutes);
+app.use('/', mentorshipRoutes);
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
