@@ -1,0 +1,57 @@
+@import 'tailwindcss';
+
+.card {
+    @apply bg-gray-100 rounded-lg p-4 mb-4 flex justify-between items-start shadow-sm;
+}
+
+.card-left {
+    @apply flex items-start gap-4 items-center;
+}
+
+.card-icon {
+    @apply flex flex-col items-center gap-2;
+}
+
+.card-icon h4{
+    @apply text-sm text-gray-600 mb-1;
+}
+
+.avatar {
+    @apply w-12 h-12 rounded-full bg-[#3D52A0] flex items-center justify-center text-white text-2xl;
+}
+
+.mentor-detail {
+    @apply flex flex-col;
+}
+
+.mentor-detail h3 {
+    @apply text-lg font-bold text-gray-800 mb-1;
+}
+
+.top {
+    @apply flex flex-row gap-7 items-center;
+}
+
+.skill-tags {
+    @apply flex flex-wrap gap-2;
+}
+
+.skill-tag {
+    @apply bg-gray-300 text-gray-700 text-xs px-2 py-1 rounded-full;
+}
+
+.card-left p {
+    @apply text-gray-700 mt-2;
+}
+
+.card-right {
+    @apply flex flex-col items-end gap-2;
+}
+
+.card-right p {
+    @apply text-sm text-gray-600;
+}
+
+.connect-btn {
+    @apply cursor-pointer bg-[#8697C4] text-black px-4 py-1 rounded-md hover:bg-[#3D52A0] hover:text-white;
+}
