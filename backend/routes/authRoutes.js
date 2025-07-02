@@ -11,7 +11,7 @@ const loginLimiter = rateLimit({
 
 router.post('/signup', signup);
 router.post('/login', login);
-router.get('/me', isLoggedIn);
+router.get('/me', isAuthenticated, isLoggedIn);
 router.post('/logout', isAuthenticated, logout);
 
 
