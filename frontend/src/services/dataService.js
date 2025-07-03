@@ -1,12 +1,13 @@
 import axios from 'axios'
 
-const createAPiInstance = (baseURL) => {
+const createApiInstance = (baseURL) => {
     return axios.create({ baseURL,
         withCredentials: true
     });
 }
 
-const auths = createAPiInstance('http://localhost:8000/auth');
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+const auths = createApiInstance(`${API_BASE_URL}/auth`);
 
 export const registerUser = async (user) => {
     try {
