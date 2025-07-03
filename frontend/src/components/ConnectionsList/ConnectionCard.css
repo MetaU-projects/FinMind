@@ -1,0 +1,33 @@
+@import 'tailwindcss';
+
+.connection-card {
+    @apply bg-[#ADBBDA] rounded-lg shadow p-3 flex flex-col gap-2 hover:shadow-md transition;
+}
+
+.connection-top {
+    @apply flex items-center gap-4;
+}
+
+.top-detail h3 {
+    @apply text-lg font-bold;
+}
+
+.top-detail p {
+    @apply text-sm text-gray-500;
+}
+
+.connection-bio {
+    @apply text-gray-700;
+}
+
+.divider {
+    @apply border-t;
+}
+
+.connection-actions {
+    @apply flex gap-4;
+}
+
+.end-btn {
+    @apply text-[#3D52A0] cursor-pointer text-2xl justify-between;
+}
