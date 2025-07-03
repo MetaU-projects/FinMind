@@ -2,6 +2,7 @@ import ConnectionCard from "./ConnectionCard";
 import { getAllConnections } from "../../services/mentorshipService";
 import { useEffect, useState } from "react";
 import { useUser } from "../../contexts/UserContext";
+import "./ConnectionList.css"
 
 export default function ConnectionList() {
     const [connections, setConnections] = useState([]);
