@@ -6,22 +6,22 @@ const getAllConnections = async (req, res) => {
     const { role } = req.query;
     try {
         let connections;
-        switch ( role ) {
-        case "MENTOR":
-            connections = await prisma.mentorship.findMany({
-                where: { mentorId: userId },
-                include: { mentee: true }
-            })
-            return res.status(201).json(connections);
-        case "MENTEE":
-            connections = await prisma.mentorship.findMany({
-                where: { menteeId: userId },
-                include: { mentor: true }
-            })
-            return res.status(201).json(connections);
-        default:
-            res.status(404).json({ error: "Role is invalid!" });
-    }
+        switch (role) {
+            case "MENTOR":
+                connections = await prisma.mentorship.findMany({
+                    where: { mentorId: userId },
+                    include: { mentee: true }
+                })
+                return res.status(201).json(connections);
+            case "MENTEE":
+                connections = await prisma.mentorship.findMany({
+                    where: { menteeId: userId },
+                    include: { mentor: true }
+                })
+                return res.status(201).json(connections);
+            default:
+                res.status(404).json({ error: "Role is invalid!" });
+        }
     } catch (err) {
         console.error(err);
         res.status(404).json({ error: "No active connections" });
