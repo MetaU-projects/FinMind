@@ -5,20 +5,23 @@ const getAllConnections = async (req, res) => {
     const userId = req.session.userId;
     const { role } = req.query;
     try {
-        if (role === "MENTOR") {
-            const connections = await prisma.mentorship.findMany({
+        let connections;
+        switch ( role ) {
+        case "MENTOR":
+            connections = await prisma.mentorship.findMany({
                 where: { mentorId: userId },
                 include: { mentee: true }
             })
             return res.status(201).json(connections);
-        }
-        if (role === "MENTEE") {
-            const connections = await prisma.mentorship.findMany({
+        case "MENTEE":
+            connections = await prisma.mentorship.findMany({
                 where: { menteeId: userId },
                 include: { mentor: true }
             })
             return res.status(201).json(connections);
-        }
+        default:
+            res.status(404).json({ error: "Role is invalid!" });
+    }
     } catch (err) {
         console.error(err);
         res.status(404).json({ error: "No active connections" });

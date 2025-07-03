@@ -6,22 +6,15 @@ export default function ConnectionList({ connections, role }) {
 
     return (
         <div className="list-container">
-            {role === "MENTEE" ? (
-                (connections.map(connection => (
+            {connections.map(connection => {
+                const connectionUser = user.role === "MENTEE" ? connection.mentor : connection.mentee;
+                return (
                     <ConnectionCard
-                        key={connection.mentor.id}
-                        person={connection.mentor}
+                        key={connectionUser.id}
+                        person={connectionUser}
                     />
-                )))
-            ) : (
-                (connections.map(connection => (
-                    <ConnectionCard
-                        key={connection.mentee.id}
-                        person={connection.mentee}
-                    />
-                )))
-            )
-            }
+                );
+            })}
         </div>
     )
 }
