@@ -3,21 +3,22 @@ const { connect } = require('../routes/mentorshipRoutes');
 
 const getAllConnections = async (req, res) => {
     const userId = req.session.userId;
+    const { role } = req.query;
     try {
-        const connections = await prisma.mentorship.findMany({
-            where: {
-                OR: [
-                    { menteeId: userId },
-                    { mentorId: userId }
-                ],
-                status: 'ACTIVE'
-            },
-            include: {
-                mentor: true,
-                mentee: true
-            }
-        });
-        res.json(connections);
+        if (role === "MENTOR") {
+            const connections = await prisma.mentorship.findMany({
+                where: { mentorId: userId },
+                include: { mentee: true }
+            })
+            return res.status(201).json(connections);
+        }
+        if (role === "MENTEE") {
+            const connections = await prisma.mentorship.findMany({
+                where: { menteeId: userId },
+                include: { mentor: true }
+            })
+            return res.status(201).json(connections);
+        }
     } catch (err) {
         console.error(err);
         res.status(404).json({ error: "No active connections" });
