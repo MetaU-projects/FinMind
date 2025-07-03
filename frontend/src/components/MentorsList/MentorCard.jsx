@@ -1,7 +1,7 @@
-import { RxAvatar } from "react-icons/rx"; 
+import { RxAvatar } from "react-icons/rx";
 import './MentorCard.css';
 
-export default function MentorCard({ mentor }) {
+export default function MentorCard({ mentor, onConnect }) {
     return (
         <div className='card'>
             <div className='card-left'>
@@ -21,10 +21,10 @@ export default function MentorCard({ mentor }) {
                     <p>{mentor.bio}</p>
                 </div>
             </div>
-            
+
             <div className="card-right">
                 <p>{mentor.major}</p>
-                <button className="connect-btn">Connect</button>
+                <button className="connect-btn" onClick={onConnect}>Connect</button>
             </div>
         </div>
     )
