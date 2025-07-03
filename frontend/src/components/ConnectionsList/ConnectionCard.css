@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
 .connection-card {
-    @apply bg-white rounded-lg shadow p-6 flex flex-col gap-4 hover:shadow-md transition;
+    @apply bg-[#8697C4] rounded-lg shadow p-3 flex flex-col gap-2 hover:shadow-md transition;
 }
 
 .connection-top {
@@ -21,11 +21,11 @@
 }
 
 .divider {
-    @apply border-t my-2;
+    @apply border-t;
 }
 
 .connection-actions {
-    @apply flex gap-4 mt-2;
+    @apply flex gap-4;
 }
 
 .end-btn {
