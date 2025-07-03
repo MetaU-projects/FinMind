@@ -4,10 +4,10 @@ import "./Connections.css"
 
 export default function Connections() {
     return (
-        <div>
+        <div className="page-wrapper">
             <Header />
             <h2 className="connections-count">20 Connections</h2>
-            <div className="connections-page">
+            <div className="connections-content">
                 <div className="connections-left">
                     <ConnectionList />
                 </div>
