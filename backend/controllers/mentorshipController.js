@@ -34,7 +34,7 @@ const createMentorship = async (req, res) => {
         });
 
         if (!requestStatus) {
-            return res.status(404).json({ error: "Request connection first" });
+            return res.status(404).json({ error: "Connection declined" });
         }
         const connected = await prisma.mentorship.create({ data: { menteeId, mentorId } });
         res.status(201).json(connected);
