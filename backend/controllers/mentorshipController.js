@@ -1,4 +1,5 @@
 const prisma = require('../config/prismaClient');
+const { connect } = require('../routes/mentorshipRoutes');
 
 const getAllConnections = async (req, res) => {
     const userId = req.session.userId;
@@ -19,6 +20,44 @@ const getAllConnections = async (req, res) => {
     }
 }
 
+const createMentorship = async (req, res) => {
+    const { menteeId, mentorId } = req.body;
+    try {
+        const requestStatus = await prisma.request.findUnique({
+            where: {
+                menteeId_mentorId_status: {
+                    menteeId,
+                    mentorId,
+                    status: "ACCEPTED"
+                }
+            }
+        });
+
+        if (!requestStatus) {
+            return res.status(404).json({ error: "Request connection first" });
+        }
+        const connected = await prisma.mentorship.create({ data: { menteeId, mentorId } });
+        res.status(201).json(connected);
+    } catch (err) {
+        console.error(err);
+        res.status(404).json({ error: "Failure to connect!" });
+    }
+}
+
+const updateMentorship = async (req, res) => {
+    const { connectionId, status, endedAt } = req.body;
+    try {
+        const updateConnection = await prisma.request.update({
+            where: { id: connectionId },
+            data: { status, endedAt }
+        });
+        res.status(201).json(updateConnection);
+    } catch (err) {
+        console.error(err);
+        res.status(404).json({ error: "Error updating connection!" });
+    }
+}
+
 const requestConnection = async (req, res) => {
     const { menteeId, mentorId } = req.body;
     try {
@@ -35,15 +74,21 @@ const requestConnection = async (req, res) => {
 const updateRequestStatus = async (req, res) => {
     const { requestId, status, respondedAt } = req.body;
     try {
-        const update = await prisma.request.update({
-            where:{ id: requestId},
+        const updateRequest = await prisma.request.update({
+            where: { id: requestId },
             data: { status, respondedAt }
         });
-        res.status(201).json(update);
+        res.status(201).json(updateRequest);
     } catch (err) {
         console.error(err);
         res.status(404).json({ error: "Error responding to request!" });
     }
 }
 
-module.exports = { getAllConnections, requestConnection, updateRequestStatus };
+module.exports = {
+    getAllConnections,
+    requestConnection,
+    updateRequestStatus,
+    createMentorship,
+    updateMentorship
+};
