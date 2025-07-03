@@ -7,7 +7,7 @@ export default function ConnectionList({ connections, role }) {
     return (
         <div className="list-container">
             {connections.map(connection => {
-                const connectionUser = user.role === "MENTEE" ? connection.mentor : connection.mentee;
+                const connectionUser = role === "MENTEE" ? connection.mentor : connection.mentee;
                 return (
                     <ConnectionCard
                         key={connectionUser.id}
