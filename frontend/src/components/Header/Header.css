@@ -1,0 +1,23 @@
+@import 'tailwindcss';
+
+.header-wrapper {
+    @apply relative flex items-center justify-between px-6 py-4;
+}
+
+.header-wrapper h2{
+    @apply text-xl font-bold;
+}
+
+.nav-links {
+    @apply absolute left-1/2 transform -translate-x-1/2 flex gap-8;
+}
+
+.nav-link {
+    @apply relative font-thin after:block after:h-[2px] after:bg-black 
+    after:scale-x-0 after:transition-transform after:duration-300 after:origin-left 
+    hover:after:scale-x-100 after:mt-1;
+}
+
+.header-action {
+    @apply cursor-pointer bg-white text-[#3D52A0] px-2 rounded-xs hover:bg-[#3D52A0] hover:text-white;
+}
