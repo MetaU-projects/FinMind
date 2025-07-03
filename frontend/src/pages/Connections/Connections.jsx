@@ -1,3 +1,4 @@
+import ConnectionList from "../../components/ConnectionsList/ConnectionList";
 import Header from "../../components/Header/Header";
 
 export default function Connections() {
@@ -5,6 +6,7 @@ export default function Connections() {
         <div>
             <Header />
             <h1>Shows connections for either mentors or mentees</h1>
+            <ConnectionList />
         </div>
     )
 }
