@@ -11,6 +11,10 @@ const getAllConnections = async (req, res) => {
                     { mentorId: userId }
                 ],
                 status: 'ACTIVE'
+            },
+            include: {
+                mentor: true,
+                mentee: true
             }
         });
         res.json(connections);
