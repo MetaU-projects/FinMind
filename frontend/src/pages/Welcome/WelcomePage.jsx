@@ -11,7 +11,7 @@ export default function WelcomePage() {
             <section className="top-section">
                 <h2>Connect, Grow, Thrive: <br />Your Mentorship <br />Journey Starts Here</h2>
                 <p>MentorMe bridges the gap between aspiring individuals and experience professionals.
-                    Whether ypu're seeking guidance or ready to share your wisdom, our platform provides
+                    Whether you're seeking guidance or ready to share your wisdom, our platform provides
                     the perfect environment for growth and success.
                 </p>
                 <div className="role-btn">
@@ -32,7 +32,7 @@ export default function WelcomePage() {
                     <div className="info-card">
                         <h4>Accelerate Your Growth</h4>
                         <p>Gain invaluable insights, learn new skills, and navigate your career
-                            path with personalized guidance from upperclassmen
+                            path with personalized guidance from your peers
                         </p>
                     </div>
                     <div className="info-card">
