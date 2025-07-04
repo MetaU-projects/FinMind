@@ -19,3 +19,14 @@ export const getAllConnections = async (role) => {
         throw err;
     }
 }
+
+export const createMentorship = async (menteeId, mentorId) => {
+    const data = { menteeId, mentorId };
+    try {
+        const response = await mentorship.post('/connected', data);
+        return response.data;
+    } catch (err) {
+        console.error("Error creating connection", err);
+        throw err;
+    }
+}
