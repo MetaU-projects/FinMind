@@ -69,7 +69,8 @@ const requestConnection = async (req, res) => {
     const { menteeId, mentorId } = req.body;
     try {
         const request = await prisma.request.create({
-            data: { menteeId, mentorId }
+            data: { menteeId, mentorId },
+            include: { mentor: true }
         });
         res.status(201).json(request);
     } catch (err) {
