@@ -6,9 +6,9 @@ const checkClassification = (classification) => {
             return ['FRESHMAN', 'SOPHOMORE', 'JUNIOR', 'SENIOR'];
         case 'SOPHOMORE':
             return ['SOPHOMORE', 'JUNIOR', 'SENIOR'];
-        case 'JUNIOR': 
+        case 'JUNIOR':
             return ['JUNIOR', 'SENIOR'];
-        case 'SENIOR': 
+        case 'SENIOR':
             return ['SENIOR'];
     }
 }
@@ -35,4 +35,31 @@ const getMentors = async (req, res) => {
     }
 }
 
-module.exports = { getMentors };
+const pendingRequests = async (req, res) => {
+    const menteeId = req.session.userId;
+    try {
+        const pending = await prisma.request.findMany({
+            where: { menteeId, status: "PENDING" },
+            include: { mentor: true }
+        })
+        res.status(201).json(pending);
+    } catch (err) {
+        console.error(err);
+        res.status(404).json({ error: "No pending requests" });
+    }
+}
+
+const removeRequest = async (req, res) => {
+    const requestId = parseInt(req.params.requestId);
+    try {
+        await prisma.request.delete({
+            where: { id: requestId }
+        });
+        res.status(204).send();
+    } catch (err) {
+        console.error(err);
+        res.status(404).json({ error: "Failure removing request" });
+    }
+}
+
+module.exports = { getMentors, pendingRequests, removeRequest };
