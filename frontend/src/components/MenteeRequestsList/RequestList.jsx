@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useUser } from "../../contexts/UserContext";
 import { getMenteeRequests, requestResponse } from "../../services/mentorService";
 import { createMentorship } from "../../services/mentorshipService";
+import { requestStatus } from "../../utils/status";
 
 export default function RequestList() {
     const [requests, setRequests] = useState([]);
@@ -19,7 +20,7 @@ export default function RequestList() {
     const handleResponse = async (requestId, menteeId, status) => {
         const respondedAt = new Date();
         await requestResponse(requestId, status, respondedAt);
-        if (status === "ACCEPTED") {
+        if (status === requestStatus.ACCEPTED) {
             await createMentorship(menteeId, user.id);
         }
         setRequests(requests.filter(request => request.mentee.id !== menteeId));
@@ -31,8 +32,8 @@ export default function RequestList() {
                 <RequestCard
                     key={request.id}
                     mentee={request.mentee}
-                    onAccept={() => handleResponse(request.id, request.mentee.id, "ACCEPTED")}
-                    onReject={() => handleResponse(request.id, request.mentee.id, "DECLINED")}
+                    onAccept={() => handleResponse(request.id, request.mentee.id, requestStatus.ACCEPTED)}
+                    onReject={() => handleResponse(request.id, request.mentee.id, requestStatus.DECLINED)}
                 />
             ))}
         </div>
