@@ -1,5 +1,4 @@
 const prisma = require('../config/prismaClient');
-const { connect } = require('../routes/mentorshipRoutes');
 
 const getAllConnections = async (req, res) => {
     const userId = req.session.userId;
