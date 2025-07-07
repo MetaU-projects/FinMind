@@ -10,6 +10,6 @@ router.post('/request', isAuthenticated, requestConnection);
 router.patch('/request/update', isAuthenticated, updateRequestStatus);
 router.get('/requests/mentor', isAuthenticated, getMenteeRequests);
 router.post('/connected', isAuthenticated, createMentorship);
-router.post('/connected/update', isAuthenticated, updateMentorship);
+router.patch('/connected/update', isAuthenticated, updateMentorship);
 
 module.exports = router;
