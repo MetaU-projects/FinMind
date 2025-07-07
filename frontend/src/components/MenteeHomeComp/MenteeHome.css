@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
 .pending-requests {
-    @apply max-h-[500px] overflow-y-auto bg-white p-4 rounded-md shadow-md w-full max-w-xs;
+    @apply max-h-[500px] overflow-y-auto bg-gray-50 p-4 rounded-md shadow-md w-[400px];
 }
 
 .pending-header {
@@ -13,7 +13,7 @@
 }
 
 .pending-item {
-    @apply flex items-center justify-between bg-gray-100 py-2 rounded;
+    @apply flex items-center justify-between bg-gray-200 py-2 rounded;
 }
 
 .pending-item div h5 {
@@ -26,4 +26,28 @@
 
 .cancel-btn {
     @apply mr-2 cursor-pointer text-sm text-red-500 hover:underline;
+}
+
+.tool-top {
+    @apply flex flex-row gap-10 mb-10;
+}
+
+.tool-top-left h2 {
+    @apply font-bold text-2xl;
+}
+
+.tool-top-left p {
+    @apply text-gray-600 text-sm;
+}
+
+.tool-top input {
+    @apply rounded-full bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-red-500 focus:border-red-500 block w-full ps-10 p-2.5;
+}
+
+.tool-bottom {
+    @apply flex flex-wrap gap-2 mb-15 justify-end;
+}
+
+.tool-bottom button {
+    @apply border border-gray-300 shadow-md px-3 py-1 rounded-full cursor-pointer;
 }
