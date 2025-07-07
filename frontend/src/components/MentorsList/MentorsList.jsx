@@ -1,23 +1,14 @@
-import { getAvailableMentors, sendRequest } from "../../services/menteeService"
+import { sendRequest } from "../../services/menteeService"
 import MentorCard from "./MentorCard";
-import { useEffect, useState } from "react";
 import { useUser } from "../../contexts/UserContext";
 
-export default function MentorList() {
-    const [mentors, setMentors] = useState([]);
+export default function MentorList({ setPendingRequests, mentors, setMentors }) {
     const { user } = useUser();
-
-    useEffect(() => {
-        const fetchMentors = async () => {
-            const results = await getAvailableMentors();
-            setMentors(results);
-        }
-        fetchMentors();
-    }, [])
 
     const handleConnect = async (mentorId) => {
         try {
-            await sendRequest(user.id, mentorId);
+            const newRequest = await sendRequest(user.id, mentorId);
+            setPendingRequests(prev => [...prev, newRequest]);
             setMentors(mentors.filter(mentor => mentor.id !== mentorId));
         } catch (err) {
             console.error("Error sending request");
