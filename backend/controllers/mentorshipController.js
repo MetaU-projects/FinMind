@@ -1,4 +1,5 @@
 const prisma = require('../config/prismaClient');
+const { ConnectionStatus, Role } = require('../utils/statusEnums');
 
 const getAllConnections = async (req, res) => {
     const userId = req.session.userId;
@@ -6,13 +7,13 @@ const getAllConnections = async (req, res) => {
     try {
         let connections;
         switch (role) {
-            case "MENTOR":
+            case Role.MENTOR:
                 connections = await prisma.mentorship.findMany({
                     where: { mentorId: userId },
                     include: { mentee: true }
                 })
                 return res.status(201).json(connections);
-            case "MENTEE":
+            case Role.MENTEE:
                 connections = await prisma.mentorship.findMany({
                     where: { menteeId: userId },
                     include: { mentor: true }
@@ -35,7 +36,7 @@ const createMentorship = async (req, res) => {
                 menteeId_mentorId_status: {
                     menteeId,
                     mentorId,
-                    status: "ACCEPTED"
+                    status: ConnectionStatus.ACCEPTED
                 }
             }
         });
