@@ -1,13 +1,4 @@
-import axios from 'axios'
-
-const createAPIInstance = (baseURL) => {
-    return axios.create({
-        baseURL,
-        withCredentials: true
-    });
-}
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+import { createAPIInstance, API_BASE_URL } from "../utils/api";
 const mentee = createAPIInstance(API_BASE_URL);
 
 export const getAvailableMentors = async () => {
