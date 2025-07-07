@@ -13,7 +13,7 @@ export default function PendingRequests({ pendingRequests, setPendingRequests, s
         <div className="pending-requests">
             <h2 className="pending-header">Pending Requests</h2>
             <ul className="pending-list">
-                {pendingRequests.map((pending) => (
+                {pendingRequests.length !== 0 ? (pendingRequests.map((pending) => (
                     <li key={pending.mentor.id} className="pending-item">
                         <div>
                             <h5>{pending.mentor.name}</h5>
@@ -21,7 +21,9 @@ export default function PendingRequests({ pendingRequests, setPendingRequests, s
                         </div>
                         <button onClick={() => handleCancel(pending.id, pending.mentor)} className="cancel-btn">Cancel</button>
                     </li>
-                ))}
+                ))) : (
+                    <div>No request pending</div>
+                )}
             </ul>
         </div>
     )
