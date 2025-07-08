@@ -2,7 +2,7 @@ import { AiFillDelete } from "react-icons/ai";
 import { RxAvatar } from "react-icons/rx";
 import "./ConnectionCard.css"
 
-export default function ConnectionCard({ person }) {
+export default function ConnectionCard({ person, endConnection }) {
     return (
         <div className="connection-card">
             <div className="connection-top">
@@ -18,7 +18,7 @@ export default function ConnectionCard({ person }) {
             <hr className="divider" />
 
             <div className="connection-actions">
-                <button className="end-btn"><AiFillDelete /></button>
+                <button onClick={endConnection} className="end-btn"><AiFillDelete /></button>
             </div>
         </div>
     )
