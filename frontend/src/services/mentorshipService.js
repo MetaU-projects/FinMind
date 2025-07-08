@@ -21,3 +21,13 @@ export const createMentorship = async (menteeId, mentorId) => {
         throw err;
     }
 }
+
+export const endMentorship = async (connectionId) => {
+    try {
+        const response = await mentorship.delete(`/connection/remove/${connectionId}`);
+        return response.data;
+    } catch (err) {
+        console.error("Error ending connection", err);
+        throw err;
+    }
+}
