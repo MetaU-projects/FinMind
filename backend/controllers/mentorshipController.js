@@ -65,6 +65,34 @@ const updateMentorship = async (req, res) => {
     }
 }
 
+const endMentorship = async (req, res) => {
+    const connectionId = parseInt(req.params.connectionId);
+    try {
+        const connection = await prisma.mentorship.findUnique({
+            where: { id: connectionId },
+            select: { mentorId: true, menteeId: true }
+        });
+        if (!connection) {
+            return res.status(404).json({ error: "Mentorship not found" });
+        }
+
+        const { menteeId, mentorId } = connection;
+
+        const request = await prisma.request.findFirst({
+            where: { menteeId, mentorId }
+        })
+        await prisma.mentorship.delete({ where: { id: connectionId } });
+
+        if (request) {
+            await prisma.request.delete({ where: { id: request.id } });
+        }
+        res.status(204).send();
+    } catch (err) {
+        console.error(err);
+        res.status(404).json({ error: "Failure ending connection" });
+    }
+}
+
 const requestConnection = async (req, res) => {
     const { menteeId, mentorId } = req.body;
     try {
@@ -98,5 +126,6 @@ module.exports = {
     requestConnection,
     updateRequestStatus,
     createMentorship,
-    updateMentorship
+    updateMentorship,
+    endMentorship
 };
