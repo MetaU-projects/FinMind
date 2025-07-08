@@ -73,17 +73,18 @@ const endMentorship = async (req, res) => {
             where: { id: connectionId },
             select: { mentorId: true, menteeId: true }
         });
+
         if (!connection) {
             return res.status(404).json({ error: "Mentorship not found" });
         }
 
         const { menteeId, mentorId } = connection;
+        await prisma.mentorship.delete({ where: { id: connectionId } });
 
         const request = await prisma.request.findFirst({
             where: { menteeId, mentorId }
         })
-        await prisma.mentorship.delete({ where: { id: connectionId } });
-
+        
         if (request) {
             await prisma.request.delete({ where: { id: request.id } });
         }
