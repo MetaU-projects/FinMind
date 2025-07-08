@@ -1,0 +1,5 @@
+@import 'tailwindcss';
+
+.home-content {
+    @apply flex mt-8 m-10 gap-20;
+}

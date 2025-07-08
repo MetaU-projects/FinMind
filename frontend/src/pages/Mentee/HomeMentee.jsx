@@ -3,6 +3,8 @@ import PendingRequests from "../../components/MenteeHomeComp/PendingRequests";
 import MentorList from "../../components/MentorsList/MentorsList";
 import { getAllPendingRequests, getAvailableMentors } from "../../services/menteeService";
 import { useState, useEffect } from "react";
+import "./HomeMentee.css";
+import ToolBar from "../../components/MenteeHomeComp/ToolBar";
 
 export default function HomeMentee() {
     const [pendingRequests, setPendingRequests] = useState([]);
@@ -21,17 +23,22 @@ export default function HomeMentee() {
     return (
         <div>
             <Header />
-            <MentorList
-                mentors={mentors}
-                setMentors={setMentors}
-                setPendingRequests={setPendingRequests}
-            />
-            <div className="mentee-sidebar">
-                <PendingRequests
-                    pendingRequests={pendingRequests}
-                    setMentors={setMentors}
-                    setPendingRequests={setPendingRequests}
-                />
+            <div className="home-content">
+                <div className="home-left">
+                    <ToolBar />
+                    <MentorList
+                        mentors={mentors}
+                        setMentors={setMentors}
+                        setPendingRequests={setPendingRequests}
+                    />
+                </div>
+                <div className="home-right">
+                    <PendingRequests
+                        pendingRequests={pendingRequests}
+                        setMentors={setMentors}
+                        setPendingRequests={setPendingRequests}
+                    />
+                </div>
             </div>
         </div>
     )
