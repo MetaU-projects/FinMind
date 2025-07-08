@@ -11,10 +11,10 @@ export const getMenteeRequests = async () => {
     }
 }
 
-export const requestResponse = async (status, respondedAt) => {
-    const data = { status, respondedAt }
+export const requestResponse = async (requestId, status, respondedAt) => {
+    const data = { requestId, status, respondedAt }
     try {
-        const response = await mentor.post('/request/update', data);
+        const response = await mentor.patch('/request/update', data);
         return response.data;
     } catch (err) {
         console.error("Error sending request", err);

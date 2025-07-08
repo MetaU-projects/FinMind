@@ -1,10 +1,11 @@
 const prisma = require('../config/prismaClient');
+const { RequestStatus } = require('../utils/statusEnums');
 
 const getMenteeRequests = async (req, res) => {
     const userId = req.session.userId;
     try {
         const requests = await prisma.request.findMany({
-            where: { mentorId: userId, status: "PENDING" },
+            where: { mentorId: userId, status: RequestStatus.PENDING },
             include: { mentee: true }
         })
         res.status(201).json(requests);

@@ -21,3 +21,23 @@ export const sendRequest = async (menteeId, mentorId) => {
         throw err;
     }
 }
+
+export const removeRequest = async (requestId) => {
+    try {
+        const response = await mentee.delete(`/request/remove/${requestId}`);
+        return response.data;
+    } catch (err) {
+        console.error("Error removing request", err);
+        throw err;
+    }
+}
+
+export const getAllPendingRequests = async () => {
+    try {
+        const response = await mentee.get('/pending');
+        return response.data;
+    } catch (err) {
+        console.error("Error fetching pending requests");
+        throw err;
+    }
+}

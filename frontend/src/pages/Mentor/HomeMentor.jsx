@@ -1,11 +1,12 @@
 import Header from "../../components/Header/Header";
+import RequestList from "../../components/MenteeRequestsList/RequestList";
 
 
-export default function HomeMentor () {
+export default function HomeMentor() {
     return (
-        <div>
+        <div className="page-wrapper">
             <Header />
-            <h1>Mentor's Home Page</h1>
+            <RequestList />
         </div>
     )
 }
