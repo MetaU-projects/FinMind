@@ -1,8 +1,17 @@
 import ConnectionCard from "./ConnectionCard";
+import { endMentorship } from "../../services/mentorshipService";
 import "./ConnectionList.css"
 
-export default function ConnectionList({ connections, role }) {
+export default function ConnectionList({ connections, setConnections, role }) {
 
+    const handleEnd = async (connectionId) => {
+        try {
+            await endMentorship(connectionId);
+            setConnections(connections.filter(connection => connection.id !== connectionId));
+        } catch (err) {
+            console.error("Error ending connection");
+        }
+    }
 
     return (
         <div className="list-container">
@@ -12,6 +21,7 @@ export default function ConnectionList({ connections, role }) {
                     <ConnectionCard
                         key={connectionUser.id}
                         person={connectionUser}
+                        endConnection={() => handleEnd(connection.id)}
                     />
                 );
             })}

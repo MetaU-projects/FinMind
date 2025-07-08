@@ -23,7 +23,10 @@ export default function Connections() {
             <h2 className="connections-count">{connections.length} Connections</h2>
             <div className="connections-content">
                 <div className="connections-left">
-                    <ConnectionList connections={connections} role={user.role} />
+                    <ConnectionList
+                        connections={connections}
+                        setConnections={setConnections}
+                        role={user.role} />
                 </div>
             </div>
         </div>
