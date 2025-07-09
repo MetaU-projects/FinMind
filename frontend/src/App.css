@@ -1,1 +1,21 @@
+@import 'tailwindcss';
 
+.loading-wrapper {
+    @apply w-full h-screen flex flex-col items-center justify-center bg-white px-4 text-center;
+}
+
+.quote {
+    @apply mb-6 text-lg italic text-gray-700 max-w-xl;
+}
+
+.loading-anime {
+    @apply w-1/2 h-2 bg-gray-300 rounded-full overflow-hidden;
+}
+
+.progress {
+    @apply h-full bg-indigo-500 transition-all duration-100 ease-linear;
+}
+
+.loading-text {
+    @apply mt-4 text-gray-600 text-sm;
+}

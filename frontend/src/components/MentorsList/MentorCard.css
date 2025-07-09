@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
 .card {
-    @apply bg-gray-100 rounded-lg p-4 mb-4 flex justify-between items-start shadow-sm;
+    @apply bg-gray-100 rounded-lg p-3 mb-4 flex justify-between items-center shadow-md gap-10;
 }
 
 .card-left {
@@ -12,32 +12,81 @@
     @apply flex flex-col items-center gap-2;
 }
 
-.card-icon h4{
+/* .card-icon h4{
     @apply text-sm text-gray-600 mb-1;
+} */
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltiptext {
+    visibility: hidden;
+    width: 200px;
+    font-size: 0.875rem;
+    background-color: rgb(201, 210, 218);
+    left: 50%;
+    bottom: 100%;
+    margin-left: -60px;
+    margin-bottom: 5px;
+    color: black;
+    text-align: center;
+    padding: 8px 12px;
+    border-radius: 8px;
+    position: absolute;
+    z-index: 1;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: opacity 0.2s ease-in-out;
+
+}
+
+.tooltip:hover .tooltiptext{
+    visibility: visible;
+}
+
+.tooltiptext::after {
+    content: " ";
+    position: absolute;
+    top: 100%;
+    right: 75%;
+    margin-left: -5px;
+    border-width: 6px;
+    border-style: solid;
+    border-color: rgb(201, 210, 218) transparent transparent transparent;
 }
 
 .avatar {
-    @apply w-12 h-12 rounded-full bg-[#3D52A0] flex items-center justify-center text-white text-2xl;
+    @apply w-12 h-12 cursor-pointer rounded-full bg-[#3D52A0] flex items-center justify-center text-white text-2xl;
 }
 
 .mentor-detail {
-    @apply flex flex-col;
+    @apply flex flex-col gap-0.5;
 }
 
-.mentor-detail h3 {
-    @apply text-lg font-bold text-gray-800 mb-1;
+.mentor-bio{
+    margin-bottom: 0.05rem;
+    line-height: 1.4;
 }
 
 .top {
-    @apply flex flex-row gap-7 items-center;
+    @apply flex flex-row gap-7 items-start;
+}
+
+.name-class h3 {
+    @apply text-lg font-bold text-gray-800;
+}
+
+.name-class p {
+    @apply text-sm text-gray-600 mb-1;
 }
 
 .skill-tags {
-    @apply flex flex-wrap gap-2;
+    @apply flex gap-2 mt-1;
 }
 
 .skill-tag {
-    @apply bg-gray-300 text-gray-700 text-xs px-2 py-1 rounded-full;
+    @apply bg-gray-300 text-gray-700 text-xs px-2 py-1 rounded-full items-start;
 }
 
 .card-left p {
@@ -45,7 +94,7 @@
 }
 
 .card-right {
-    @apply flex flex-col items-end gap-2;
+    @apply flex flex-col items-end gap-10;
 }
 
 .card-right p {
@@ -53,5 +102,6 @@
 }
 
 .connect-btn {
-    @apply cursor-pointer bg-[#8697C4] text-black px-4 py-1 rounded-md hover:bg-[#3D52A0] hover:text-white;
+    @apply cursor-pointer bg-[#8697C4] text-black px-4 py-1 rounded-md hover:bg-[#3D52A0] hover:text-white items-center;
 }
+
