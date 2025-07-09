@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
 .card {
-    @apply bg-gray-100 rounded-lg p-3 mb-4 flex justify-between items-center shadow-md gap-10 overflow-hidden;
+    @apply bg-gray-100 rounded-lg p-3 mb-4 flex justify-between items-center shadow-md gap-10;
 }
 
 .card-left {
