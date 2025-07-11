@@ -1,21 +1,25 @@
 import Header from "../../components/Header/Header";
 import PendingRequests from "../../components/MenteeHomeComp/PendingRequests";
 import MentorList from "../../components/MentorsList/MentorsList";
-import { getAllPendingRequests, getAvailableMentors } from "../../services/menteeService";
+import { getAllPendingRequests, getAvailableMentors, getRecommendedMentors } from "../../services/menteeService";
 import { useState, useEffect } from "react";
 import "./HomeMentee.css";
 import ToolBar from "../../components/MenteeHomeComp/ToolBar";
+import Recommended from "../../components/MenteeHomeComp/Recommended";
 
 export default function HomeMentee() {
     const [pendingRequests, setPendingRequests] = useState([]);
+    const [recommend, setRecommend] = useState([]);
     const [mentors, setMentors] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
             const results = await getAvailableMentors();
             const pendingResults = await getAllPendingRequests();
+            const data = await getRecommendedMentors();
             setPendingRequests(pendingResults);
             setMentors(results);
+            setRecommend(data);
         }
         fetchData();
     }, []);
@@ -37,6 +41,9 @@ export default function HomeMentee() {
                         pendingRequests={pendingRequests}
                         setMentors={setMentors}
                         setPendingRequests={setPendingRequests}
+                    />
+                    <Recommended
+                        recommend={recommend}
                     />
                 </div>
             </div>
