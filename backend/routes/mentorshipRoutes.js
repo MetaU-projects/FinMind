@@ -2,6 +2,7 @@ const router = require('express').Router();
 const { getMentors, pendingRequests, removeRequest } = require('../controllers/menteeController');
 const { getAllConnections, requestConnection, updateRequestStatus, createMentorship, updateMentorship, endMentorship } = require('../controllers/mentorshipController');
 const { getMenteeRequests } = require('../controllers/mentorController');
+const { recommendation } = require('../controllers/mentorRecommend');
 const isAuthenticated = require('../middlewares/isAuthenticated');
 
 router.get('/mentee/home', isAuthenticated, getMentors);
@@ -14,5 +15,6 @@ router.patch('/connected/update', isAuthenticated, updateMentorship);
 router.get('/pending', isAuthenticated, pendingRequests);
 router.delete('/request/remove/:requestId', isAuthenticated, removeRequest);
 router.delete('/connection/remove/:connectionId', isAuthenticated, endMentorship);
+router.get('/recommend', isAuthenticated, recommendation);
 
 module.exports = router;
