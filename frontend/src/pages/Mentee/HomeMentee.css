@@ -1,5 +1,25 @@
 @import 'tailwindcss';
 
+.home-page {
+    @apply bg-gray-50 dark:bg-gray-900;
+}
+
+.home-header {
+    @apply sticky top-0 z-10 bg-gray-50;
+}
+
 .home-content {
-    @apply flex mt-8 m-10 gap-20;
+    @apply min-h-screen flex pt-5 ml-20 mr-20;
+}
+
+.home-left {
+    @apply w-64 pt-15;
+}
+
+.home-right {
+    @apply flex-1 ml-48 overflow-y-auto;
+}
+
+.mentors-container {
+    @apply p-5 bg-gray-100 dark:bg-gray-700 rounded grid grid-cols-[repeat(auto-fill, minmax(280px, 1fr))] gap-5 m-10;
 }

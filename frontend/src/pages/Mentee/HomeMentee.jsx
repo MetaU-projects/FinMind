@@ -21,23 +21,27 @@ export default function HomeMentee() {
     }, []);
 
     return (
-        <div>
-            <Header />
+        <div className="home-page">
+            <div className="home-header">
+                <Header />
+                <ToolBar />
+            </div>
             <div className="home-content">
                 <div className="home-left">
-                    <ToolBar />
-                    <MentorList
-                        mentors={mentors}
-                        setMentors={setMentors}
-                        setPendingRequests={setPendingRequests}
-                    />
-                </div>
-                <div className="home-right">
                     <PendingRequests
                         pendingRequests={pendingRequests}
                         setMentors={setMentors}
                         setPendingRequests={setPendingRequests}
                     />
+                </div>
+                <div className="home-right">
+                    <div>
+                        <MentorList
+                            mentors={mentors}
+                            setMentors={setMentors}
+                            setPendingRequests={setPendingRequests}
+                        />
+                    </div>
                 </div>
             </div>
         </div>
