@@ -16,7 +16,7 @@ export default function MentorList({ setPendingRequests, mentors, setMentors }) 
     }
 
     return (
-        <div className="list-container">
+        <div className="mentors-container">
             {mentors.map(mentor => (
                 <MentorCard
                     key={mentor.id}
