@@ -17,7 +17,6 @@ export default function PendingRequests({ pendingRequests, setPendingRequests, s
                     <li key={pending.mentor.id} className="pending-item">
                         <div>
                             <h5>{pending.mentor.name}</h5>
-                            <p>You requested to connect</p>
                         </div>
                         <button onClick={() => handleCancel(pending.id, pending.mentor)} className="cancel-btn">Cancel</button>
                     </li>

@@ -1,53 +1,53 @@
 @import 'tailwindcss';
 
 .pending-requests {
-    @apply max-h-[500px] overflow-y-auto bg-gray-50 p-4 rounded-md shadow-md w-[400px];
+    @apply hidden max-h-[500px] w-[400px] lg:block bg-white border border-gray-300 dark:bg-gray-800 dark:border-gray-700 p-4 fixed overflow-y-auto shadow-md rounded z-10;
 }
 
 .pending-header {
-    @apply flex font-bold items-center justify-between mb-4;
+    @apply text-lg font-semibold text-gray-800 dark:text-white mb-4;
 }
 
 .pending-list {
-    @apply space-y-3;
+    @apply space-y-2;
 }
 
 .pending-item {
-    @apply flex items-center justify-between bg-gray-200 py-2 rounded;
+    @apply flex items-center justify-between bg-gray-100 dark:bg-gray-700 p-2 rounded;
 }
 
 .pending-item div h5 {
-    @apply font-medium ml-2;
-}
-
-.pending-item div p {
-    @apply text-sm text-gray-600 ml-2;
+    @apply text-sm text-gray-700 dark:text-gray-300;
 }
 
 .cancel-btn {
-    @apply mr-2 cursor-pointer text-sm text-red-500 hover:underline;
+    @apply mr-2 cursor-pointer text-xs text-red-500 hover:underline;
 }
 
-.tool-top {
-    @apply flex flex-row gap-10 mb-10;
+.banner {
+    @apply flex flex-col items-center justify-between bg-gradient-to-r from-purple-600 to-blue-500;
 }
 
-.tool-top-left h2 {
-    @apply font-bold text-2xl;
+.quote {
+    @apply flex flex-col justify-center items-center text-white pt-6;
 }
 
-.tool-top-left p {
-    @apply text-gray-600 text-sm;
+.quote h2 {
+    @apply text-3xl font-bold;
 }
 
-.tool-top input {
-    @apply rounded-full bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-red-500 focus:border-red-500 block w-full ps-10 p-2.5;
+.quote p {
+    @apply text-sm mt-1;
+}
+
+.tool-search {
+    @apply rounded-full bg-gray-50 border-gray-300 text-gray-900 text-sm block w-200 ps-10 p-2.5 mb-5;
 }
 
 .tool-bottom {
-    @apply flex flex-wrap gap-2 mb-15 justify-end;
+    @apply flex flex-wrap gap-2 mb-5 justify-end mt-1 text-white;
 }
 
 .tool-bottom button {
-    @apply border border-gray-300 shadow-md px-3 py-1 rounded-full cursor-pointer;
+    @apply border border-white shadow-md px-3 py-1 rounded-full cursor-pointer;
 }
