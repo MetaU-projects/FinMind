@@ -41,3 +41,13 @@ export const getAllPendingRequests = async () => {
         throw err;
     }
 }
+
+export const getRecommendedMentors = async () => {
+    try {
+        const response = await mentee.get('/recommendations');
+        return response.data;
+    } catch (err) {
+        console.error("Error fetching recommended mentors");
+        throw err;
+    }
+}
