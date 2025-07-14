@@ -74,7 +74,7 @@ const mentorRecomendations = async (req, res) => {
 
         const filteredResult = scoreMentors.filter(item => item.score !== 0);
         const sortedList = filteredResult.sort((a, b) => b.score - a.score)
-        const topMentors = sortedList.slice(0, 10)
+        const topMentors = sortedList.slice(0, 5)
 
         res.status(200).json(topMentors);
 
