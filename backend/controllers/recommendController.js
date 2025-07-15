@@ -1,5 +1,6 @@
 const prisma = require('../config/prismaClient');
 const { Role } = require('../utils/statusEnums');
+const otherRecommendations = require('../utils/recommendUtils');
 
 const mentorRecomendations = async (req, res) => {
     const menteeId = req.session.userId;
@@ -31,6 +32,27 @@ const mentorRecomendations = async (req, res) => {
             }
         });
 
+        const mentees = await prisma.user.findMany({
+            where: {
+                role: Role.MENTEE
+            },
+            select: {
+                id: true,
+                menteeMentorships: true
+            }
+        });
+
+        const mentorsList = await prisma.user.findMany({
+            where: {
+                role: Role.MENTOR
+            },
+            select: {
+                id: true,
+                name: true,
+                mentorMentorships: true
+            }
+        });
+
         const interests = await prisma.interest.findMany({
             select: {
                 id: true,
@@ -57,6 +79,8 @@ const mentorRecomendations = async (req, res) => {
             if (weight >= 0.5) popularInterests[id] = weight;
         }
 
+        const otherRecom = otherRecommendations(mentees, mentorsList, menteeId);
+
         const scoreMentors = mentors.map(mentor => {
             let score = 0;
             if (mentor.interest == 0) score -= 1;
@@ -66,6 +90,7 @@ const mentorRecomendations = async (req, res) => {
                     if (popularInterests[d.interestId]) score += popularInterests[d.interestId];
                 }
             })
+            if (otherRecom[mentor.id]) score += otherRecom[mentor.id]
             if (mentee.school === mentor.school) score += 1;
             if (mentee.major === mentor.major) score += 2;
 
