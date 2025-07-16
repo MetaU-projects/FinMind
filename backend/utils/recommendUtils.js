@@ -1,5 +1,24 @@
+/**
+ * This bfsAlgorithm calculates an additional weight for mentors based their 
+ * proximity to the logged-in mentee with the mentorship connection graph/network
+ * 
+ * It uses a BFS (Breadth-First Search) traversal starting from the mentee,
+ * exploring all reachable mentors by moving through alternating mentee-mentor connections.
+ * 
+ * Inputs:
+ * @param {Array<Object>} mentees - Array of mentee objects, each with an `id` and `menteeMentorships`
+ * @param {Array<Object>} mentors - Array of mentors objects, each with an `id` and `menteeMentorships`
+ * @param {number} menteeId - The ID of the mentee traversal is starting from
+ * 
+ * Output
+ * @returns {Object} mentorsEdge - A mapping of mentor IDs to their proximity score (1/distanceFromMentee)
+ * Mentors already connected (depth 1) are excluded from the result.
+ * 
+ * @example
+ * const result = bfsAlgorithm(mentees, mentors, 5); 
+ * // result will be { "10": 0.2, "11": 0.33 }
+*/
 const bfsAlgorithm = (mentees, mentors, menteeId) => {
-
     const usersConnection = {};
     mentees.map(mentee => {
         usersConnection[mentee.id] = [];
