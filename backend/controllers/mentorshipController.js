@@ -46,7 +46,7 @@ const createMentorship = async (req, res) => {
         const connected = await prisma.mentorship.create({ data: { menteeId, mentorId } });
         res.status(201).json(connected);
     } catch (err) {
-        res.status(404).json({ error: "Failure to connect!" }, err);
+        res.status(404).json({ error: "Error creating a connection!" }, err);
     }
 }
 
@@ -72,7 +72,7 @@ const endMentorship = async (req, res) => {
         });
 
         if (!connection) {
-            return res.status(404).json({ error: "Mentorship not found" });
+            return res.status(404).json({ error: "Error! Mentorship not found" });
         }
 
         const { menteeId, mentorId } = connection;
@@ -87,7 +87,7 @@ const endMentorship = async (req, res) => {
         }
         res.status(204).send();
     } catch (err) {
-        res.status(404).json({ error: "Failure ending connection" }, err);
+        res.status(404).json({ error: "Error ending connection" }, err);
     }
 }
 
@@ -100,7 +100,7 @@ const requestConnection = async (req, res) => {
         });
         res.status(201).json(request);
     } catch (err) {
-        res.status(404).json({ error: "Failure to send request!" }, err);
+        res.status(404).json({ error: "Error sending request!" }, err);
     }
 }
 

@@ -104,7 +104,7 @@ const mentorRecomendations = async (req, res) => {
         res.status(200).json(topMentors);
 
     } catch (err) {
-        res.status(404).json({ error: "Could not get recommendations" }, err);
+        res.status(404).json({ error: "Error getting recommendations" }, err);
     }
 }
 

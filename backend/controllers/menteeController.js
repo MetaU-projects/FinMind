@@ -39,7 +39,7 @@ const removeRequest = async (req, res) => {
         });
         res.status(204).send();
     } catch (err) {
-        res.status(404).json({ error: "Failure removing request" }, err);
+        res.status(404).json({ error: "Error removing request" }, err);
     }
 }
 
