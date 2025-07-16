@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
 .side-container {
-    @apply max-h-[250px] w-[300px] lg:block bg-white border border-gray-300 dark:bg-gray-800 dark:border-gray-700 p-4 overflow-y-auto shadow-md rounded z-30;
+    @apply h-[250px] w-[300px] lg:block bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 p-4 overflow-y-auto shadow-md rounded-xl z-30;
 }
 
 .side-header {
@@ -17,11 +17,15 @@
 }
 
 .side-item div h5 {
-    @apply text-sm text-gray-700 dark:text-gray-300;
+    @apply text-sm text-gray-700 dark:text-gray-200;
 }
 
 .side-item div p {
-    @apply text-sm text-gray-600 dark:text-gray-400;
+    @apply text-sm text-gray-600 dark:text-gray-300;
+}
+
+.side-empty {
+    @apply dark:text-white;
 }
 
 .cancel-btn {
@@ -29,7 +33,7 @@
 }
 
 .banner {
-    @apply flex flex-col items-center justify-between bg-gradient-to-r from-purple-600 to-blue-500;
+    @apply flex flex-col items-center justify-between bg-gradient-to-r from-[#3D52A0] to-[#8697C4] to-blue-400;
 }
 
 .quote {

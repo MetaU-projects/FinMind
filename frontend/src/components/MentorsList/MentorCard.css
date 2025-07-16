@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
 .card {
-    @apply flex flex-col justify-between bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm hover:shadow-lg transition;
+    @apply h-65 flex flex-col justify-between bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm hover:shadow-lg transition border border-gray-200;
 }
 
 .card-content {
@@ -29,11 +29,11 @@
 }
 
 .card-skills span {
-    @apply text-xs bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-200 px-2 py-1 rounded-full;
+    @apply text-xs bg-gray-200 dark:bg-[#5b6ea0] text-black dark:text-white px-2 py-1 rounded-full;
 }
 
 .btn {
-    @apply flex items-center justify-center mt-3 gap-1 px-4 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded cursor-pointer;
+    @apply flex items-center justify-center mt-3 gap-1 px-4 py-1 border border-[#3D52A0] hover:bg-[#3D52A0] text-black hover:text-white text-sm rounded-full cursor-pointer dark:text-white;
 }
 
 .connect-icon {
@@ -51,13 +51,14 @@
 .tooltip {
     position: relative;
     display: inline-block;
+    cursor: pointer;
 }
 
 .tooltiptext {
     visibility: hidden;
     width: 200px;
     font-size: 0.875rem;
-    background-color: rgb(201, 210, 218);
+    background-color:  white;
     left: 50%;
     bottom: 100%;
     margin-left: -60px;
@@ -70,7 +71,6 @@
     z-index: 1;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     transition: opacity 0.2s ease-in-out;
-
 }
 
 .tooltip:hover .tooltiptext {
@@ -85,7 +85,7 @@
     margin-left: -5px;
     border-width: 6px;
     border-style: solid;
-    border-color: rgb(201, 210, 218) transparent transparent transparent;
+    border-color: white transparent transparent transparent;
 }
 
 .connect-btn {

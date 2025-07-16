@@ -1,5 +1,4 @@
 export default function Recommended ({ recommend }) {
-    console.log(recommend);
     return (
         <div className="side-container">
             <h2 className="side-header">Mentor Recommendations</h2>
@@ -12,7 +11,7 @@ export default function Recommended ({ recommend }) {
                         </div>
                     </li>
                 ))) : (
-                    <div>Looking for recommnedations for you</div>
+                    <div className="side-empty">Looking for recommnedations for you</div>
                 )}
             </ul>
         </div>

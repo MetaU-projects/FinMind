@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import "./HomeMentee.css";
 import ToolBar from "../../components/MenteeHomeComp/ToolBar";
 import Recommended from "../../components/MenteeHomeComp/Recommendations";
+import NewsFeed from "../../components/MenteeHomeComp/NewsFeed";
 
 export default function HomeMentee() {
     const [pendingRequests, setPendingRequests] = useState([]);
