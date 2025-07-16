@@ -23,8 +23,7 @@ const getAllConnections = async (req, res) => {
                 res.status(404).json({ error: "Role is invalid!" });
         }
     } catch (err) {
-        console.error(err);
-        res.status(404).json({ error: "No active connections" });
+        res.status(404).json({ error: "No active connections" }, err);
     }
 }
 
@@ -47,8 +46,7 @@ const createMentorship = async (req, res) => {
         const connected = await prisma.mentorship.create({ data: { menteeId, mentorId } });
         res.status(201).json(connected);
     } catch (err) {
-        console.error(err);
-        res.status(404).json({ error: "Failure to connect!" });
+        res.status(404).json({ error: "Failure to connect!" }, err);
     }
 }
 
@@ -61,8 +59,7 @@ const updateMentorship = async (req, res) => {
         });
         res.status(201).json(updateConnection);
     } catch (err) {
-        console.error(err);
-        res.status(404).json({ error: "Error updating connection!" });
+        res.status(404).json({ error: "Error updating connection!" }, err);
     }
 }
 
@@ -90,8 +87,7 @@ const endMentorship = async (req, res) => {
         }
         res.status(204).send();
     } catch (err) {
-        console.error(err);
-        res.status(404).json({ error: "Failure ending connection" });
+        res.status(404).json({ error: "Failure ending connection" }, err);
     }
 }
 
@@ -104,8 +100,7 @@ const requestConnection = async (req, res) => {
         });
         res.status(201).json(request);
     } catch (err) {
-        console.error(err);
-        res.status(404).json({ error: "Failure to send request!" });
+        res.status(404).json({ error: "Failure to send request!" }, err);
     }
 }
 
@@ -118,8 +113,7 @@ const updateRequestStatus = async (req, res) => {
         });
         res.status(201).json(updateRequest);
     } catch (err) {
-        console.error(err);
-        res.status(404).json({ error: "Error responding to request!" });
+        res.status(404).json({ error: "Error responding to request!" }, err);
     }
 }
 

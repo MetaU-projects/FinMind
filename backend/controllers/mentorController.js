@@ -10,8 +10,7 @@ const getMenteeRequests = async (req, res) => {
         })
         res.status(201).json(requests);
     } catch (err) {
-        console.error(err);
-        res.status(404).json({ error: "No requests for you" });
+        res.status(404).json({ error: "No requests for you" }, err);
     }
 }
 
