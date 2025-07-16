@@ -27,6 +27,7 @@ model User {
   bio                 String
   availability        String?
   
+  interest               UserInterest[]     @relation("user")
   mentorMentorships      Mentorship[]      @relation("MentorMentorships")
   menteeMentorships      Mentorship[]      @relation("MenteeMentorships")
   mentorRequests         Request[]      @relation("MentorRequests")
@@ -59,6 +60,20 @@ model Request {
 
   @@index([mentorId])
   @@unique([menteeId, mentorId, status])
+}
+
+model Interest {
+  id                  Int     @id       @default(autoincrement())
+  name                String
+  interest            UserInterest[]     @relation("interest")
+}
+
+model UserInterest {
+    id                  Int     @id       @default(autoincrement()) 
+    userId              Int
+    user                User     @relation("user", fields:[userId], references:[id])
+    interestId          Int
+    interest            Interest    @relation("interest", fields:[interestId], references:[id])
 }
 
 enum MentorshipStatus {

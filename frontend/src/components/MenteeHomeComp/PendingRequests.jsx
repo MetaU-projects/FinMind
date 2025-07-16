@@ -10,18 +10,18 @@ export default function PendingRequests({ pendingRequests, setPendingRequests, s
     }
 
     return (
-        <div className="pending-requests">
-            <h2 className="pending-header">Pending Requests</h2>
-            <ul className="pending-list">
+        <div className="side-container">
+            <h2 className="side-header">Pending Requests</h2>
+            <ul className="side-list">
                 {pendingRequests.length !== 0 ? (pendingRequests.map((pending) => (
-                    <li key={pending.mentor.id} className="pending-item">
+                    <li key={pending.mentor.id} className="side-item">
                         <div>
                             <h5>{pending.mentor.name}</h5>
                         </div>
                         <button onClick={() => handleCancel(pending.id, pending.mentor)} className="cancel-btn">Cancel</button>
                     </li>
                 ))) : (
-                    <div>No request pending</div>
+                    <div>No pending requests</div>
                 )}
             </ul>
         </div>

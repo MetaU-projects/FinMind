@@ -13,13 +13,14 @@
 }
 
 .home-left {
-    @apply w-64 pt-15;
+    @apply w-50 pt-15 ml-10 fixed flex flex-col gap-10;
 }
 
 .home-right {
-    @apply flex-1 ml-48 overflow-y-auto;
+    @apply flex-1 ml-80 overflow-y-auto;
 }
 
 .mentors-container {
     @apply p-5 bg-gray-100 dark:bg-gray-700 rounded max-w-6xl grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 m-10;
+
 }

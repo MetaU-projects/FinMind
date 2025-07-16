@@ -1,23 +1,27 @@
 @import 'tailwindcss';
 
-.pending-requests {
-    @apply hidden max-h-[500px] w-[400px] lg:block bg-white border border-gray-300 dark:bg-gray-800 dark:border-gray-700 p-4 fixed overflow-y-auto shadow-md rounded z-10;
+.side-container {
+    @apply max-h-[250px] w-[300px] lg:block bg-white border border-gray-300 dark:bg-gray-800 dark:border-gray-700 p-4 overflow-y-auto shadow-md rounded z-30;
 }
 
-.pending-header {
+.side-header {
     @apply text-lg font-semibold text-gray-800 dark:text-white mb-4;
 }
 
-.pending-list {
+.side-list {
     @apply space-y-2;
 }
 
-.pending-item {
+.side-item {
     @apply flex items-center justify-between bg-gray-100 dark:bg-gray-700 p-2 rounded;
 }
 
-.pending-item div h5 {
+.side-item div h5 {
     @apply text-sm text-gray-700 dark:text-gray-300;
+}
+
+.side-item div p {
+    @apply text-sm text-gray-600 dark:text-gray-400;
 }
 
 .cancel-btn {
