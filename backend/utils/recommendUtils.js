@@ -1,4 +1,4 @@
-const otherRecommendations = (mentees, mentors, menteeId) => {
+const networkAlgorithm = (mentees, mentors, menteeId) => {
 
     const usersConnection = {};
     mentees.map(mentee => {
@@ -41,4 +41,4 @@ const otherRecommendations = (mentees, mentors, menteeId) => {
     return mentorsEdge;
 }
 
-module.exports = otherRecommendations;
+module.exports = networkAlgorithm;
