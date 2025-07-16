@@ -1,4 +1,4 @@
-const networkAlgorithm = (mentees, mentors, menteeId) => {
+const bfsAlgorithm = (mentees, mentors, menteeId) => {
 
     const usersConnection = {};
     mentees.map(mentee => {
@@ -41,4 +41,4 @@ const networkAlgorithm = (mentees, mentors, menteeId) => {
     return mentorsEdge;
 }
 
-module.exports = networkAlgorithm;
+module.exports = bfsAlgorithm;

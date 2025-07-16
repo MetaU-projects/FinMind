@@ -1,6 +1,6 @@
 const prisma = require('../config/prismaClient');
 const { Role } = require('../utils/statusEnums');
-const networkAlgorithm = require('../utils/recommendUtils');
+const bfsAlgorithm = require('../utils/recommendUtils');
 
 const mentorRecomendations = async (req, res) => {
     const menteeId = req.session.userId;
@@ -79,7 +79,7 @@ const mentorRecomendations = async (req, res) => {
             if (weight >= 0.5) popularInterests[id] = weight;
         }
 
-        const otherRecom = networkAlgorithm(mentees, mentorsList, menteeId);
+        const otherRecom = bfsAlgorithm(mentees, mentorsList, menteeId);
 
         const scoreMentors = mentors.map(mentor => {
             let score = 0;
