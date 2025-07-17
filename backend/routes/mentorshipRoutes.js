@@ -4,6 +4,7 @@ const { getAllConnections, requestConnection, updateRequestStatus, createMentors
 const { getMenteeRequests } = require('../controllers/mentorController');
 const isAuthenticated = require('../middlewares/isAuthenticated');
 const mentorRecomendations = require('../controllers/recommendController');
+const suggestSession = require('../controllers/sessionController');
 
 router.get('/mentee/home', isAuthenticated, getMentors);
 router.get('/connections', isAuthenticated, getAllConnections);
@@ -16,5 +17,6 @@ router.get('/pending', isAuthenticated, pendingRequests);
 router.delete('/request/remove/:requestId', isAuthenticated, removeRequest);
 router.delete('/connection/remove/:connectionId', isAuthenticated, endMentorship);
 router.get('/recommendations', isAuthenticated, mentorRecomendations);
+router.get('/suggest/time', isAuthenticated, suggestSession);
 
 module.exports = router;
