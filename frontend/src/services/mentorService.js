@@ -6,8 +6,7 @@ export const getMenteeRequests = async () => {
         const response = await mentor.get('/requests/mentor');
         return response.data;
     } catch (err) {
-        console.error("Error fetching mentee requests");
-        throw err;
+        throw new Error(err.response?.data?.error);
     }
 }
 
@@ -17,7 +16,6 @@ export const requestResponse = async (requestId, status, respondedAt) => {
         const response = await mentor.patch('/request/update', data);
         return response.data;
     } catch (err) {
-        console.error("Error sending request", err);
-        throw err;
+        throw new Error(err.response?.data?.error);
     }
 }  
