@@ -41,8 +41,7 @@ const signup = async (req, res) => {
         res.status(201).json({ message: "Successfully Signed Up!" });
 
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "Something went wrong signing up" });
+        res.status(500).json({ error: "Something went wrong signing up" }, err);
     }
 }
 
@@ -62,8 +61,7 @@ const login = async (req, res) => {
 
         res.json({ message: "Login successful", user: { id: req.session.userId, email: user.email, role: user.role } });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "Something went wrong logging in" });
+        res.status(500).json({ error: "Something went wrong logging in" }, err);
     }
 }
 
@@ -78,8 +76,7 @@ const isLoggedIn = async (req, res) => {
 
         res.json({ id: req.session.userId, email: user.email, role: user.role });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "Try logging in again!" });
+        res.status(500).json({ error: "Try logging in again!" }, err);
     }
 
 }
@@ -91,8 +88,7 @@ const logout = (req, res) => {
             res.json({ message: "See you next time!" })
         });
     } catch (err) {
-        console.error(err)
-        res.status(500).json({ error: "Failed to log out" })
+        res.status(500).json({ error: "Failed to log out" }, err)
     }
 }
 
