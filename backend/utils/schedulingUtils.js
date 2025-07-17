@@ -21,6 +21,8 @@ const timeToMinutes = (t) => {
 }
 
 /**
+ * Convets Javascript values into simplified format where
+ * day is a week day and time is in HH:mm format
  * 
  * @param {Date | string} userStartTime - Start time as a Date object ISO string
  * @param {Date | string} userEndTime - End time as a Date object or ISO string
@@ -42,7 +44,6 @@ const timeFomatting = (userStartTime, userEndTime) => {
 
 /**
  * Finds all overlapping intervals between two arrays of sessions (time intervals)
- * 
  * Sessions are represented as [start, end]
  * 
  * @param {Array<[string, string]>} menteeSlots - First array of sessions
@@ -78,6 +79,7 @@ const timeOverlaps = (menteeSlots, mentorSlots) => {
 
 /**
  * Subtracts session intervals from an available interval and return resulting free slots for each available days
+ * 
  * @param {[string, string]} avail - The availability interval
  * @param {Array<[string, string]>} sessions - The existing session to subtract
  * @returns {Array<[string, string]>} Free time
