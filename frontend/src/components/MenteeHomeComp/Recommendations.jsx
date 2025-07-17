@@ -1,5 +1,4 @@
 export default function Recommended ({ recommend }) {
-    console.log(recommend);
     return (
         <div className="side-container">
             <h2 className="side-header">Mentor Recommendations</h2>
