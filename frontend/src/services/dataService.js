@@ -13,8 +13,7 @@ export const registerUser = async (user) => {
         const response = await auths.post('/signup', data);
         return response.data;
     } catch (err) {
-        console.error("Error signing up", err);
-        throw err;
+        throw new Error(err.response?.data?.error);
     }
 }
 
@@ -28,8 +27,7 @@ export const loginUser = async (email, password) => {
         const response = await auths.post('/login', data);
         return response.data;
     } catch (err) {
-        console.error("Error logging in", err);
-        throw err;
+        throw new Error(err.response?.data?.error);
     }
 }
 
@@ -38,8 +36,7 @@ export const isLoggedIn = async () => {
         const response = await auths.get('/me');
         return response.data;
     } catch (err) {
-        console.error("Log In", err);
-        throw err;
+        throw new Error(err.response?.data?.error);
     }
 }
 
@@ -48,7 +45,6 @@ export const logoutUser = async() => {
         const response = await auths.post('/logout');
         return response.data;
     } catch (err) {
-        console.error("Error logging out", err);
-        throw err;
+        throw new Error(err.response?.data?.error);
     }
 }

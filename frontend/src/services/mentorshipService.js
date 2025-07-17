@@ -6,8 +6,7 @@ export const getAllConnections = async (role) => {
         const response = await mentorship.get(`/connections?role=${role}`);
         return response.data;
     } catch (err) {
-        console.error("Error fetching connections", err);
-        throw err;
+        throw new Error(err.response?.data?.error);
     }
 }
 
@@ -17,8 +16,7 @@ export const createMentorship = async (menteeId, mentorId) => {
         const response = await mentorship.post('/connected', data);
         return response.data;
     } catch (err) {
-        console.error("Error creating connection", err);
-        throw err;
+        throw new Error(err.response?.data?.error);
     }
 }
 
@@ -27,7 +25,6 @@ export const endMentorship = async (connectionId) => {
         const response = await mentorship.delete(`/connection/remove/${connectionId}`);
         return response.data;
     } catch (err) {
-        console.error("Error ending connection", err);
-        throw err;
+        throw new Error(err.response?.data?.error);
     }
 }
