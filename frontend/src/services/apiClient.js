@@ -8,7 +8,6 @@ export const searchSchool = async (query) => {
         const data = await res.json();
         return data.results;
     } catch (err) {
-        console.error('Error searching for colleges', err)
-        return []
+        throw new Error(err.response?.data?.error);
     }
 }
