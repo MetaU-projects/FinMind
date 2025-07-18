@@ -49,7 +49,7 @@ label {
     @apply text-xl font-bold mt-8 mb-2;
 }
 
-form {
+.sign-up-form {
     width: 66.666667%;
     display: flex;
     flex-direction: column;
