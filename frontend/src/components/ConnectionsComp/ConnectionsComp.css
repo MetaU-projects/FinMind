@@ -1,0 +1,37 @@
+@import 'tailwindcss';
+
+/* .wrapper {
+    
+} */
+
+.upcoming {
+    @apply p-30 bg-white m-5 shadow-md rounded-xl dark:bg-gray-700;
+}
+
+.history {
+    @apply p-40 bg-white m-5 shadow-md rounded-xl dark:bg-gray-700;
+}
+
+.meeting-stats {
+    @apply p-20 bg-white m-5 shadow-md rounded-xl dark:bg-gray-700;
+}
+
+.task-top {
+    @apply flex items-center justify-between m-5;
+}
+
+.task-text h2 {
+    @apply font-bold text-xl dark:text-white;
+}
+
+.task-text p {
+    @apply font-extralight text-sm text-gray-500 dark:text-gray-200;
+}
+
+.task-cards {
+    @apply flex flex-row sm:flex-row gap-4 mt-10 m-5 max-h-screen;
+}
+
+.add-task {
+    @apply flex gap-4 p-2 text-white items-center text-sm bg-[#3D52A0] rounded-md cursor-pointer;
+}
