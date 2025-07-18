@@ -6,6 +6,7 @@ import { useUser } from "../../contexts/UserContext";
 import { searchSchool } from "../../services/apiClient";
 import "./SignUp.css"
 import logo from "../../assets/logo.png"
+import ErrorModal from "../../components/ErrorModal/ErrorModal";
 
 export default function SignUp() {
     const [name, setName] = useState("");
@@ -43,7 +44,7 @@ export default function SignUp() {
                 setError("No available match");
             }
         } catch (err) {
-            setError("An error occured while searching");
+            setError(err.message);
         }
     }
 
@@ -65,151 +66,154 @@ export default function SignUp() {
             setUser(data);
             navigate('/auth/login');
         } catch (err) {
-            setError("Error occured creating an account. Try again!");
+            setError(err.message);
         }
     };
 
     return (
-        <div className="signup">
-
-            {error && <div className="error">{error}</div>}
-
-            <div className="left-side">
-                <img src={logo} />
-                <h2>Create An Account</h2>
-                <p>Join our community and start your jouney towards growth and success</p>
-            </div>
-
-            <form onSubmit={handleSignUp}>
-
-                <h3 className="first-section">Personal Information</h3>
-                <div className="content">
-                    <label>Full Name
-                        <input type="text" placeholder="John Doe" value={name} onChange={(e) => setName(e.target.value)} required />
-                    </label>
-                    <label>School Email
-                        <input type="email" placeholder="john.doe@example.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
-                    </label>
+        <div>
+            {error && <ErrorModal
+                error={error}
+                setError={setError} />
+            }
+            <div className="signup">
+                <div className="left-side">
+                    <img src={logo} />
+                    <h2>Create An Account</h2>
+                    <p>Join our community and start your jouney towards growth and success</p>
                 </div>
 
-                <label>Password
-                    <input type="password" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-                </label>
+                <form onSubmit={handleSignUp}>
 
-                <h3 className="section-title">Academic Details</h3>
-                <div>
-                    <label>University/College
-                        <input type="text" placeholder="Search your school..." value={selectedSchool} onChange={(e) => handleSearch(e)} required />
-                    </label>
-
-                    <div className="relative">
-                        {showDropDown && selectedSchool &&
-                            <div className="search-drop">
-                                {schoolResult.length !== 0 ? schoolResult.map((school, index) => (
-                                    <div
-                                        className="school"
-                                        key={index}
-                                        onClick={() => { setSchool(school.school.name); setShowDropDown(false); setSelectedSchool(school.school.name) }}
-                                    >{school.school.name}</div>
-                                )) : (
-                                    <div className="school">No search results!</div>
-                                )} </div>
-                        }
-                    </div>
-
+                    <h3 className="first-section">Personal Information</h3>
                     <div className="content">
-                        <label>Major
-                            <input type="text" placeholder="Enter your major" value={major} onChange={(e) => setMajor(e.target.value)} required />
+                        <label>Full Name
+                            <input type="text" placeholder="John Doe" value={name} onChange={(e) => setName(e.target.value)} required />
                         </label>
-
-                        <label>Classification
-                            <select value={classification} onChange={(e) => setClassification(e.target.value)} required>
-                                <option value="">Select your classification</option>
-                                <option value="Freshman">Freshman</option>
-                                <option value="Sophomore">Sophomore</option>
-                                <option value="Junior">Junior</option>
-                                <option value="Senior">Senior</option>
-                            </select>
+                        <label>School Email
+                            <input type="email" placeholder="john.doe@example.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
                         </label>
                     </div>
-                </div>
 
-                <h3 className="section-title">Tell Us About Yourself</h3>
-                <div>
-                    <label>Short Bio
-                        <textarea placeholder="Share a brief overview of your background, aspirations, and what you hope to gain from mentorship"
-                            maxLength="255" rows="3" value={bio} onChange={(e) => setBio(e.target.value)} required>
-                        </textarea>
+                    <label>Password
+                        <input type="password" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)} required />
                     </label>
 
+                    <h3 className="section-title">Academic Details</h3>
                     <div>
-                        <label>Interest & Experience</label>
-                        <div className="interests-section">
-                            <input type="text" placeholder="Add custom interest or skill (e.g. Python, Leadership)"
-                                value={description} onChange={(e) => setDescription(e.target.value)}
-                            />
-                            <button type="button"
-                                className="add-custom"
-                                onClick={() => {
-                                    if (description && !interests.includes(description)) {
-                                        setInterests([...interests, description]);
-                                        setDescription('');
-                                    }
-                                }}>
-                                <BiPlus />
-                            </button>
+                        <label>University/College
+                            <input type="text" placeholder="Search your school..." value={selectedSchool} onChange={(e) => handleSearch(e)} required />
+                        </label>
+
+                        <div className="relative">
+                            {showDropDown && selectedSchool &&
+                                <div className="search-drop">
+                                    {schoolResult.length !== 0 ? schoolResult.map((school, index) => (
+                                        <div
+                                            className="school"
+                                            key={index}
+                                            onClick={() => { setSchool(school.school.name); setShowDropDown(false); setSelectedSchool(school.school.name) }}
+                                        >{school.school.name}</div>
+                                    )) : (
+                                        <div className="school">No search results!</div>
+                                    )} </div>
+                            }
                         </div>
 
-                        <p>Choose from popular skills</p>
-                        <div className="tags">
-                            {popularSkills.map((tag) => (
-                                <span
-                                    key={tag}
+                        <div className="content">
+                            <label>Major
+                                <input type="text" placeholder="Enter your major" value={major} onChange={(e) => setMajor(e.target.value)} required />
+                            </label>
+
+                            <label>Classification
+                                <select value={classification} onChange={(e) => setClassification(e.target.value)} required>
+                                    <option value="">Select your classification</option>
+                                    <option value="Freshman">Freshman</option>
+                                    <option value="Sophomore">Sophomore</option>
+                                    <option value="Junior">Junior</option>
+                                    <option value="Senior">Senior</option>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+
+                    <h3 className="section-title">Tell Us About Yourself</h3>
+                    <div>
+                        <label>Short Bio
+                            <textarea placeholder="Share a brief overview of your background, aspirations, and what you hope to gain from mentorship"
+                                maxLength="255" rows="3" value={bio} onChange={(e) => setBio(e.target.value)} required>
+                            </textarea>
+                        </label>
+
+                        <div>
+                            <label>Interest & Experience</label>
+                            <div className="interests-section">
+                                <input type="text" placeholder="Add custom interest or skill (e.g. Python, Leadership)"
+                                    value={description} onChange={(e) => setDescription(e.target.value)}
+                                />
+                                <button type="button"
+                                    className="add-custom"
                                     onClick={() => {
-                                        if (!interests.includes(tag)) {
-                                            setInterests([...interests, tag]);
+                                        if (description && !interests.includes(description)) {
+                                            setInterests([...interests, description]);
+                                            setDescription('');
                                         }
-                                    }}
-                                >
-                                    {tag}
-                                </span>
-                            ))}
-                        </div>
+                                    }}>
+                                    <BiPlus />
+                                </button>
+                            </div>
 
-                        {interests.length > 0 && (
-                            <div className="select-interest">
-                                {interests.map((interest) => (
-                                    <div key={interest} className="selected">
-                                        <span className="mr-2">{interest}</span>
-                                        <button type="button"
-                                            onClick={() => { setInterests(interests.filter((item) => item !== interest)) }}>
-                                            &times;
-                                        </button>
-                                    </div>
+                            <p>Choose from popular skills</p>
+                            <div className="tags">
+                                {popularSkills.map((tag) => (
+                                    <span
+                                        key={tag}
+                                        onClick={() => {
+                                            if (!interests.includes(tag)) {
+                                                setInterests([...interests, tag]);
+                                            }
+                                        }}
+                                    >
+                                        {tag}
+                                    </span>
                                 ))}
                             </div>
-                        )}
-                    </div>
 
-                    <label>Availability(Days) </label>
-                    <div className="days">
-                        {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'].map((day) => (
-                            <button
-                                type="button"
-                                key={day}
-                                onClick={() => setAvailability((prev) =>
-                                    prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day])}
-                                className={`avail ${availability.includes(day) ? 'unpicked' : 'picked'}`}>
-                                {day}
-                            </button>
-                        ))}
+                            {interests.length > 0 && (
+                                <div className="select-interest">
+                                    {interests.map((interest) => (
+                                        <div key={interest} className="selected">
+                                            <span className="mr-2">{interest}</span>
+                                            <button type="button"
+                                                onClick={() => { setInterests(interests.filter((item) => item !== interest)) }}>
+                                                &times;
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+
+                        <label>Availability(Days) </label>
+                        <div className="days">
+                            {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'].map((day) => (
+                                <button
+                                    type="button"
+                                    key={day}
+                                    onClick={() => setAvailability((prev) =>
+                                        prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day])}
+                                    className={`avail ${availability.includes(day) ? 'unpicked' : 'picked'}`}>
+                                    {day}
+                                </button>
+                            ))}
+                        </div>
                     </div>
-                </div>
-                <button className="btn-submit" type="submit">Create an Account</button>
-                <div className="bottom-content">
-                    <p>Already have an account? <Link className="link" to="/auth/login">Sign In</Link></p>
-                </div>
-            </form>
+                    <button className="btn-submit" type="submit">Create an Account</button>
+                    <div className="bottom-content">
+                        <p>Already have an account? <Link className="link" to="/auth/login">Sign In</Link></p>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 }
