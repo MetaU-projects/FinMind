@@ -21,7 +21,7 @@ const timeToMinutes = (t) => {
 }
 
 /**
- * Convets Javascript values into simplified format where
+ * Converts Javascript values into simplified format where
  * day is a week day and time is in HH:mm format
  * 
  * @param {Date | string} userStartTime - Start time as a Date object ISO string
