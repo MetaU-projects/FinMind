@@ -26,12 +26,15 @@ model User {
   classification      Classification
   bio                 String
   availability        String?
+  preference          Availability[]
   
-  interest               UserInterest[]     @relation("user")
+  interest               UserInterest[]    @relation("user")
   mentorMentorships      Mentorship[]      @relation("MentorMentorships")
   menteeMentorships      Mentorship[]      @relation("MenteeMentorships")
-  mentorRequests         Request[]      @relation("MentorRequests")
-  menteeRequests         Request[]      @relation("MenteeRequests")  
+  mentorRequests         Request[]         @relation("MentorRequests")
+  menteeRequests         Request[]         @relation("MenteeRequests")
+  MenteeSessions         Session[]         @relation("MenteeSessions")
+  MentorSessions         Session[]         @relation("MentorSessions")
 }
 
 model Mentorship {
@@ -43,6 +46,8 @@ model Mentorship {
   status              MentorshipStatus      @default(ACTIVE)
   startedAt           DateTime    @default(now()) 
   endedAt             DateTime?
+
+  mentorshipSession      Session[]
 
   @@index([mentorId])
   @@unique([menteeId, mentorId, status])
@@ -76,6 +81,28 @@ model UserInterest {
     interest            Interest    @relation("interest", fields:[interestId], references:[id])
 }
 
+model Availability {
+  id                  Int     @id       @default(autoincrement())
+  userId              Int
+  user                User     @relation(fields:[userId], references:[id])
+  day                 WeekDay
+  startTime           String
+  endTime             String
+}
+
+model Session {
+  id                 Int     @id       @default(autoincrement())
+  mentorshipId       Int
+  mentorship         Mentorship    @relation(fields: [mentorshipId], references:[id])
+  menteeId           Int
+  mentee             User    @relation("MenteeSessions", fields: [menteeId], references:[id])
+  mentorId           Int
+  mentor             User    @relation("MentorSessions", fields: [mentorId], references:[id])            
+  reason             String?
+  startTime          DateTime
+  endTime            DateTime
+}
+
 enum MentorshipStatus {
   ACTIVE
   ENDED
@@ -97,4 +124,12 @@ enum Classification {
   SOPHOMORE
   JUNIOR
   SENIOR  
+}
+
+enum WeekDay {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURDAY
+  FRIDAY
 }

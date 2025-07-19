@@ -6,8 +6,7 @@ export const getAvailableMentors = async () => {
         const response = await mentee.get('/mentee/home');
         return response.data;
     } catch (err) {
-        console.error("Error fetching mentors", err);
-        throw err;
+        throw new Error(err.response?.data?.error);
     }
 }
 
@@ -17,8 +16,7 @@ export const sendRequest = async (menteeId, mentorId) => {
         const response = await mentee.post('/request', data);
         return response.data;
     } catch (err) {
-        console.error("Error sending request", err);
-        throw err;
+        throw new Error(err.response?.data?.error);
     }
 }
 
@@ -27,8 +25,7 @@ export const removeRequest = async (requestId) => {
         const response = await mentee.delete(`/request/remove/${requestId}`);
         return response.data;
     } catch (err) {
-        console.error("Error removing request", err);
-        throw err;
+        throw new Error(err.response?.data?.error);
     }
 }
 
@@ -37,8 +34,7 @@ export const getAllPendingRequests = async () => {
         const response = await mentee.get('/pending');
         return response.data;
     } catch (err) {
-        console.error("Error fetching pending requests");
-        throw err;
+        throw new Error(err.response?.data?.error);
     }
 }
 
@@ -47,7 +43,6 @@ export const getRecommendedMentors = async () => {
         const response = await mentee.get('/recommendations');
         return response.data;
     } catch (err) {
-        console.error("Error fetching recommended mentors");
-        throw err;
+        throw new Error(err.response?.data?.error);
     }
 }
