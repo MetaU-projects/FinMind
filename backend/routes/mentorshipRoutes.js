@@ -6,6 +6,7 @@ const isAuthenticated = require('../middlewares/isAuthenticated');
 const mentorRecomendations = require('../controllers/recommendController');
 const suggestSession = require('../controllers/sessionController');
 const { getInterests } = require('../controllers/interestController');
+const { createSession, removeSession, sessionsHistory, upComingSessions } = require('../controllers/schedule.controller');
 
 router.get('/mentee/home', isAuthenticated, getMentors);
 router.get('/connections', isAuthenticated, getAllConnections);
@@ -20,5 +21,11 @@ router.delete('/connection/remove/:connectionId', isAuthenticated, endMentorship
 router.get('/recommendations', isAuthenticated, mentorRecomendations);
 router.get('/suggest-time/:mentorId', isAuthenticated, suggestSession);
 router.get('/interests', isAuthenticated, getInterests);
+router.post('/session', isAuthenticated, createSession);
+router.delete('/remove/session/:sessionId', isAuthenticated, removeSession);
+router.get('/session/past/:mentorshipId', isAuthenticated, sessionsHistory);
+router.get('/session/upcoming/:mentorshipId', isAuthenticated, upComingSessions);
+
+
 
 module.exports = router;
