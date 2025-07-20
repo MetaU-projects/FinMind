@@ -65,3 +65,12 @@ export const getUpcomingMeeting = async (mentorshipId) => {
         throw new Error(err.response?.data?.error);
     }
 }
+
+export const suggestedSession = async (mentorId) => {
+    try {
+        const response = await mentee.get(`/suggest-time/${mentorId}`);
+        return response.data;
+    } catch(err) {
+        throw new Error(err.response?.data?.error);
+    }
+}
