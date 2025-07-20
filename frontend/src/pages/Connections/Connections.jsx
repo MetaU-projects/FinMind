@@ -1,3 +1,4 @@
+import { BsPeople } from "react-icons/bs"; 
 import { MdPeopleOutline } from "react-icons/md";
 import { GoTasklist } from "react-icons/go";
 import { AiOutlineCalendar } from "react-icons/ai";
@@ -14,7 +15,8 @@ import "./Connections.css"
 export default function Connections() {
     const [connections, setConnections] = useState([]);
     const tabs = ['Overview', 'Meetings', 'Tasks', 'Schedule'];
-    const [activeTab, setActiveTab] = useState('Overview')
+    const [activeTab, setActiveTab] = useState('Overview');
+    const [cardClick, setCardClick] = useState(false);
     const { user } = useUser();
 
     useEffect(() => {
@@ -24,6 +26,10 @@ export default function Connections() {
         }
         fetchConnections();
     }, [])
+
+    const handleCardClick = () => {
+        setCardClick(true);
+    }
 
     return (
         <div className="page">
@@ -62,26 +68,35 @@ export default function Connections() {
                         <ConnectionList
                             connections={connections}
                             setConnections={setConnections}
-                            role={user.role} />
+                            role={user.role}
+                            onConnection={handleCardClick}
+                        />
                     </div>
-                    <div className="connections-right">
-                        <div className="connection-nav">
-                            {tabs.map((tab) => (
-                                <button
-                                    key={tab}
-                                    onClick={() => setActiveTab(tab)}
-                                    className={`tab ${activeTab === tab ? "tabPick": "tabUnpick"}`}
-                                >
-                                    {tab}
-                                </button>
-                            ))}
+                    {cardClick ? 
+                        <div className="connections-right">
+                            <div className="connection-nav">
+                                {tabs.map((tab) => (
+                                    <button
+                                        key={tab}
+                                        onClick={() => setActiveTab(tab)}
+                                        className={`tab ${activeTab === tab ? "tabPick" : "tabUnpick"}`}
+                                    >
+                                        {tab}
+                                    </button>
+                                ))}
+                            </div>
+                            <div className="right-content">
+                                {activeTab === 'Meetings' && <Meetings />}
+                                {activeTab === 'Tasks' && <Tasks />}
+                                {activeTab === 'Schedule' && <Schedule />}
+                            </div>
+                        </div> :
+                        <div className="connections-right-empty">
+                            <BsPeople className="empty-icon" />
+                            <h2>Select a connection</h2>
+                            <p>Choose a connection from list the list to view details and manage your relationship</p>
                         </div>
-                        <div className="right-content">
-                            {activeTab === 'Meetings' && <Meetings />}
-                            {activeTab === 'Tasks' && <Tasks />}
-                            {activeTab === 'Schedule' && <Schedule />}
-                        </div>
-                    </div>
+                    }
                 </div>
             </div>
         </div>

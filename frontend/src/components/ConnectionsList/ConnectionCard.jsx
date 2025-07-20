@@ -2,9 +2,9 @@ import { AiFillDelete } from "react-icons/ai";
 import { RxAvatar } from "react-icons/rx";
 import "./ConnectionCard.css"
 
-export default function ConnectionCard({ person, endConnection }) {
+export default function ConnectionCard({ person, endConnection, onConnection }) {
     return (
-        <div className="connection-card">
+        <div className="connection-card" onClick={onConnection}>
             <div className="connection-top">
                 <RxAvatar className="avatar" />
                 <div className="top-detail">

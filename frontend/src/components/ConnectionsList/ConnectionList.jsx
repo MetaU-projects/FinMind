@@ -2,7 +2,7 @@ import ConnectionCard from "./ConnectionCard";
 import { endMentorship } from "../../services/mentorshipService";
 import "./ConnectionList.css"
 
-export default function ConnectionList({ connections, setConnections, role }) {
+export default function ConnectionList({ connections, setConnections, role, onConnection }) {
 
     const handleEnd = async (connectionId) => {
         try {
@@ -22,6 +22,7 @@ export default function ConnectionList({ connections, setConnections, role }) {
                         key={connectionUser.id}
                         person={connectionUser}
                         endConnection={() => handleEnd(connection.id)}
+                        onConnection = {onConnection}
                     />
                 );
             })}
