@@ -27,7 +27,7 @@ const loadMentorData = async (mentorId) => {
                 endTime: true
             }
         });
-        
+
         mentorCache.set(mentorId, {
             sessions: getSessions(mentor),
             availability: getAvailability(availability)
@@ -66,23 +66,25 @@ const resolveConflict = async (user, conflictRange, userSlots) => {
             mentorId: connection.mentorId
         }))
     );
-    
+
     for (const conflict of conflictRange) {
         const [start, end] = conflict;
         const blockers = filterOverlaps(allSessions, start, end);
         const blocker = blockers[0];
-        const mentorData = await loadMentorData(blocker.mentorId);
+        if (blocker) {
+            const mentorData = await loadMentorData(blocker.mentorId);
 
-        const free = getFreeSlots(mentorData.availability, mentorData.sessions)
-        const rescheduleOptions = oneHourIntervals(timeOverlaps(userSlots, free));
+            const free = getFreeSlots(mentorData.availability, mentorData.sessions)
+            const rescheduleOptions = oneHourIntervals(timeOverlaps(userSlots, free));
 
-        return {
-            sessionToCancel: blocker.id,
-            freedTime: [blocker.startTime, blocker.endTime],
-            rescheduleTo: rescheduleOptions.slice(0, TOP_NUMBER)
+            return {
+                sessionToCancel: blocker.id,
+                freedTime: [blocker.startTime, blocker.endTime],
+                rescheduleTo: rescheduleOptions.slice(0, TOP_NUMBER)
+            }
         }
     }
-return null;
+    return null;
 }
 
 module.exports = resolveConflict;
