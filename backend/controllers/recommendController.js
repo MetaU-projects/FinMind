@@ -1,6 +1,7 @@
 const prisma = require('../config/prismaClient');
 const { Role } = require('../utils/statusEnums');
 const bfsAlgorithm = require('../utils/recommendUtils');
+const { TOP_NUMBER, SCORE_BASE, SCORE_MORE } = require('../config/constants');
 
 const mentorRecomendations = async (req, res) => {
     const menteeId = req.session.userId;
@@ -63,11 +64,10 @@ const mentorRecomendations = async (req, res) => {
         });
 
         const menteeIntIds = new Set(mentee.interest.map(m => m.interestId));
-        const topNumber = 5;
 
         const filteredInterest = interests.filter(interest => interest._count.interest !== 0);
         const interestsCount = {};
-        let maxCount = 0
+        let maxCount = 0;
         for (let item of filteredInterest) {
             interestsCount[item.id] = item._count.interest;
             if (item._count.interest > maxCount) maxCount = item._count.interest;
@@ -83,23 +83,23 @@ const mentorRecomendations = async (req, res) => {
 
         const scoreMentors = mentors.map(mentor => {
             let score = 0;
-            if (mentor.interest == 0) score -= 1;
+            if (mentor.interest == 0) score -= SCORE_BASE;
             mentor.interest.map(d => {
                 if (menteeIntIds.has(d.interestId)) {
-                    score += 1;
+                    score += SCORE_BASE;
                     if (popularInterests[d.interestId]) score += popularInterests[d.interestId];
                 }
             })
             if (otherRecom[mentor.id]) score += otherRecom[mentor.id]
-            if (mentee.school === mentor.school) score += 1;
-            if (mentee.major === mentor.major) score += 2;
+            if (mentee.school === mentor.school) score += SCORE_BASE;
+            if (mentee.major === mentor.major) score += SCORE_MORE;
 
             return { ...mentor, score };
-        })
+        });
 
         const filteredResult = scoreMentors.filter(item => item.score !== 0);
         const sortedList = filteredResult.sort((a, b) => b.score - a.score);
-        const topMentors = sortedList.slice(0, topNumber);
+        const topMentors = sortedList.slice(0, TOP_NUMBER);
 
         res.status(200).json(topMentors);
 
