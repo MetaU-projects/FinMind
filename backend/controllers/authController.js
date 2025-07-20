@@ -9,9 +9,7 @@ const signup = async (req, res) => {
         school,
         major,
         classification,
-        description,
-        bio,
-        availability } = req.body;
+        bio } = req.body;
 
     try {
         if (!email || !password) return res.status(400).json({ error: "Email and password are required" });
@@ -23,7 +21,7 @@ const signup = async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        const newUser = await prisma.user.create({
+        await prisma.user.create({
             data: {
                 name,
                 email,
@@ -32,9 +30,7 @@ const signup = async (req, res) => {
                 school,
                 major,
                 classification,
-                description,
                 bio,
-                availability
             }
         });
 
@@ -78,7 +74,6 @@ const isLoggedIn = async (req, res) => {
     } catch (err) {
         res.status(500).json({ error: "Try logging in again!" }, err);
     }
-
 }
 
 const logout = (req, res) => {
