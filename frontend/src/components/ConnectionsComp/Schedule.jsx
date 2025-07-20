@@ -20,7 +20,7 @@ export default function Schedule() {
     }
 
     return (
-        <div>
+        <div className="wrapper">
             <form onSubmit={handleSubmit} className="schedule-container">
                 <h2 className="schedule-title">Schedule a meeting with Olivia Spencer</h2>
                 <p className="schedule-text">Choose a date and time for your one-hour meeting session</p>
