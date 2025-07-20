@@ -28,3 +28,40 @@ export const endMentorship = async (connectionId) => {
         throw new Error(err.response?.data?.error);
     }
 }
+
+export const createSession = async (sessionInfo) => {
+    try {
+        const data = {...sessionInfo};
+        const response = await mentorship.post('/session', data);
+        return response.data;
+    } catch (err) {
+        throw new Error(err.response?.data?.error);
+    }
+}
+
+export const deleteSession = async (sessionId) => {
+    try {
+        const response = await mentorship.delete(`/remove/session/${sessionId}`);
+        return response.data;
+    } catch(err) {
+        throw new Error(err.response?.data?.error);
+    }
+}
+
+export const getMeetingHistory = async (mentorshipId) => {
+    try {
+        const response = await mentee.get(`/session/past/${mentorshipId}`);
+        return response.data;
+    } catch (err) {
+        throw new Error(err.response?.data?.error);
+    }
+}
+
+export const getUpcomingMeeting = async (mentorshipId) => {
+    try {
+        const response = await mentee.get(`/session/upcoming/${mentorshipId}`);
+        return response.data;
+    } catch (err) {
+        throw new Error(err.response?.data?.error);
+    }
+}
