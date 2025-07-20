@@ -10,8 +10,8 @@ const { timeConversion, subtractInterval } = require('./schedulingUtils');
 
 const getSessions = (mentorshipList) => {
     const sessions = [];
-    mentorshipList.map(record => {
-        record.mentorshipSession.map(session => {
+    mentorshipList.forEach(record => {
+        record.mentorshipSession.forEach(session => {
             sessions.push([session.startTime, session.endTime]);
         });
     });
