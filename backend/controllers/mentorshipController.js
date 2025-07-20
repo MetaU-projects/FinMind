@@ -11,13 +11,13 @@ const getAllConnections = async (req, res) => {
                 connections = await prisma.mentorship.findMany({
                     where: { mentorId: userId },
                     include: { mentee: true }
-                })
+                });
                 return res.status(201).json(connections);
             case Role.MENTEE:
                 connections = await prisma.mentorship.findMany({
                     where: { menteeId: userId },
                     include: { mentor: true }
-                })
+                });
                 return res.status(201).json(connections);
             default:
                 res.status(404).json({ error: "Role is invalid!" });
@@ -80,7 +80,7 @@ const endMentorship = async (req, res) => {
 
         const request = await prisma.request.findFirst({
             where: { menteeId, mentorId }
-        })
+        });
         
         if (request) {
             await prisma.request.delete({ where: { id: request.id } });

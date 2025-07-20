@@ -19,9 +19,6 @@ export default function MentorCard({ mentor, onConnect }) {
                             <p>{mentor.classification}</p>
                         </div>
                         <div className="skill-tags">
-                            {mentor.description.split(', ').map(skill => (
-                                <span key={skill} className="skill-tag">{skill}</span>
-                            ))}
                         </div>
                     </div>
                     <p className="mentor-bio">{mentor.bio}</p>
