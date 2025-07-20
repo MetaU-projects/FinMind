@@ -24,8 +24,8 @@ const timeOverlaps = (menteeSlots, mentorSlots) => {
     let start, end;
 
     while (i < menteeSlots.length && j < mentorSlots.length) {
-        a = menteeSlots[i];
-        b = mentorSlots[j];
+        let a = menteeSlots[i];
+        let b = mentorSlots[j];
 
         start = a[0] > b[0] ? a[0] : b[0];
         end = a[1] < b[1] ? a[1] : b[1];
