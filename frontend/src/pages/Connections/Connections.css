@@ -38,11 +38,11 @@
 }
 
 .connections-left {
-    @apply w-1/3 border-r border-gray-200 p-4 flex flex-col gap-4 overflow-y-auto;
+    @apply w-1/3 border-r border-gray-200 p-4 flex flex-col gap-4 max-h-screen overflow-y-auto;
 }
 
 .connections-right {
-    @apply w-2/3;
+    @apply w-2/3 max-h-screen overflow-y-auto;
 }
 
 .connection-nav {
@@ -67,4 +67,20 @@
 
 .connections-count {
     @apply text-xl font-bold mb-2 bg-gray-200 px-10 py-5 m-8 rounded;
+}
+
+.connections-right-empty {
+    @apply flex items-center justify-center w-2/3 flex-col gap-3;
+}
+
+.empty-icon {
+    @apply text-5xl text-gray-600 dark:text-gray-200;
+}
+
+.connections-right-empty h2 {
+    @apply font-semibold text-xl dark:text-gray-300;
+}
+
+.connections-right-empty p {
+    @apply text-gray-500 dark:text-gray-400;
 }
