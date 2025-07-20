@@ -9,7 +9,7 @@ const suggestSession = async (req, res) => {
     const mentorId = parseInt(req.params.mentorId);
 
     if (Number.isNaN(mentorId)) {
-        return res.status(400).json({ error: "Query is not a number" });
+        return res.status(400).json({ error: "MentorId is not a number" });
     }
 
     try {
