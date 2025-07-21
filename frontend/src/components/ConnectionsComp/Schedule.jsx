@@ -5,8 +5,9 @@ import "./ConnectionsComp.css"
 import { MS_PER_SECOND } from "../../utils/constants";
 import { createSession } from "../../services/mentorshipService";
 import ErrorModal from "../ErrorModal/ErrorModal";
+import { formatUnixTimes } from "../../utils/formatUnixTime";
 
-export default function Schedule({ connection, upDate }) {
+export default function Schedule({ connection, timeSuggestions, upDate }) {
     const [date, setDate] = useState("");
     const [startTime, setStartTime] = useState("");
     const [endTime, setEndTime] = useState("");
@@ -84,16 +85,34 @@ export default function Schedule({ connection, upDate }) {
                 <div className="schedule-container">
                     <h2 className="schedule-title">Suggested Meeting Times</h2>
                     <p className="schedule-text">Calculated best times that match your availability</p>
-                    <div className="session">
-                        <div className="time">
-                            <AiOutlineCalendar />
-                            <h3><strong>Monday</strong></h3>
+                    {timeSuggestions.proposedSession.length > 0 ? (
+                        timeSuggestions.proposedSession.map(session => (
+                            <div className="session">
+                                <div className="time">
+                                    <AiOutlineClockCircle />
+                                    <h3><strong>{formatUnixTimes(session[0], session[1])}</strong></h3>
+                                </div>
+                            </div>
+                        ))) : (
+                        <div className="session">
+                            <h3>Reschdule To meet with mentor</h3>
+                            <div className="time">
+                                <AiOutlineClockCircle />
+                                <h3>Cancel<strong>{formatUnixTimes(timeSuggestions.resolvedSession.freedTime[0], timeSuggestions.resolvedSession.freedTime[1])}</strong></h3>
+                            </div>
+                            <h3>Rescheduling Options</h3>
+                            {timeSuggestions.resolvedSession.rescheduleTo.map(session => {
+                                <div className="session">
+                                    <div className="time">
+                                        <AiOutlineClockCircle />
+                                        <h3><strong>{formatUnixTimes(session[0], session[1])}</strong></h3>
+                                    </div>
+                                </div>
+                            })
+                            }
                         </div>
-                        <div className="time">
-                            <AiOutlineClockCircle />
-                            <p>14:00 - 15:00</p>
-                        </div>
-                    </div>
+
+                    )}
                 </div>
             </div>
         </div>
