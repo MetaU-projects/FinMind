@@ -1,8 +1,8 @@
-import { BsPeople } from "react-icons/bs"; 
+import { BsPeople } from "react-icons/bs";
 import { MdPeopleOutline } from "react-icons/md";
 import { GoTasklist } from "react-icons/go";
 import { AiOutlineCalendar } from "react-icons/ai";
-import { getAllConnections } from "../../services/mentorshipService";
+import { getAllConnections, getMeetingHistory, getUpcomingMeeting } from "../../services/mentorshipService";
 import { useEffect, useState } from "react";
 import { useUser } from "../../contexts/UserContext";
 import ConnectionList from "../../components/ConnectionsList/ConnectionList";
@@ -16,7 +16,9 @@ export default function Connections() {
     const [connections, setConnections] = useState([]);
     const tabs = ['Overview', 'Meetings', 'Tasks', 'Schedule'];
     const [activeTab, setActiveTab] = useState('Overview');
-    const [cardClick, setCardClick] = useState(false);
+    const [selectedConnection, setSelectedConnection] = useState(null);
+    const [upComing, setUpcoming] = useState([]);
+    const [meetingHistory, setMeetingHistory] = useState([]);
     const { user } = useUser();
 
     useEffect(() => {
@@ -26,10 +28,14 @@ export default function Connections() {
         }
         fetchConnections();
     }, [])
-
-    const handleCardClick = () => {
-        setCardClick(true);
+    const handleSelect = async (connection) => {
+        setSelectedConnection(connection);
+        const historyData = await getMeetingHistory(connection.id);
+        const upComingData = await getUpcomingMeeting(connection.id);
+        setUpcoming(upComingData);
+        setMeetingHistory(historyData);
     }
+    console.log(upComing)
 
     return (
         <div className="page">
@@ -69,10 +75,10 @@ export default function Connections() {
                             connections={connections}
                             setConnections={setConnections}
                             role={user.role}
-                            onConnection={handleCardClick}
+                            onSelect={handleSelect}
                         />
                     </div>
-                    {cardClick ? 
+                    {selectedConnection ?
                         <div className="connections-right">
                             <div className="connection-nav">
                                 {tabs.map((tab) => (
@@ -86,9 +92,9 @@ export default function Connections() {
                                 ))}
                             </div>
                             <div className="right-content">
-                                {activeTab === 'Meetings' && <Meetings />}
-                                {activeTab === 'Tasks' && <Tasks />}
-                                {activeTab === 'Schedule' && <Schedule />}
+                                {activeTab === 'Meetings' && (<Meetings upComing={upComing} meetingHistory={meetingHistory} connection={selectedConnection} />)}
+                                {activeTab === 'Tasks' && (<Tasks />)}
+                                {activeTab === 'Schedule' && (<Schedule connection={selectedConnection} />)}
                             </div>
                         </div> :
                         <div className="connections-right-empty">
