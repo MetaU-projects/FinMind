@@ -24,7 +24,7 @@ export default function Meetings() {
                     <div className="meeting-list">
                         <div className="meeting-details">
                             <AiOutlineClockCircle className="upcoming-icon" />
-                            <div className="history-texts">
+                            <div className="meeting-texts">
                                 <h3>Introduction and setting the pace for other meetings</h3>
                                 <p>7/20/2025 12:00 PM 60 min</p>
                             </div>
@@ -53,7 +53,7 @@ export default function Meetings() {
                     <div className="meeting-list">
                         <div className="meeting-details">
                             <AiOutlineCheckCircle className="history-icon" />
-                            <div className="history-texts">
+                            <div className="meeting-texts">
                                 <h3>Introduction and setting the pace for other meetings</h3>
                                 <p>7/20/2025 12:00 PM 60 min</p>
                             </div>
