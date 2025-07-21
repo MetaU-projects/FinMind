@@ -50,7 +50,7 @@ export const deleteSession = async (sessionId) => {
 
 export const getMeetingHistory = async (mentorshipId) => {
     try {
-        const response = await mentee.get(`/session/past/${mentorshipId}`);
+        const response = await mentorship.get(`/session/past/${mentorshipId}`);
         return response.data;
     } catch (err) {
         throw new Error(err.response?.data?.error);
@@ -59,7 +59,7 @@ export const getMeetingHistory = async (mentorshipId) => {
 
 export const getUpcomingMeeting = async (mentorshipId) => {
     try {
-        const response = await mentee.get(`/session/upcoming/${mentorshipId}`);
+        const response = await mentorship.get(`/session/upcoming/${mentorshipId}`);
         return response.data;
     } catch (err) {
         throw new Error(err.response?.data?.error);
@@ -68,7 +68,7 @@ export const getUpcomingMeeting = async (mentorshipId) => {
 
 export const suggestedSession = async (mentorId) => {
     try {
-        const response = await mentee.get(`/suggest-time/${mentorId}`);
+        const response = await mentorship.get(`/suggest-time/${mentorId}`);
         return response.data;
     } catch(err) {
         throw new Error(err.response?.data?.error);
