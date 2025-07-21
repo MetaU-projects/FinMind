@@ -33,7 +33,7 @@
 }
 
 .meeting-list {
-    @apply flex justify-between items-center mt-10 gap-2;
+    @apply flex justify-between items-center mt-5 gap-2 border border-gray-200 p-3 rounded-xl;
 }
 
 .meeting-details {
@@ -45,7 +45,7 @@
 }
 
 .meeting-details p {
-    @apply text-xs dark:text-gray-200;
+    @apply text-sm dark:text-gray-200;
 }
 
 .upcoming-status {
