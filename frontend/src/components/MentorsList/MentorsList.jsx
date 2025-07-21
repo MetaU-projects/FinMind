@@ -3,6 +3,7 @@ import MentorCard from "./MentorCard";
 import { useUser } from "../../contexts/UserContext";
 
 export default function MentorList({ setPendingRequests, mentors, setMentors }) {
+    const [error, setError] = useState("");
     const { user } = useUser();
 
     const handleConnect = async (mentorId) => {
@@ -11,19 +12,24 @@ export default function MentorList({ setPendingRequests, mentors, setMentors }) 
             setPendingRequests(prev => [...prev, newRequest]);
             setMentors(mentors.filter(mentor => mentor.id !== mentorId));
         } catch (err) {
-            console.error("Error sending request");
+            setError(err.message);
         }
     }
 
     return (
-        <div className="list-container">
-            {mentors.map(mentor => (
-                <MentorCard
-                    key={mentor.id}
-                    mentor={mentor}
-                    onConnect={() => handleConnect(mentor.id)}
-                />
-            ))}
+        <div>
+            {error &&
+                <ErrorModal error={error} setError={setError} />
+            }
+            <div className="list-container">
+                {mentors.map(mentor => (
+                    <MentorCard
+                        key={mentor.id}
+                        mentor={mentor}
+                        onConnect={() => handleConnect(mentor.id)}
+                    />
+                ))}
+            </div>
         </div>
     )
 }
