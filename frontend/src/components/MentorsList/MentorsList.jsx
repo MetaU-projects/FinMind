@@ -1,6 +1,7 @@
-import { sendRequest } from "../../services/menteeService"
+import { sendRequest } from "../../services/menteeService";
 import MentorCard from "./MentorCard";
 import { useUser } from "../../contexts/UserContext";
+import { useState } from 'react';
 
 export default function MentorList({ setPendingRequests, mentors, setMentors }) {
     const [error, setError] = useState("");

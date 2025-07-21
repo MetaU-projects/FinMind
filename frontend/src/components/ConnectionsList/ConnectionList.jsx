@@ -1,6 +1,7 @@
 import ConnectionCard from "./ConnectionCard";
 import { endMentorship } from "../../services/mentorshipService";
 import ErrorModal from "../ErrorModal/ErrorModal";
+import { useState } from 'react';
 import "./ConnectionList.css"
 
 export default function ConnectionList({ connections, setConnections, role, onSelect }) {
