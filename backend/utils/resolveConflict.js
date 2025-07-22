@@ -1,7 +1,7 @@
 const { oneHourIntervals, timeOverlaps } = require('./schedulingUtils');
 const { getSessions, getAvailability, getFreeSlots } = require('../utils/scheduleHelpers');
 const prisma = require('../config/prismaClient');
-const { TOP_NUMBER } = require('../config/constants');
+const { TOP_NUMBER, MS_PER_SECOND } = require('../config/constants');
 
 const mentorCache = new Map();
 
@@ -57,30 +57,29 @@ const filterOverlaps = (sessions, start, end) => {
  * @param {Array<[Number, Number]} userSlots - List of free slots user has ie availability - existing sessions
  * @returns {Object} - proposed free time and rescheduling options
  * 
- */
-
-const resolveConflict = async (user, conflictRange, userSlots) => {
+ */ 
+const now = Math.floor(Date.now()/MS_PER_SECOND);
+const resolveConflict = async (user, userSlots) => {
     const allSessions = user.flatMap(connection =>
         connection.mentorshipSession.map(session => ({
             ...session,
             mentorId: connection.mentorId
         }))
     );
+    const filteredSessions = allSessions.filter(s=> s.endTime > now);
+    for (const session of filteredSessions) {
+        const mentorData = await loadMentorData(session.mentorId);
 
-    for (const conflict of conflictRange) {
-        const [start, end] = conflict;
-        const blockers = filterOverlaps(allSessions, start, end);
-        const blocker = blockers[0];
-        if (blocker) {
-            const mentorData = await loadMentorData(blocker.mentorId);
-
-            const free = getFreeSlots(mentorData.availability, mentorData.sessions)
-            const rescheduleOptions = oneHourIntervals(timeOverlaps(userSlots, free));
-
+        const free = getFreeSlots(mentorData.availability, mentorData.sessions)
+        const rescheduleOptions = oneHourIntervals(timeOverlaps(userSlots, free));
+        if(!rescheduleOptions){
+            continue;
+        }
+        if (rescheduleOptions) {
             return {
-                sessionToCancel: blocker.id,
-                freedTime: [blocker.startTime, blocker.endTime],
-                rescheduleTo: rescheduleOptions.slice(0, TOP_NUMBER)
+                sessionToCancel: session.id,
+                freedTime: [session.startTime, session.endTime],
+                rescheduleTo: rescheduleOptions[0]
             }
         }
     }
