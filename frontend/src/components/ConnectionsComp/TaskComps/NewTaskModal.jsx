@@ -4,33 +4,31 @@ import { createTask } from '../../../services/taskService';
 import { taskPriority } from '../../../utils/status';
 
 export default function NewTaskModal({ setAddTask, connection}) {
-    const [ title, setTitle] = useState("")
-    const [ description, setDescription] = useState("")
-    const [ priority, setPriority] = useState("")
+    const [ title, setTitle] = useState("");
+    const [ description, setDescription] = useState("");
+    const [ priority, setPriority] = useState("");
     const onClose = () => {
         setAddTask(false);
     }
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const data = await createTask({
-            mentorshipId: connection.id,
-            title, 
-            description, 
-            priority })
+        const data = await createTask(connection.id, title, description, priority )
+        onClose();
     }
     const handlePriority = (value) => {
         switch(value){
-            case 'low':
-                setPriority(taskPriority.LOW);
+            case 'LOW':
+                setPriority(taskPriority.LOW)
                 return;
-            case 'medium':
+            case 'MEDIUM':
                 setPriority(taskPriority.MEDIUM);
                 return;
-            case 'high':
+            case 'HIGH':
                 setPriority(taskPriority.HIGH);
                 return;
         }
     }
+
     return (
         <div className="modal-overlay">
             <div className="modal-container">
@@ -43,10 +41,10 @@ export default function NewTaskModal({ setAddTask, connection}) {
                     <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Task title" required />
                     <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Description" />
 
-                    <select value={priority} onChange={(value)=>handlePriority(value)} className="new-task-priority">
-                        <option value='low'>Low</option>
-                        <option value="medium">Medium</option>
-                        <option value="high">High</option>
+                    <select value={priority} onChange={(e)=>handlePriority(e.target.value)} className="new-task-priority">
+                        <option value='LOW'>Low</option>
+                        <option value="MEDIUM">Medium</option>
+                        <option value="HIGH">High</option>
                     </select>
 
                     <button type="submit" className="submit-task" >Create Task</button>
