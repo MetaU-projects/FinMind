@@ -6,7 +6,7 @@ import { MS_PER_SECOND } from "../../utils/constants";
 import { createSession } from "../../services/mentorshipService";
 import ErrorModal from "../ErrorModal/ErrorModal";
 
-export default function Schedule({ connection }) {
+export default function Schedule({ connection, upDate }) {
     const [date, setDate] = useState("");
     const [startTime, setStartTime] = useState("");
     const [endTime, setEndTime] = useState("");
@@ -28,6 +28,7 @@ export default function Schedule({ connection }) {
                 reason: note
             });
             handleClear();
+            upDate(connection);
         } catch (err) {
             setError(err.message);
         }
