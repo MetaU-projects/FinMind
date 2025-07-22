@@ -1,9 +1,5 @@
 @import 'tailwindcss';
 
-/* .wrapper {
-    
-} */
-
 .upcoming {
     @apply p-30 bg-white m-5 shadow-md rounded-xl dark:bg-gray-700;
 }
