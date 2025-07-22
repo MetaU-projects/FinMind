@@ -8,4 +8,10 @@ export const taskPriority = Object.freeze({
     LOW: "LOW",
     MEDIUM: "MEDIUM",
     HIGH: "HIGH"
-})
+});
+
+export const taskStatus = Object.freeze({
+    TODO: "TODO",
+    INPROGRESS: "INPROGRESS",
+    COMPLETE: "COMPLETE"
+});
