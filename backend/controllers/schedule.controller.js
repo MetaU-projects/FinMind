@@ -21,6 +21,9 @@ const createSession = async (req, res) => {
 
 const removeSession = async (req, res) => {
     const sessionId = parseInt(req.params.sessionId);
+    if (Number.isNaN(mentorshipId)) {
+        return res.status(400).json({ error: "Session ID is not a number" });
+    }
     try {
         await prisma.session.delete({
             where: { id: sessionId }
@@ -34,7 +37,7 @@ const removeSession = async (req, res) => {
 const sessionsHistory = async (req, res) => {
     const mentorshipId = parseInt(req.params.mentorshipId);
     if (Number.isNaN(mentorshipId)) {
-        return res.status(400).json({ error: "Query is not a number" });
+        return res.status(400).json({ error: "Mentorship ID not a number" });
     }
     const now = Math.floor(Date.now() / MS_PER_SECOND);
     try {
@@ -58,7 +61,7 @@ const sessionsHistory = async (req, res) => {
 const upComingSessions = async (req, res) => {
     const mentorshipId = parseInt(req.params.mentorshipId);
     if (Number.isNaN(mentorshipId)) {
-        return res.status(400).json({ error: "Query is not a number" });
+        return res.status(400).json({ error: "Mentorship ID not a number" });
     }
     const now = Math.floor(Date.now() / MS_PER_SECOND);
     try {
