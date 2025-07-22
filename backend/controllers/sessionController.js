@@ -2,6 +2,7 @@ const prisma = require('../config/prismaClient');
 const { timeOverlaps, oneHourIntervals } = require('../utils/schedulingUtils');
 const { getSessions, getAvailability, getFreeSlots } = require('../utils/scheduleHelpers');
 const resolveConflict = require('../utils/resolveConflict');
+const { TOP_NUMBER } = require('../config/constants');
 
 const suggestSession = async (req, res) => {
     const menteeId = req.session.userId;
@@ -59,8 +60,8 @@ const suggestSession = async (req, res) => {
 
         const proposedSlots = oneHourIntervals(timeOverlaps(userSlots, mentorSlots));
 
-        if (proposedSlots.length === 0) {
-            return res.status(200).json({ proposedSession: proposedSlots, resolvedSession: [] });
+        if (proposedSlots.length > 0) {
+            return res.status(200).json({ proposedSession: proposedSlots.slice(0, TOP_NUMBER), resolvedSession: [] });
         }
 
         const newSession = await resolveConflict(user, userSlots);
