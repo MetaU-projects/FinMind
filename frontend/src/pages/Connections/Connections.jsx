@@ -35,7 +35,6 @@ export default function Connections() {
         setUpcoming(upComingData);
         setMeetingHistory(historyData);
     }
-    console.log(upComing)
 
     return (
         <div className="page">
