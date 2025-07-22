@@ -1,8 +1,8 @@
 import { createAPIInstance, API_BASE_URL } from "../utils/api";
 const task = createAPIInstance(API_BASE_URL);
 
-export const createTask = async (taskDetail) => {
-    const data = { ...taskDetail };
+export const createTask = async (mentorshipId, title, description, priority) => {
+    const data = { mentorshipId, title, description, priority};
     try {
         const response = await task.post('/task', data);
         return response.data;
