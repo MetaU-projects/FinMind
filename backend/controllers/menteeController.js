@@ -13,7 +13,6 @@ const getMentors = async (req, res) => {
         });
         res.json(mentors);
     } catch (err) {
-        console.error(err);
         res.status(404).json({ error: "No mentor found, try again later!" }, err);
     }
 }

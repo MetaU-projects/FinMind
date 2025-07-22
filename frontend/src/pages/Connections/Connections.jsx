@@ -39,8 +39,6 @@ export default function Connections() {
         setTimeSuggestions(sessionsData);
     }
 
-    console.log(timeSuggestions)
-
     return (
         <div className="page">
             <Header />
@@ -98,7 +96,7 @@ export default function Connections() {
                             <div className="right-content">
                                 {activeTab === 'Meetings' && (<Meetings upComing={upComing} meetingHistory={meetingHistory} connection={selectedConnection} />)}
                                 {activeTab === 'Tasks' && (<Tasks />)}
-                                {activeTab === 'Schedule' && (<Schedule connection={selectedConnection} timeSuggestions={timeSuggestions} />)}
+                                {activeTab === 'Schedule' && (<Schedule connection={selectedConnection} upDate={handleSelect} timeSuggestions={timeSuggestions} />)}
                             </div>
                         </div> :
                         <div className="connections-right-empty">

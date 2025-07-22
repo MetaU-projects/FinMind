@@ -7,7 +7,8 @@ import { createSession } from "../../services/mentorshipService";
 import ErrorModal from "../ErrorModal/ErrorModal";
 import { formatUnixTimes } from "../../utils/formatUnixTime";
 
-export default function Schedule({ connection, timeSuggestions }) {
+export default function Schedule({ connection, timeSuggestions, upDate }) {
+
     const [date, setDate] = useState("");
     const [startTime, setStartTime] = useState("");
     const [endTime, setEndTime] = useState("");
@@ -29,6 +30,7 @@ export default function Schedule({ connection, timeSuggestions }) {
                 reason: note
             });
             handleClear();
+            upDate(connection);
         } catch (err) {
             setError(err.message);
         }
@@ -110,7 +112,6 @@ export default function Schedule({ connection, timeSuggestions }) {
                             })
                             }
                         </div>
-
                     )}
                 </div>
             </div>
