@@ -9,7 +9,7 @@ const getInterests = async (req, res) => {
         res.status(200).json(cachedInterest);
 
     } catch(err) {
-        res.status(500).json({ error: "Error getting interests" }, err)
+        res.status(500).json({ error: "Error getting interests", details: err.message })
     }
 }
 

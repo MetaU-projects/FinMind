@@ -74,7 +74,7 @@ const suggestSession = async (req, res) => {
         res.status(404).json({ message: "No available time found" });
 
     } catch (err) {
-        res.status(500).json({ error: "Something went wrong!" }, err);
+        res.status(500).json({ error: "Something went wrong!", details: err.message });
     }
 }
 
