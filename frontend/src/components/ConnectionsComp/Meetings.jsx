@@ -74,7 +74,7 @@ export default function Meetings({ upComing, meetingHistory, connection }) {
                 </div>
                 <div className="stats-details">
                     <div className="stats">
-                        <h3 className="stats-total">1</h3>
+                        <h3 className="stats-total">{meetingHistory.length + upComing.length}</h3>
                         <p>Total Meetings</p>
                     </div>
                     <div className="stats">
