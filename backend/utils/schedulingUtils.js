@@ -78,16 +78,18 @@ const subtractInterval = (preference, sessions) => {
 const timeConversion = (day, time) => {
     const today = new Date();
     const todayDay = today.getDay();
+    const now = new Date();
 
     const targetDay = DayMap[day];
+    const slotTime = new Date(today);
+    const [hour, minute] = time.split(':').map(Number);
+    slotTime.setHours(hour, minute, 0, 0);
 
     let daysAhead = (targetDay - todayDay + DAYS_IN_WEEK) % DAYS_IN_WEEK;
-    if(daysAhead === 0) daysAhead = DAYS_IN_WEEK;
+    if(daysAhead === 0 && slotTime < now) daysAhead = DAYS_IN_WEEK;
 
     const nextDate = new Date(today);
     nextDate.setDate(today.getDate() + daysAhead);
-
-    const [hour, minute] = time.split(':').map(Number);
     nextDate.setHours(hour, minute, 0, 0);
 
     const unixTime = Math.floor(nextDate.getTime() / MS_PER_SECOND)
