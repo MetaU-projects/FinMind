@@ -3,11 +3,8 @@ import { useState } from 'react';
 import NewTaskModal from "./TaskComps/NewTaskModal";
 import TaskColumn from "./TaskComps/TaskColumn";
 
-export default function Tasks() {
+export default function Tasks({ connection }) {
     const [addTask, setAddTask] = useState(false);
-    const handleTask = () => {
-        //TODO handle backend logics
-    }
     return (
         <div>
             <div className="task-top">
@@ -25,8 +22,9 @@ export default function Tasks() {
             </div>
             {addTask &&
                 <NewTaskModal
+                connection={connection}
                     setAddTask={setAddTask}
-                    onSubmit={handleTask} />
+                />
             }
         </div>
     )
