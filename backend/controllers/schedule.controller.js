@@ -40,7 +40,7 @@ const sessionsHistory = async (req, res) => {
     try {
         const pastSessions = await prisma.session.findMany({
             where: {
-                id: mentorshipId,
+                mentorshipId: mentorshipId,
                 endTime: {
                     lt: now,
                 }
