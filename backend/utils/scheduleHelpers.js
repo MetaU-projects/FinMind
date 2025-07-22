@@ -1,3 +1,4 @@
+const { MS_PER_SECOND } = require('../config/constants');
 const { timeConversion, subtractInterval } = require('./schedulingUtils');
 
 /**
@@ -10,9 +11,10 @@ const { timeConversion, subtractInterval } = require('./schedulingUtils');
 
 const getSessions = (mentorshipList) => {
     const sessions = [];
+    const now = Math.floor(Date.now()/MS_PER_SECOND)
     mentorshipList.forEach(record => {
         record.mentorshipSession.forEach(session => {
-            sessions.push([session.startTime, session.endTime]);
+            if(session.endTime > now) sessions.push([session.startTime, session.endTime]);
         });
     });
     sessions.sort((a, b) => a[0] - b[0]);
@@ -35,6 +37,7 @@ const getAvailability = (availList) => {
         const endTime = timeConversion(avail.day, avail.endTime);
         freeTimes.push([startTime, endTime]);
     }
+    freeTimes.sort((a, b) => a[0] - b[0])
     return freeTimes;
 }
 
