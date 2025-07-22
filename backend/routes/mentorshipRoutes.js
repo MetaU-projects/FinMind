@@ -7,6 +7,7 @@ const mentorRecomendations = require('../controllers/recommendController');
 const suggestSession = require('../controllers/sessionController');
 const { getInterests } = require('../controllers/interestController');
 const { createSession, removeSession, sessionsHistory, upComingSessions } = require('../controllers/schedule.controller');
+const { getTasks, createTask, updateTask } = require('../controllers/taskController');
 
 router.get('/mentee/home', isAuthenticated, getMentors);
 router.get('/connections', isAuthenticated, getAllConnections);
@@ -25,7 +26,9 @@ router.post('/session', isAuthenticated, createSession);
 router.delete('/remove/session/:sessionId', isAuthenticated, removeSession);
 router.get('/session/past/:mentorshipId', isAuthenticated, sessionsHistory);
 router.get('/session/upcoming/:mentorshipId', isAuthenticated, upComingSessions);
-
+router.post('/task', isAuthenticated, createTask);
+router.get('/task/:mentorshipId', isAuthenticated, getTasks);
+router.patch('/task/update', isAuthenticated, updateTask);
 
 
 module.exports = router;
