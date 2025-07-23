@@ -2,7 +2,7 @@ import { BsPeople } from "react-icons/bs";
 import { MdPeopleOutline } from "react-icons/md";
 import { GoTasklist } from "react-icons/go";
 import { AiOutlineCalendar } from "react-icons/ai";
-import { getAllConnections } from "../../services/mentorshipService";
+import { getAllConnections, totalUpcomingSession } from "../../services/mentorshipService";
 import { useEffect, useState } from "react";
 import { useUser } from "../../contexts/UserContext";
 import ConnectionList from "../../components/ConnectionsList/ConnectionList";
@@ -18,10 +18,12 @@ export default function Connections() {
     const [activeTab, setActiveTab] = useState('Overview');
     const [cardClick, setCardClick] = useState(false);
     const { user } = useUser();
+    const [totalUpcoming, setTotalUpcoming] = useState(0);
 
     useEffect(() => {
         const fetchConnections = async () => {
             const results = await getAllConnections(user.role);
+            setTotalUpcoming(await totalUpcomingSession());
             setConnections(results);
         }
         fetchConnections();
@@ -49,7 +51,7 @@ export default function Connections() {
                             <h1>Upcoming Meetings</h1>
                             <AiOutlineCalendar className="info-icon" />
                         </div>
-                        <h2>4</h2>
+                        <h2>{totalUpcoming}</h2>
                         <p>This week</p>
                     </div>
                     <div className="info-box">
@@ -57,7 +59,7 @@ export default function Connections() {
                             <h1>Active Tasks</h1>
                             <GoTasklist className="info-icon" />
                         </div>
-                        <h2>5</h2>
+                        <h2>Task Counts</h2>
                         <p>Across all connections</p>
                     </div>
 
