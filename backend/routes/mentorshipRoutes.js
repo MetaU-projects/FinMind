@@ -19,6 +19,6 @@ router.delete('/request/remove/:requestId', isAuthenticated, removeRequest);
 router.delete('/connection/remove/:connectionId', isAuthenticated, endMentorship);
 router.get('/recommendations', isAuthenticated, mentorRecomendations);
 router.get('/suggest-time/:mentorId', isAuthenticated, suggestSession);
-router.get('/interests', isAuthenticated, getInterests);
+router.get('/interests', getInterests);
 
 module.exports = router;
