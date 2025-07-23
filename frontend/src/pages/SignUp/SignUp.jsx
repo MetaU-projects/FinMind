@@ -1,4 +1,3 @@
-import { BiPlus } from "react-icons/bi";
 import { useState } from "react"
 import { useNavigate, useLocation, Link } from "react-router-dom"
 import { registerUser } from "../../services/dataService";
@@ -7,6 +6,9 @@ import { searchSchool } from "../../services/apiClient";
 import "./SignUp.css"
 import logo from "../../assets/logo.png"
 import ErrorModal from "../../components/ErrorModal/ErrorModal";
+import InterestSearch from "../../components/SignupComp/interestSearch";
+import { Role } from "../../utils/status";
+import AvailabilityInput from "../../components/SignupComp/AvailabilityInput";
 
 export default function SignUp() {
     const [name, setName] = useState("");
@@ -18,18 +20,14 @@ export default function SignUp() {
     const [bio, setBio] = useState("");
     const [error, setError] = useState("");
     const [school, setSchool] = useState("");
-    const [description, setDescription] = useState("");
-    const [interests, setInterests] = useState([]);
     const [selectedSchool, setSelectedSchool] = useState("");
     const [schoolResult, setSchoolResults] = useState([]);
     const [showDropDown, setShowDropDown] = useState(false);
+    const [interestIds, setInterestIds] = useState([])
+    const [role, setRole] = useState("")
 
     const { setUser } = useUser();
     const navigate = useNavigate();
-    const { state } = useLocation();
-    const role = state?.role;
-
-    const popularSkills = ['Data Science', 'Public Relations', 'UI/UX Design', 'Technical Interview']
 
     const handleSearch = async (e) => {
         e.preventDefault();
@@ -50,6 +48,13 @@ export default function SignUp() {
 
     const handleSignUp = async (e) => {
         e.preventDefault();
+        const isValid = availability.every(({ startTime, endTime }) => {
+            return startTime < endTime;
+        });
+        if (!isValid) {
+            setError("End time must be after start time for all days.")
+            return;
+        }
         try {
             const data = await registerUser({
                 name,
@@ -59,9 +64,9 @@ export default function SignUp() {
                 school,
                 major,
                 classification,
-                interests,
                 bio,
-                availability
+                availability,
+                interestIds
             });
             setUser(data);
             navigate('/auth/login');
@@ -81,10 +86,14 @@ export default function SignUp() {
                     <img src={logo} />
                     <h2>Create An Account</h2>
                     <p>Join our community and start your jouney towards growth and success</p>
+                    <h3>Choose your role</h3>
+                    <div className="role-pick">
+                        <button className="role" onClick={() => setRole(Role.MENTEE)}>Mentee</button>
+                        <button className="role" onClick={() => setRole(Role.MENTOR)}>Mentor</button>
+                    </div>
                 </div>
 
                 <form onSubmit={handleSignUp}>
-
                     <h3 className="first-section">Personal Information</h3>
                     <div className="content">
                         <label>Full Name
@@ -145,68 +154,14 @@ export default function SignUp() {
                             </textarea>
                         </label>
 
+
                         <div>
                             <label>Interest & Experience</label>
-                            <div className="interests-section">
-                                <input type="text" placeholder="Add custom interest or skill (e.g. Python, Leadership)"
-                                    value={description} onChange={(e) => setDescription(e.target.value)}
-                                />
-                                <button type="button"
-                                    className="add-custom"
-                                    onClick={() => {
-                                        if (description && !interests.includes(description)) {
-                                            setInterests([...interests, description]);
-                                            setDescription('');
-                                        }
-                                    }}>
-                                    <BiPlus />
-                                </button>
-                            </div>
-
-                            <p>Choose from popular skills</p>
-                            <div className="tags">
-                                {popularSkills.map((tag) => (
-                                    <span
-                                        key={tag}
-                                        onClick={() => {
-                                            if (!interests.includes(tag)) {
-                                                setInterests([...interests, tag]);
-                                            }
-                                        }}
-                                    >
-                                        {tag}
-                                    </span>
-                                ))}
-                            </div>
-
-                            {interests.length > 0 && (
-                                <div className="select-interest">
-                                    {interests.map((interest) => (
-                                        <div key={interest} className="selected">
-                                            <span className="mr-2">{interest}</span>
-                                            <button type="button"
-                                                onClick={() => { setInterests(interests.filter((item) => item !== interest)) }}>
-                                                &times;
-                                            </button>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
+                            <InterestSearch onSelect={(ids) => setInterestIds(ids)} />
                         </div>
 
-                        <label>Availability(Days) </label>
-                        <div className="days">
-                            {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'].map((day) => (
-                                <button
-                                    type="button"
-                                    key={day}
-                                    onClick={() => setAvailability((prev) =>
-                                        prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day])}
-                                    className={`avail ${availability.includes(day) ? 'unpicked' : 'picked'}`}>
-                                    {day}
-                                </button>
-                            ))}
-                        </div>
+                        <label>Availability </label>
+                        <AvailabilityInput onChange={(availabilityData) => setAvailability(availabilityData)} />
                     </div>
                     <button className="btn-submit" type="submit">Create an Account</button>
                     <div className="bottom-content">
