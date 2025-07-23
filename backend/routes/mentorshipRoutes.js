@@ -27,6 +27,4 @@ router.get('/session/past/:mentorshipId', isAuthenticated, sessionsHistory);
 router.get('/session/upcoming/:mentorshipId', isAuthenticated, upComingSessions);
 router.get('/session/total', isAuthenticated, getTotalUpcoming);
 
-
-
 module.exports = router;
