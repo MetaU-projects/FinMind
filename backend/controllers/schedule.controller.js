@@ -14,13 +14,13 @@ const createSession = async (req, res) => {
         })
         res.status(201).json(session)
     } catch (err) {
-        res.status(500).json({ error: "Error creating a session" }, err)
+        res.status(500).json({ error: "Error creating a session", details: err.message })
     }
 }
 
 const removeSession = async (req, res) => {
     const sessionId = parseInt(req.params.sessionId);
-    if (Number.isNaN(mentorshipId)) {
+    if (Number.isNaN(sessionId)) {
         return res.status(400).json({ error: "Session ID is not a number" });
     }
     try {
@@ -29,7 +29,7 @@ const removeSession = async (req, res) => {
         });
         res.status(200).send();
     } catch (err) {
-        res.status(404).json({ error: "Error removing session" }, err);
+        res.status(404).json({ error: "Error removing session", details: err.message });
     }
 }
 
@@ -53,11 +53,11 @@ const sessionsHistory = async (req, res) => {
         });
         res.status(200).json(pastSessions);
     } catch (err) {
-        res.status(500).json({ error: "Error getting sessions history" }, err);
+        res.status(500).json({ error: "Error getting sessions history", details: err.message });
     }
 }
 
-const upComingSessions = async (req, res) => {
+const upcomingSessions = async (req, res) => {
     const mentorshipId = parseInt(req.params.mentorshipId);
     if (Number.isNaN(mentorshipId)) {
         return res.status(400).json({ error: "Mentorship ID not a number" });
@@ -77,7 +77,7 @@ const upComingSessions = async (req, res) => {
         })
         res.status(200).json(upcomings);
     } catch(err) {
-        res.status(500).json({ error: "Error getting upcoming session" }, err);
+        res.status(500).json({ error: "Error getting upcoming session", details: err.message });
     }
 }
 
@@ -85,5 +85,5 @@ module.exports = {
     createSession,
     removeSession,
     sessionsHistory,
-    upComingSessions
+    upcomingSessions
 }
