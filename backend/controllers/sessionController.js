@@ -10,7 +10,6 @@ const suggestSession = async (req, res) => {
 
     if (Number.isNaN(mentorId)) {
         return res.status(400).json({ error: "Mentor Id a number" });
-    }
 
     try {
         const user = await prisma.mentorship.findMany({
@@ -61,14 +60,12 @@ const suggestSession = async (req, res) => {
         const proposedSlots = oneHourIntervals(timeOverlaps(userSlots, mentorSlots));
 
         if (proposedSlots.length > 0) {
-            return res.status(200).json({ proposedSession: proposedSlots.slice(0, TOP_NUMBER) });
+            return res.status(200).json({ proposedSession: proposedSlots.slice(0, TOP_NUMBER), resolvedSession: [] });
         }
 
-        const conflictRange = oneHourIntervals(timeOverlaps(userFree, mentorFree));
-        const newSession = await resolveConflict(user, conflictRange, userSlots);
-
+        const newSession = await resolveConflict(user, userSlots);
         if (newSession) {
-            return res.status(200).json({ resolvedSession: newSession });
+            return res.status(200).json({ proposedSession: [], resolvedSession: newSession });
         }
 
         res.status(404).json({ message: "No available time found" });
