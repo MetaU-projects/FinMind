@@ -67,7 +67,7 @@ export default function Connections() {
                             <h1>Upcoming Meetings</h1>
                             <AiOutlineCalendar className="info-icon" />
                         </div>
-                        <h2>4</h2>
+                        <h2>#Count Number</h2>
                         <p>This week</p>
                     </div>
                     <div className="info-box">
@@ -75,7 +75,7 @@ export default function Connections() {
                             <h1>Active Tasks</h1>
                             <GoTasklist className="info-icon" />
                         </div>
-                        <h2>5</h2>
+                        <h2>#Count Number</h2>
                         <p>Across all connections</p>
                     </div>
 
