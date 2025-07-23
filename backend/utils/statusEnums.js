@@ -12,7 +12,7 @@ const ConnectionStatus = Object.freeze({
 const Role = Object.freeze({
     MENTEE: "MENTEE",
     MENTOR: "MENTOR"
-})
+});
 
 const DayMap = Object.freeze({
     SUNDAY: 0,
@@ -22,6 +22,12 @@ const DayMap = Object.freeze({
     THURSDAY: 4,
     FRIDAY: 5,
     SATURDAY: 6
-})
+});
 
-module.exports = { RequestStatus, ConnectionStatus, Role, DayMap };
+const taskStatus = Object.freeze({
+    TODO: "TODO",
+    IN_PROGRESS: "INPROGRESS",
+    COMPLETED: "COMPLETED"
+});
+
+module.exports = { RequestStatus, ConnectionStatus, Role, DayMap, taskStatus };
