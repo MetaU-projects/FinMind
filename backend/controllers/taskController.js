@@ -21,7 +21,7 @@ const createTask = async (req, res) => {
 const updateTask = async (req, res) => {
     const { taskId, status } = req.body;
     try {
-        const taskUpdate = await prisma.request.update({
+        const taskUpdate = await prisma.task.update({
             where: { id: taskId },
             data: { status }
         });
