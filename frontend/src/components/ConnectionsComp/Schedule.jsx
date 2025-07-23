@@ -15,7 +15,8 @@ export default function Schedule() {
 
     const handleClear = () => {
         setDate("");
-        setTime("");
+        setStartTime("");
+        setEndTime("");
         setNote("");
     }
 
