@@ -16,8 +16,8 @@ import { getActiveTasks } from "../../services/taskService";
 export default function Connections() {
     const { user } = useUser();
     const [connections, setConnections] = useState([]);
-    const tabs = ['Overview', 'Meetings', 'Tasks', 'Schedule'];
-    const [activeTab, setActiveTab] = useState('Overview');
+    const tabs = ['Meetings', 'Tasks', 'Schedule'];
+    const [activeTab, setActiveTab] = useState('');
     const [selectedConnection, setSelectedConnection] = useState(null);
     const [upComing, setUpcoming] = useState([]);
     const [meetingHistory, setMeetingHistory] = useState([]);
