@@ -10,7 +10,7 @@ const suggestSession = async (req, res) => {
 
     if (Number.isNaN(mentorId)) {
         return res.status(400).json({ error: "Mentor Id a number" });
-
+    }    
     try {
         const user = await prisma.mentorship.findMany({
             where: { menteeId },
