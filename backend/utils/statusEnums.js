@@ -14,12 +14,14 @@ const Role = Object.freeze({
     MENTOR: "MENTOR"
 })
 
-const Weekday = Object.freeze({
-    MONDAY: "Monday",
-    TUESDAY: "Tuesday",
-    WEDNESDAY: "Wednesday",
-    THURSDAY: "Thurday",
-    FRIDAY: "Friday"
+const DayMap = Object.freeze({
+    SUNDAY: 0,
+    MONDAY: 1,
+    TUESDAY: 2,
+    WEDNESDAY: 3,
+    THURSDAY: 4,
+    FRIDAY: 5,
+    SATURDAY: 6
 })
 
-module.exports = { RequestStatus, ConnectionStatus, Role, Weekday };
+module.exports = { RequestStatus, ConnectionStatus, Role, DayMap };

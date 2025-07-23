@@ -1,19 +1,34 @@
 const prisma = require('../config/prismaClient');
-const { Weekday } = require('../utils/statusEnums');
-const { timeToMinutes, timeOverlaps, subtractInterval, timeFomatting } = require('../utils/schedulingUtils');
+const { timeOverlaps, oneHourIntervals } = require('../utils/schedulingUtils');
+const { getSessions, getAvailability, getFreeSlots } = require('../utils/scheduleHelpers');
+const resolveConflict = require('../utils/resolveConflict');
+const { TOP_NUMBER } = require('../config/constants');
 
 const suggestSession = async (req, res) => {
     const menteeId = req.session.userId;
     const mentorId = parseInt(req.params.mentorId);
+
+    if (Number.isNaN(mentorId)) {
+        return res.status(400).json({ error: "MentorId is not a number" });
+    }
+
     try {
-        const user = await prisma.session.findMany({
+        const user = await prisma.mentorship.findMany({
             where: { menteeId },
             select: {
                 id: true,
-                startTime: true,
-                endTime: true
+                mentorId: true,
+                mentorshipSession: true
             }
         });
+
+        const mentor = await prisma.mentorship.findMany({
+            where: { mentorId },
+            select: {
+                id: true,
+                mentorshipSession: true
+            }
+        })
 
         const userAvailability = await prisma.availability.findMany({
             where: { userId: menteeId },
@@ -25,15 +40,6 @@ const suggestSession = async (req, res) => {
             }
         });
 
-        const mentor = await prisma.session.findMany({
-            where: { mentorId },
-            select: {
-                id: true,
-                startTime: true,
-                endTime: true
-            }
-        })
-
         const mentorAvailability = await prisma.availability.findMany({
             where: { userId: mentorId },
             select: {
@@ -44,64 +50,31 @@ const suggestSession = async (req, res) => {
             }
         });
 
-        const userSessions = {};
-        user.map(session => {
-            const time = timeFomatting(session.startTime, session.endTime)
-            if (!userSessions[time.day]) {
-                userSessions[time.day] = [];
-            }
-            userSessions[time.day].push([time.startTime, time.endTime]);
-        });
+        const userSessions = getSessions(user);
+        const userFree = getAvailability(userAvailability);
+        const userSlots = getFreeSlots(userFree, userSessions);
 
-        const mentorSessions = {};
-        mentor.map(session => {
-            const time = timeFomatting(session.startTime, session.endTime)
-            if (!mentorSessions[time.day]) {
-                mentorSessions[time.day] = [];
-            }
-            mentorSessions[time.day].push([time.startTime, time.endTime]);
-        });
+        const mentorSessions = getSessions(mentor);
+        const mentorFree = getAvailability(mentorAvailability);
+        const mentorSlots = getFreeSlots(mentorFree, mentorSessions);
 
-        const userSlots = {};
-        userAvailability.map(item => {
-            const timePeference = { "startTime": item.startTime, "endTime": item.endTime };
-            for (const [day, sessions] of Object.entries(userSessions)) {
-                if (Weekday[item.day] === day) {
-                    sessions.sort((a, b) => timeToMinutes(a[0]) - timeToMinutes(b[0]));
-                    const result = subtractInterval(timePeference, sessions);
-                    userSlots[day] = result;
-                }
-            }
-        });
+        const proposedSlots = oneHourIntervals(timeOverlaps(userSlots, mentorSlots));
 
-        const mentorSlots = {};
-        mentorAvailability.map(item => {
-            const timePeference = { "startTime": item.startTime, "endTime": item.endTime };
-            for (const [day, sessions] of Object.entries(mentorSessions)) {
-                if (Weekday[item.day] === day) {
-                    sessions.sort((a, b) => timeToMinutes(a[0]) - timeToMinutes(b[0]));
-                    const result = subtractInterval(timePeference, sessions);
-                    mentorSlots[day] = result;
-                }
-            }
-        });
-
-        let recommendedTimes = {}
-        for (const [day, sessions] of Object.entries(mentorSlots)) {
-            let userSlot = userSlots[day];
-            if (userSlot) {
-                const result = timeOverlaps(userSlot, sessions);
-                if (!recommendedTimes[day]) recommendedTimes[day] = {};
-                recommendedTimes[day] = result;
-            }
+        if (proposedSlots.length > 0) {
+            return res.status(200).json({ proposedSession: proposedSlots.slice(0, TOP_NUMBER), resolvedSession: [] });
         }
-        res.status(200).json(recommendedTimes);
+
+        const newSession = await resolveConflict(user, userSlots);
+        if (newSession) {
+            return res.status(200).json({ proposedSession: [], resolvedSession: newSession });
+        }
+
+        res.status(404).json({ message: "No available time found" });
 
     } catch (err) {
-        res.status(500).json({ error: "Error finding free time" }, err);
+        console.log(err)
+        res.status(500).json({ error: "Something went wrong!" }, err);
     }
 }
 
 module.exports = suggestSession;
-
-

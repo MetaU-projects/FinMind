@@ -1,58 +1,21 @@
+const { DAYS_IN_WEEK, ONE_HOUR_SECONDS, MS_PER_SECOND } = require('../config/constants');
+const { DayMap } = require('./statusEnums');
+
 /**
  * Utility functions for working with time intervals in HH:mm format.
- * Includes conversion, comparison, overlap detection, and interval subtraction
+ * Includes conversion, overlap detection, interval subtraction, and one hour intervals
  * 
  * Used in scheduling systems to align and manipulate mentee & mentors availability
  */
 
 /**
- * Converts a time in string into total minutes
- * 
- * @param {string} time - A string in HH:mm 24-hour format 
- * @returns {number} Total minutes
- * 
- * @example
- * timetoMinutes("06:00") //returns 360
- */
-
-const timeToMinutes = (t) => {
-    const [h, m] = t.split(':').map(Number);
-    return h * 60 + m;
-}
-
-/**
- * Convets Javascript values into simplified format where
- * day is a week day and time is in HH:mm format
- * 
- * @param {Date | string} userStartTime - Start time as a Date object ISO string
- * @param {Date | string} userEndTime - End time as a Date object or ISO string
- * @returns {{ day: string, startTime: string, endTime: string }} -  An object with day and formatted times
- * 
- * @example timeFormatting("2025-07-21T10:00:00.000Z", "2025-07-21T11:00:00.000Z")
- * // returns { day: "Monday", startTime: "10:00", endTime: "11:00" }
- */
-
-const timeFomatting = (userStartTime, userEndTime) => {
-    const start = new Date(userStartTime);
-    const end = new Date(userEndTime);
-    const day = start.toLocaleDateString('en-US', { weekday: "long" });
-    const startTime = start.toLocaleTimeString('en-US', { timeZone: "UTC", hour: '2-digit', minute: '2-digit', hour12: false });
-    const endTime = end.toLocaleTimeString('en-US', { timeZone: "UTC", hour: '2-digit', minute: '2-digit', hour12: false });
-
-    return { day, startTime, endTime };
-}
-
-/**
  * Finds all overlapping intervals between two arrays of sessions (time intervals)
  * Sessions are represented as [start, end]
  * 
- * @param {Array<[string, string]>} menteeSlots - First array of sessions
- * @param {Array<[string, string]>} mentorSlots - Second array of sessions
- * @returns {Array<[string, string]>} - Array of intervals that overlap between two sets
- * 
- * @example
- * timeOverlaps([["10:00", "11:00"], ["13:00", "14:00"]], [["9:00", "13:00"], ["14:00", "15:00"]])
- * // returns  [["10:00", "11:00"]]
+ * @param {Array<[Number, Number]>} menteeSlots - First array of sessions
+ * @param {Array<[Number, Number]>} mentorSlots - Second array of sessions
+ * @returns {Array<[Number, Number]>} - Array of intervals that overlap between two sets
+ *
  */
 
 const timeOverlaps = (menteeSlots, mentorSlots) => {
@@ -61,17 +24,17 @@ const timeOverlaps = (menteeSlots, mentorSlots) => {
     let start, end;
 
     while (i < menteeSlots.length && j < mentorSlots.length) {
-        a = menteeSlots[i];
-        b = mentorSlots[j];
+        let a = menteeSlots[i];
+        let b = mentorSlots[j];
 
-        start = timeToMinutes(a[0]) > timeToMinutes(b[0]) ? a[0] : b[0];
-        end = timeToMinutes(a[1]) < timeToMinutes(b[1]) ? a[1] : b[1];
+        start = a[0] > b[0] ? a[0] : b[0];
+        end = a[1] < b[1] ? a[1] : b[1];
 
-        if (timeToMinutes(start) < timeToMinutes(end)) {
+        if (start < end) {
             result.push([start, end]);
         }
 
-        if (timeToMinutes(a[1]) < timeToMinutes(b[1])) i++;
+        if (a[1] < b[1]) i++;
         else j++;
     }
     return result;
@@ -81,34 +44,84 @@ const timeOverlaps = (menteeSlots, mentorSlots) => {
  * Subtracts session intervals from an available interval and return resulting free slots for each available days
  * 
  * @param {[string, string]} avail - The availability interval
- * @param {Array<[string, string]>} sessions - The existing session to subtract
- * @returns {Array<[string, string]>} Free time
+ * @param {Array<[Number, Number]>} sessions - The existing session to subtract
+ * @returns {Array<[Number, Number]>} - Free times
  * 
- * @example
- * subtractInterval(["9:00", "14:00"], [["10:00", "12:00"], ["12:00", "13:00"]])
- * // returns [["9:00", "10:00"], ["13:00", "14:00"]]
  */
 
-const subtractInterval = (avail, sessions) => {
+const subtractInterval = (preference, sessions) => {
     let result = [];
-    let start = avail.startTime;
-    let time;
+    let start = preference[0];
     for (let session of sessions) {
-        time = session;
-        if (timeToMinutes(start) < timeToMinutes(session[0])) {
+        if (start < session[0]) {
             result.push([start, session[0]]);
         }
-        if (timeToMinutes(start) < timeToMinutes(session[1])) start = session[1];
+        if (start < session[1]) start = session[1];
     }
-    if (timeToMinutes(start) < timeToMinutes(avail.endTime)) {
-        result.push([start, avail.endTime]);
+    if (start < preference[1]) {
+        result.push([start, preference[1]]);
+    }
+    return result;
+}
+
+/**
+ * Converts 24-hour formatted time in strings to unix time of the next recurring day.
+ * 
+ * @param {string} day - The target day
+ * @param {string} time - The time in the day
+ * @returns {Number} - Converted Unix Time
+ * 
+ * @example
+ * timeConversion("MONDAY", 14:00) // returns 	1753131600
+ */
+
+const timeConversion = (day, time) => {
+    const today = new Date();
+    const todayDay = today.getDay();
+    const now = new Date();
+
+    const targetDay = DayMap[day];
+    const slotTime = new Date(today);
+    const [hour, minute] = time.split(':').map(Number);
+    slotTime.setHours(hour, minute, 0, 0);
+
+    let daysAhead = (targetDay - todayDay + DAYS_IN_WEEK) % DAYS_IN_WEEK;
+    if(daysAhead === 0 && slotTime < now) daysAhead = DAYS_IN_WEEK;
+
+    const nextDate = new Date(today);
+    nextDate.setDate(today.getDate() + daysAhead);
+    nextDate.setHours(hour, minute, 0, 0);
+
+    const unixTime = Math.floor(nextDate.getTime() / MS_PER_SECOND)
+
+    return unixTime;
+}
+
+/**
+ * Function to convert a range of time interval into one hour slots.
+ * 
+ * @param {Array<[Number, Number]} timeRange - Range of time to be broken down
+ * @returns {Array<[Number, Number]} - One hour time durations
+ * 
+ */
+
+const oneHourIntervals = (timeRange) => {
+    let result = [];
+    for(const time of timeRange) {
+        let start = time[0];
+        let end = start + ONE_HOUR_SECONDS;
+        while (end <= time[1]){
+            result.push([start, end]);
+            start = end;
+            end = start + ONE_HOUR_SECONDS;
+        }
     }
     return result;
 }
 
 module.exports = {
-    timeToMinutes,
     timeOverlaps,
     subtractInterval,
-    timeFomatting
+    timeConversion,
+    oneHourIntervals
 }
