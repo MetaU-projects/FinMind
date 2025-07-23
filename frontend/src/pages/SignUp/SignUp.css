@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
 .signup {
-    @apply min-h-screen flex dark:bg-gradient-to-l from-[#EDE8F5] via-[#EDE8F5] to-[#ADBBDA] dark:from-gray-900 dark:to-gray-800;
+    @apply min-h-screen flex bg-gradient-to-l from-[#EDE8F5] via-[#EDE8F5] to-[#ADBBDA] dark:from-gray-800 dark:to-gray-900;
 }
 
 .left-side {
