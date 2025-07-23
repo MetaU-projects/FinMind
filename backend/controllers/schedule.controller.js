@@ -1,5 +1,26 @@
 const { MS_PER_SECOND } = require('../config/constants');
 const prisma = require('../config/prismaClient');
+const dayjs = require('dayjs');
+const isoWeek = require('dayjs/plugin/isoWeek');
+dayjs.extend(isoWeek);
+
+const getTotalUpcoming = async (req, res) => {
+
+    const startOfWeek = dayjs().startOf('isoWeek').unix();
+    const endOfWeek = dayjs().endOf('isoWeek').unix();
+
+    const totalUpcomingSessionThisWeek = await prisma.session.count({
+        where: {
+            startTime: {
+                gte: startOfWeek,
+                lte: endOfWeek,
+            }
+        }
+    })
+
+    res.json(totalUpcomingSessionThisWeek);
+
+}
 
 const createSession = async (req, res) => {
     const { mentorshipId, startTime, endTime, reason } = req.body;
@@ -77,7 +98,7 @@ const upComingSessions = async (req, res) => {
             }
         })
         res.status(200).json(upcomings);
-    } catch(err) {
+    } catch (err) {
         res.status(500).json({ error: "Error getting upcoming session" }, err);
     }
 }
@@ -86,5 +107,6 @@ module.exports = {
     createSession,
     removeSession,
     sessionsHistory,
-    upComingSessions
+    upComingSessions,
+    getTotalUpcoming
 }
