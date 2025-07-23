@@ -4,6 +4,7 @@ const prisma = require('../config/prismaClient');
 const createTask = async (req, res) => {
     const { mentorshipId, title, description, priority } = req.body;
     try {
+        if ( !mentorshipId || !title || !description || !priority) return res.status(400).json({ error: "Missing required fields" });
         const task = await prisma.task.create({
             data: {
                 mentorshipId,
@@ -21,6 +22,7 @@ const createTask = async (req, res) => {
 const updateTask = async (req, res) => {
     const { taskId, status } = req.body;
     try {
+        if ( !taskId || !status ) return res.status(400).json({ error: "Missing required fields" });
         const taskUpdate = await prisma.task.update({
             where: { id: taskId },
             data: { status }
