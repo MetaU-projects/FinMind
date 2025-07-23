@@ -22,7 +22,7 @@ export default function PendingRequests({ pendingRequests, setPendingRequests, s
                         <button onClick={() => handleCancel(pending.id, pending.mentor)} className="cancel-btn">Cancel</button>
                     </li>
                 ))) : (
-                    <div>No request pending</div>
+                    <div className="side-empty">No pending request</div>
                 )}
             </ul>
         </div>

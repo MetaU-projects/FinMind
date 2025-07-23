@@ -11,7 +11,7 @@ export default function Recommended ({ recommend }) {
                         </div>
                     </li>
                 ))) : (
-                    <div>Looking for recommnedations for you</div>
+                    <div className="side-empty">Looking for recommnedations for you</div>
                 )}
             </ul>
         </div>
