@@ -25,7 +25,7 @@ export default function Tasks({ connection }) {
             }
         }
         fetchData();
-    });
+    }, [connection.id]);
 
     return (
         <div>
