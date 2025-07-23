@@ -38,7 +38,7 @@ export default function Connections() {
                 <div className="info-boxes">
                     <div className="info-box">
                         <div className="info-top">
-                            <h1>Total Connection</h1>
+                            <h1>Total Connections</h1>
                             <MdPeopleOutline className="info-icon" />
                         </div>
                         <h2>{connections.length}</h2>
