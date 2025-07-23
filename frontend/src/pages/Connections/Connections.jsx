@@ -22,10 +22,12 @@ export default function Connections() {
     const [meetingHistory, setMeetingHistory] = useState([]);
     const [timeSuggestions, setTimeSuggestions] = useState([]);
     const role = user.role === "MENTEE" ? "mentor" : "mentee";
+    const [totalUpcoming, setTotalUpcoming] = useState(0);
 
     useEffect(() => {
         const fetchConnections = async () => {
             const results = await getAllConnections(user.role);
+            setTotalUpcoming(await totalUpcomingSession());
             setConnections(results);
         }
         fetchConnections();
@@ -56,7 +58,7 @@ export default function Connections() {
                 <div className="info-boxes">
                     <div className="info-box">
                         <div className="info-top">
-                            <h1>Total Connection</h1>
+                            <h1>Total Connections</h1>
                             <MdPeopleOutline className="info-icon" />
                         </div>
                         <h2>{connections.length}</h2>
@@ -67,7 +69,7 @@ export default function Connections() {
                             <h1>Upcoming Meetings</h1>
                             <AiOutlineCalendar className="info-icon" />
                         </div>
-                        <h2>#Count Number</h2>
+                        <h2>{totalUpcoming}</h2>
                         <p>This week</p>
                     </div>
                     <div className="info-box">

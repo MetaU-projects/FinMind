@@ -74,3 +74,12 @@ export const suggestedSession = async (mentorId) => {
         throw new Error(err.response?.data?.error);
     }
 }
+
+export const totalUpcomingSession = async () => {
+    try {
+        const response = await mentorship.get('/session/total');
+        return response.data;
+    } catch(err) {
+        throw new Error(err.response?.data?.error);
+    }
+}
