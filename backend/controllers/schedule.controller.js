@@ -8,18 +8,19 @@ const getTotalUpcoming = async (req, res) => {
 
     const startOfWeek = dayjs().startOf('isoWeek').unix();
     const endOfWeek = dayjs().endOf('isoWeek').unix();
-
-    const totalUpcomingSessionThisWeek = await prisma.session.count({
-        where: {
-            startTime: {
-                gte: startOfWeek,
-                lte: endOfWeek,
+    try {
+        const totalUpcoming = await prisma.session.count({
+            where: {
+                startTime: {
+                    gte: startOfWeek,
+                    lte: endOfWeek,
+                }
             }
-        }
-    })
-
-    res.json(totalUpcomingSessionThisWeek);
-
+        })
+        res.status(200).json(totalUpcoming);
+    } catch (err) {
+        res.status(500).json({ error: "Something went wrong!", details: err.message })
+    }
 }
 
 const createSession = async (req, res) => {
