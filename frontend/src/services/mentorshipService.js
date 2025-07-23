@@ -28,3 +28,12 @@ export const endMentorship = async (connectionId) => {
         throw new Error(err.response?.data?.error);
     }
 }
+
+export const allInterests = async() => {
+    try {
+        const response = await mentorship.get('/interests');
+        return response.data;
+    } catch (err) {
+        throw new Error(err.response?.data?.error);
+    }
+}
