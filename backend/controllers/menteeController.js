@@ -13,7 +13,7 @@ const getMentors = async (req, res) => {
         });
         res.json(mentors);
     } catch (err) {
-        res.status(404).json({ error: "No mentor found, try again later!" }, err);
+        res.status(404).json({ error: "No mentor found, try again later!", details: err.message });
     }
 }
 
@@ -26,7 +26,7 @@ const pendingRequests = async (req, res) => {
         })
         res.status(201).json(pending);
     } catch (err) {
-        res.status(404).json({ error: "No pending requests" }, err);
+        res.status(404).json({ error: "No pending requests", details: err.message });
     }
 }
 
@@ -38,7 +38,7 @@ const removeRequest = async (req, res) => {
         });
         res.status(204).send();
     } catch (err) {
-        res.status(404).json({ error: "Error removing request" }, err);
+        res.status(404).json({ error: "Error removing request", details: err.message });
     }
 }
 

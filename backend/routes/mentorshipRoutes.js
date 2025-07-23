@@ -9,6 +9,7 @@ const { getInterests } = require('../controllers/interestController');
 const { createSession, removeSession, sessionsHistory, upComingSessions } = require('../controllers/schedule.controller');
 const { getTasks, createTask, updateTask } = require('../controllers/taskController');
 
+
 router.get('/mentee/home', isAuthenticated, getMentors);
 router.get('/connections', isAuthenticated, getAllConnections);
 router.post('/request', isAuthenticated, requestConnection);
