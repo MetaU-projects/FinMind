@@ -5,6 +5,7 @@ const isoWeek = require('dayjs/plugin/isoWeek');
 dayjs.extend(isoWeek);
 
 const getTotalUpcoming = async (req, res) => {
+    const userId = req.session.userId;
 
     const startOfWeek = dayjs().startOf('isoWeek').unix();
     const endOfWeek = dayjs().endOf('isoWeek').unix();
@@ -14,6 +15,12 @@ const getTotalUpcoming = async (req, res) => {
                 startTime: {
                     gte: startOfWeek,
                     lte: endOfWeek,
+                },
+                mentorship: {
+                    OR: [
+                        { menteeId: userId },
+                        { mentorId: userId }
+                    ]
                 }
             }
         })
@@ -107,6 +114,6 @@ module.exports = {
     createSession,
     removeSession,
     sessionsHistory,
-    upComingSessions,
+    upcomingSessions,
     getTotalUpcoming
 }
