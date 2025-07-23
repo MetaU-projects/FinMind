@@ -77,7 +77,7 @@ export default function Schedule({ connection, timeSuggestions, upDate }) {
                     </div>
 
                     <div className="schedule-btns">
-                        <button type="submit" className="btn send-schedule">Send Meeting Request</button>
+                        <button type="submit" className="btn send-schedule">Create Session</button>
                         <button type="button" onClick={handleClear} className="btn clear-schedule">Clear</button>
                     </div>
                 </form>
