@@ -1,5 +1,4 @@
 import { AiOutlineClockCircle } from "react-icons/ai";
-import { AiOutlineCalendar } from "react-icons/ai";
 import { useState } from "react"
 import "./ConnectionsComp.css"
 import { MS_PER_SECOND } from "../../utils/constants";
@@ -95,12 +94,12 @@ export default function Schedule({ connection, timeSuggestions, upDate }) {
                             </div>
                         ))) : (
                         <div className="session">
-                            <h3>Reschdule To meet with mentor</h3>
+                            <h3>Reschedule To meet with mentor</h3>
                             <div className="time">
                                 <AiOutlineClockCircle />
                                 <h3>Cancel<strong>{formatUnixTimes(timeSuggestions.resolvedSession.freedTime[0], timeSuggestions.resolvedSession.freedTime[1])}</strong></h3>
                             </div>
-                            <h3>Rescheduling Options</h3>
+                            <h3>Rescheduling Option</h3>
                             {timeSuggestions.resolvedSession.rescheduleTo.map(session => {
                                 <div className="session">
                                     <div className="time">
