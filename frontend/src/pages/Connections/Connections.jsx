@@ -2,7 +2,7 @@ import { BsPeople } from "react-icons/bs";
 import { MdPeopleOutline } from "react-icons/md";
 import { GoTasklist } from "react-icons/go";
 import { AiOutlineCalendar } from "react-icons/ai";
-import { getAllConnections, getMeetingHistory, getUpcomingMeeting } from "../../services/mentorshipService";
+import { getAllConnections, getMeetingHistory, getUpcomingMeeting, suggestedSession } from "../../services/mentorshipService";
 import { useEffect, useState } from "react";
 import { useUser } from "../../contexts/UserContext";
 import ConnectionList from "../../components/ConnectionsList/ConnectionList";
@@ -19,6 +19,7 @@ export default function Connections() {
     const [selectedConnection, setSelectedConnection] = useState(null);
     const [upComing, setUpcoming] = useState([]);
     const [meetingHistory, setMeetingHistory] = useState([]);
+    const [timeSuggestions, setTimeSuggestions] = useState([])
     const { user } = useUser();
 
     useEffect(() => {
@@ -32,8 +33,10 @@ export default function Connections() {
         setSelectedConnection(connection);
         const historyData = await getMeetingHistory(connection.id);
         const upComingData = await getUpcomingMeeting(connection.id);
+        const sessionsData = await suggestedSession(connection.mentor.id);
         setUpcoming(upComingData);
         setMeetingHistory(historyData);
+        setTimeSuggestions(sessionsData);
     }
 
     return (
@@ -93,7 +96,7 @@ export default function Connections() {
                             <div className="right-content">
                                 {activeTab === 'Meetings' && (<Meetings upComing={upComing} meetingHistory={meetingHistory} connection={selectedConnection} />)}
                                 {activeTab === 'Tasks' && (<Tasks />)}
-                                {activeTab === 'Schedule' && (<Schedule connection={selectedConnection} upDate={handleSelect} />)}
+                                {activeTab === 'Schedule' && (<Schedule connection={selectedConnection} timeSuggestions={timeSuggestions} upDate={handleSelect} />)}
                             </div>
                         </div> :
                         <div className="connections-right-empty">
