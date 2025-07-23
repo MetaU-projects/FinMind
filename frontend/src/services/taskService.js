@@ -29,3 +29,12 @@ export const getTasks = async (mentorshipId) => {
         throw new Error(err.response?.data?.error);
     }
 }
+
+export const getActiveTasks = async () => {
+    try {
+        const response = await task.get('/task/active/total');
+        return response.data;
+    } catch (err) {
+        throw new Error(err.response?.data?.error);
+    }
+}
