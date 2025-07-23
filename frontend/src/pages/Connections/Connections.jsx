@@ -17,7 +17,7 @@ export default function Connections() {
     const { user } = useUser();
     const [connections, setConnections] = useState([]);
     const tabs = ['Meetings', 'Tasks', 'Schedule'];
-    const [activeTab, setActiveTab] = useState('');
+    const [activeTab, setActiveTab] = useState('Meetings');
     const [selectedConnection, setSelectedConnection] = useState(null);
     const [upComing, setUpcoming] = useState([]);
     const [meetingHistory, setMeetingHistory] = useState([]);
