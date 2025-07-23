@@ -3,7 +3,7 @@ import { MdPeopleOutline } from "react-icons/md";
 import { GoTasklist } from "react-icons/go";
 import { AiOutlineCalendar } from "react-icons/ai";
 import { getAllConnections, getMeetingHistory, getUpcomingMeeting, suggestedSession } from "../../services/mentorshipService";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import { useUser } from "../../contexts/UserContext";
 import ConnectionList from "../../components/ConnectionsList/ConnectionList";
 import Header from "../../components/Header/Header";
@@ -13,14 +13,15 @@ import Tasks from "../../components/ConnectionsComp/Tasks";
 import "./Connections.css"
 
 export default function Connections() {
+    const { user } = useUser();
     const [connections, setConnections] = useState([]);
     const tabs = ['Overview', 'Meetings', 'Tasks', 'Schedule'];
     const [activeTab, setActiveTab] = useState('Overview');
     const [selectedConnection, setSelectedConnection] = useState(null);
     const [upComing, setUpcoming] = useState([]);
     const [meetingHistory, setMeetingHistory] = useState([]);
-    const [timeSuggestions, setTimeSuggestions] = useState([])
-    const { user } = useUser();
+    const [timeSuggestions, setTimeSuggestions] = useState([]);
+    const role = user.role === "MENTEE" ? "mentor" : "mentee";
 
     useEffect(() => {
         const fetchConnections = async () => {
@@ -28,16 +29,25 @@ export default function Connections() {
             setConnections(results);
         }
         fetchConnections();
-    }, [])
-    const handleSelect = async (connection) => {
+    }, [user.role])
+
+    const lastSelectedRef = useRef(null);
+    const handleSelect = useCallback(async (connection) => {
+        lastSelectedRef.current = connection.id;
         setSelectedConnection(connection);
-        const historyData = await getMeetingHistory(connection.id);
-        const upComingData = await getUpcomingMeeting(connection.id);
-        const sessionsData = await suggestedSession(connection.mentor.id);
-        setUpcoming(upComingData);
-        setMeetingHistory(historyData);
-        setTimeSuggestions(sessionsData);
-    }
+        console.log(connection)
+
+        const [historyData, upComingData, sessionsData] = await Promise.all([
+            getMeetingHistory(connection.id),
+            getUpcomingMeeting(connection.id),
+            suggestedSession(connection[role].id)
+        ]);
+        if (lastSelectedRef.current === connection.id) {
+            setUpcoming(upComingData);
+            setMeetingHistory(historyData);
+            setTimeSuggestions(sessionsData);
+        }
+    }, []);
 
     return (
         <div className="page">
