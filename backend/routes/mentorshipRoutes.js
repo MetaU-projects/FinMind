@@ -6,7 +6,7 @@ const isAuthenticated = require('../middlewares/isAuthenticated');
 const mentorRecomendations = require('../controllers/recommendController');
 const suggestSession = require('../controllers/sessionController');
 const { getInterests } = require('../controllers/interestController');
-const { createSession, removeSession, sessionsHistory, upComingSessions } = require('../controllers/schedule.controller');
+const { createSession, removeSession, sessionsHistory, upcomingSessions } = require('../controllers/schedule.controller');
 const { getTasks, createTask, updateTask, activeTasks } = require('../controllers/taskController');
 
 
@@ -26,11 +26,11 @@ router.get('/interests', isAuthenticated, getInterests);
 router.post('/session', isAuthenticated, createSession);
 router.delete('/remove/session/:sessionId', isAuthenticated, removeSession);
 router.get('/session/past/:mentorshipId', isAuthenticated, sessionsHistory);
-router.get('/session/upcoming/:mentorshipId', isAuthenticated, upComingSessions);
+router.get('/session/upcoming/:mentorshipId', isAuthenticated, upcomingSessions);
 router.post('/task', isAuthenticated, createTask);
 router.get('/task/:mentorshipId', isAuthenticated, getTasks);
 router.patch('/task/update', isAuthenticated, updateTask);
-router.get('/task/active', isAuthenticated, activeTasks);
+router.get('/task/active/total', isAuthenticated, activeTasks);
 
 
 module.exports = router;
