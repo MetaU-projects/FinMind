@@ -1,5 +1,5 @@
 const prisma = require('../config/prismaClient');
-
+const { taskStatus } = require('../utils/statusEnums');
 
 const createTask = async (req, res) => {
     const { mentorshipId, title, description, priority } = req.body;
@@ -49,8 +49,31 @@ const getTasks = async (req, res) => {
     }
 }
 
+const activeTasks = async (req, res) => {
+    const userId = req.session.userId
+    try {
+        const totalActiveTasks = await prisma.task.count({
+            where: {
+                status: {
+                    in: [ taskStatus.TODO, taskStatus.IN_PROGRESS ]
+                },
+                mentorship: {
+                    OR: [
+                        { menteeId: userId },
+                        { mentorId: userId }
+                    ]
+                }
+            }
+        });
+        res.status(200).json(totalActiveTasks)
+    } catch (err) {
+        res.status(404).json({ error: "Error getting total tasks", details: err.message })
+    }
+}
+
 module.exports = {
     createTask,
     updateTask,
-    getTasks
+    getTasks,
+    activeTasks
 }
