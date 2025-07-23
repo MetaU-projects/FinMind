@@ -14,7 +14,7 @@ const createTask = async (req, res) => {
         })
         res.status(201).json(task)
     } catch (err) {
-        res.status(500).json({ error: "Error creating a session" }, err)
+        res.status(500).json({ error: "Error creating a session", details: err.message })
     }
 }
 
@@ -27,7 +27,7 @@ const updateTask = async (req, res) => {
         });
         res.status(201).json(taskUpdate);
     } catch (err) {
-        res.status(404).json({ error: "Error updating connection!" }, err);
+        res.status(404).json({ error: "Error updating connection!", details: err.message});
     }
 }
 
@@ -43,7 +43,7 @@ const getTasks = async (req, res) => {
         })
         res.status(200).json(tasks);
     } catch(err) {
-        res.status(404).json({ error: "Error getting tasks!" }, err);
+        res.status(404).json({ error: "Error getting tasks!", details: err.message});
     }
 }
 
