@@ -26,7 +26,7 @@
 }
 
 .mentee {
-    @apply border border-gray-300 text-gray-700 px-8 py-3 rounded-md cursor-pointer hover:bg-[#3D52A0] hover:text-white transition font-medium;
+    @apply border border-gray-300 text-gray-700 px-8 py-3 rounded-md cursor-pointer hover:bg-[#3D52A0] hover:text-white transition font-medium dark:text-white;
 }
 
 .about {
