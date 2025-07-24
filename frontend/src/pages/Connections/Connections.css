@@ -1,17 +1,86 @@
 @import 'tailwindcss';
 
 .page-wrapper {
-    background: linear-gradient(to right, #ADBBDA, #EDE8F5, #ADBBDA);
+    /* background: linear-gradient(to right, #ADBBDA, #EDE8F5, #ADBBDA); */
+    @apply pt-5 bg-gray-100 dark:bg-gray-900 top-0;
+}
+
+.info-boxes {
+    @apply ml-20 mr-20 flex gap-5 m-8 justify-between;
+}
+
+.info-box {
+    @apply flex flex-col gap-2 bg-gray-200 p-10 w-150 bg-white  shadow-xl dark:bg-gray-700 dark:text-white dark:shadow-white dark:shadow-xs rounded-xl mb-1;
+}
+
+.info-top {
+    @apply flex gap-4 items-center justify-between;
+}
+
+.info-top h1 {
+    @apply font-semibold;
+}
+
+.info-box h2{
+    @apply text-3xl font-bold dark:text-white;
+}
+
+.info-box p{
+    @apply font-extralight text-gray-500 dark:text-gray-300 text-sm;
+}
+
+.info-icon {
+    @apply text-base;
 }
 
 .connections-content {
-    @apply flex min-h-screen bg-gray-50 m-8;
+    @apply flex min-h-screen bg-gray-50 ml-20 mr-20 rounded-xl dark:bg-gray-800 border border-gray-200;
 }
 
 .connections-left {
-    @apply w-1/3 border-r border-gray-200 p-4 flex flex-col gap-4 overflow-y-auto;
+    @apply w-1/3 border-r border-gray-200 p-4 flex flex-col gap-4 max-h-screen overflow-y-auto;
+}
+
+.connections-right {
+    @apply w-2/3 max-h-screen overflow-y-auto;
+}
+
+.connection-nav {
+    @apply flex justify-around w-full bg-gray-200;
+}
+
+.tab {
+    @apply px-10 py-2 font-medium cursor-pointer gap-3 text-sm;
+}
+
+.tabPick {
+    @apply bg-white m-0.5 rounded-md;
+}
+
+.tabUnpick {
+    @apply text-gray-600;
+}
+
+.right-content {
+    @apply mt-4;
 }
 
 .connections-count {
     @apply text-xl font-bold mb-2 bg-gray-200 px-10 py-5 m-8 rounded;
+}
+
+.connections-right-empty {
+    @apply flex items-center justify-center w-2/3 flex-col gap-3;
+}
+
+.empty-icon {
+    @apply text-5xl text-gray-600 dark:text-gray-200;
+}
+
+.connections-right-empty h2 {
+    @apply font-semibold text-xl dark:text-gray-300;
+}
+
+.connections-right-empty p {
+    @apply text-gray-500 dark:text-gray-400;
 }

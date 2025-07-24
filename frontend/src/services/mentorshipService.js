@@ -37,3 +37,58 @@ export const allInterests = async() => {
         throw new Error(err.response?.data?.error);
     }
 }
+
+export const createSession = async (sessionInfo) => {
+    try {
+        const data = {...sessionInfo};
+        const response = await mentorship.post('/session', data);
+        return response.data;
+    } catch (err) {
+        throw new Error(err.response?.data?.error);
+    }
+}
+
+export const deleteSession = async (sessionId) => {
+    try {
+        const response = await mentorship.delete(`/remove/session/${sessionId}`);
+        return response.data;
+    } catch(err) {
+        throw new Error(err.response?.data?.error);
+    }
+}
+
+export const getMeetingHistory = async (mentorshipId) => {
+    try {
+        const response = await mentorship.get(`/session/past/${mentorshipId}`);
+        return response.data;
+    } catch (err) {
+        throw new Error(err.response?.data?.error);
+    }
+}
+
+export const getUpcomingMeeting = async (mentorshipId) => {
+    try {
+        const response = await mentorship.get(`/session/upcoming/${mentorshipId}`);
+        return response.data;
+    } catch (err) {
+        throw new Error(err.response?.data?.error);
+    }
+}
+
+export const suggestedSession = async (mentorId) => {
+    try {
+        const response = await mentorship.get(`/suggest-time/${mentorId}`);
+        return response.data;
+    } catch(err) {
+        throw new Error(err.response?.data?.error);
+    }
+}
+
+export const totalUpcomingSession = async () => {
+    try {
+        const response = await mentorship.get('/session/total');
+        return response.data;
+    } catch(err) {
+        throw new Error(err.response?.data?.error);
+    }
+}
