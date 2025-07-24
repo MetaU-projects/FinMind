@@ -83,7 +83,7 @@ export default function SignUp() {
                     <p>Join our community and start your jouney towards growth and success</p>
                 </div>
 
-                <form onSubmit={handleSignUp}>
+                <form onSubmit={handleSignUp} className="sign-up-form">
 
                     <h3 className="first-section">Personal Information</h3>
                     <div className="content">
