@@ -111,7 +111,7 @@ export default function Connections() {
                             <div className="right-content">
                                 {activeTab === 'Meetings' && (<Meetings upComing={upComing} meetingHistory={meetingHistory} connection={selectedConnection} />)}
                                 {activeTab === 'Tasks' && (<Tasks connection={selectedConnection} />)}
-                                {activeTab === 'Schedule' && (<Schedule connection={selectedConnection} upDate={handleSelect} timeSuggestions={timeSuggestions} />)}
+                                {activeTab === 'Schedule' && (<Schedule connection={selectedConnection} update={handleSelect} timeSuggestions={timeSuggestions} />)}
                             </div>
                         </div> :
                         <div className="connections-right-empty">

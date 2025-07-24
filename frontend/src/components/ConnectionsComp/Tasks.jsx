@@ -9,7 +9,7 @@ import ErrorModal from "../ErrorModal/ErrorModal";
 export default function Tasks({ connection }) {
     const [addTask, setAddTask] = useState(false);
     const [todo, setTodo] = useState([]);
-    const [inProgess, setInProgess] = useState([]);
+    const [inProgress, setInProgress] = useState([]);
     const [complete, setComplete] = useState([]);
     const [error, setError] = useState("");
 
@@ -18,14 +18,14 @@ export default function Tasks({ connection }) {
             try {
                 const data = await getTasks(connection.id);
                 setTodo(data.filter(item => item.status === taskStatus.TODO));
-                setInProgess(data.filter(item => item.status === taskStatus.INPROGRESS));
+                setInProgress(data.filter(item => item.status === taskStatus.INPROGRESS));
                 setComplete(data.filter(item => item.status === taskStatus.COMPLETE));
             } catch (err) {
                 setError(err.message);
             }
         }
         fetchData();
-    });
+    }, [connection.id]);
 
     return (
         <div>
@@ -41,7 +41,7 @@ export default function Tasks({ connection }) {
 
             <div className="task-cards">
                 <TaskColumn value="ToDo" taskList={todo} />
-                <TaskColumn value="In Progress" taskList={inProgess} />
+                <TaskColumn value="In Progress" taskList={inProgress} />
                 <TaskColumn value="Completed" taskList={complete} />
             </div>
             {addTask &&
