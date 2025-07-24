@@ -9,6 +9,21 @@ const getMentors = async (req, res) => {
                 role: Role.MENTOR,
                 mentorMentorships: { none: { menteeId: menteeId } },
                 mentorRequests: { none: { menteeId: menteeId } }
+            },
+            select: {
+                id: true,
+                name: true,
+                role: true,
+                school: true,
+                major: true,
+                classification: true,
+                bio: true,
+                interest: {
+                    select: {
+                        interest: true,
+                    }
+                },
+                preference: true
             }
         });
         res.json(mentors);

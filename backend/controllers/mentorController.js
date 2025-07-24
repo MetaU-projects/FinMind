@@ -6,7 +6,25 @@ const getMenteeRequests = async (req, res) => {
     try {
         const requests = await prisma.request.findMany({
             where: { mentorId: userId, status: RequestStatus.PENDING },
-            include: { mentee: true }
+            include: {
+                mentee: {
+                    select: {
+                        id: true,
+                        name: true,
+                        role: true,
+                        school: true,
+                        major: true,
+                        classification: true,
+                        bio: true,
+                        interest: {
+                            select: {
+                                interest: true,
+                            }
+                        },
+                        preference: true
+                    }
+                }
+            }
         })
         res.status(201).json(requests);
     } catch (err) {
