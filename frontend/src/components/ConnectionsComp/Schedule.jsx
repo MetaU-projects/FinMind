@@ -100,17 +100,13 @@ export default function Schedule({ connection, timeSuggestions, update }) {
                                 <h3>Cancel<strong>{formatUnixTimes(timeSuggestions.resolvedSession.freedTime[0], timeSuggestions.resolvedSession.freedTime[1])}</strong></h3>
                             </div>
                             <h3>Rescheduling Option</h3>
-                            {timeSuggestions.resolvedSession.rescheduleTo.map(session => {
                                 <div className="session">
                                     <div className="time">
                                         <AiOutlineClockCircle />
-                                        <h3><strong>{formatUnixTimes(session[0], session[1])}</strong></h3>
+                                        <h3><strong>{formatUnixTimes(timeSuggestions.resolvedSession.rescheduleTo[0], timeSuggestions.resolvedSession.rescheduleTo[1])}</strong></h3>
                                     </div>
                                 </div>
-                            })
-                            }
                         </div>
-
                     )}
                 </div>
             </div>
