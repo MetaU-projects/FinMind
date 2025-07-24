@@ -34,7 +34,7 @@ export const allInterests = async() => {
         const response = await mentorship.get('/interests');
         return response.data;
     } catch (err) {
-        throw new Error(err.response?.data?.error);
+        throw new Error(err.response?.data?.error || err.message || 'Unknown error occurred');
     }
 }
 
