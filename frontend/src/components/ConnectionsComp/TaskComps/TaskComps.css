@@ -1,0 +1,73 @@
+@import 'tailwindcss';
+
+.col-container {
+    @apply min-w-[100px] bg-white rounded-lg p-4 shadow-md dark:bg-gray-700 overflow-y-auto;
+}
+
+.col-title {
+    @apply text-lg font-medium flex items-center justify-between mb-2 dark:text-white;
+}
+
+.col-cards {
+    @apply flex flex-col gap-3;
+}
+
+.task-container {
+    @apply bg-white rounded-md p-4 shadow-sm border border-gray-200 dark:bg-gray-600;
+}
+
+.task-title {
+    @apply font-medium mb-1 dark:text-white;
+}
+
+.task-description {
+    @apply text-sm text-gray-600 mb-3 dark:text-white;
+}
+
+.task-status {
+    @apply flex gap-4;
+}
+
+.status {
+    @apply px-2 py-0.5 rounded-full text-white text-xs bg-[#3D52A0];
+}
+
+.modal-overlay {
+    @apply fixed inset-0 z-50 flex items-center justify-center bg-black/30;
+}
+
+.modal-container {
+    @apply bg-white rounded-xl w-full p-4 max-w-md shadow-lg relative dark:bg-gray-900 flex flex-col items-center justify-center;
+}
+
+.close-task {
+    @apply absolute top-3 right-3 text-gray-500 hover:text-black text-2xl font-bold items-center dark:hover:text-white cursor-pointer;
+}
+
+.new-task-title {
+    @apply mb-2 dark:text-white flex flex-col items-center;
+}
+
+.new-task-title h2 {
+    @apply text-xl font-semibold;
+}
+
+.new-task-title p {
+    @apply text-sm font-extralight;
+}
+
+.task-form {
+    @apply flex flex-col gap-4 w-full;
+}
+
+.task-form input, textarea, select {
+    @apply border border-gray-400 rounded-md px-3 dark:text-white;
+}
+
+.task-form textarea {
+    @apply py-5;
+}
+
+.submit-task {
+    @apply bg-[#ADBBDA] text-black py-2 rounded-xl hover:bg-[#3D52A0] hover:text-white cursor-pointer;
+}

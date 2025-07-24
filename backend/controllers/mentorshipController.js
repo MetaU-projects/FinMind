@@ -11,13 +11,13 @@ const getAllConnections = async (req, res) => {
                 connections = await prisma.mentorship.findMany({
                     where: { mentorId: userId },
                     include: { mentee: true }
-                })
+                });
                 return res.status(201).json(connections);
             case Role.MENTEE:
                 connections = await prisma.mentorship.findMany({
                     where: { menteeId: userId },
                     include: { mentor: true }
-                })
+                });
                 return res.status(201).json(connections);
             default:
                 res.status(404).json({ error: "Role is invalid!" });
@@ -46,7 +46,7 @@ const createMentorship = async (req, res) => {
         const connected = await prisma.mentorship.create({ data: { menteeId, mentorId } });
         res.status(201).json(connected);
     } catch (err) {
-        res.status(404).json({ error: "Error creating a connection!" }, err);
+        res.status(404).json({ error: "Error creating a connection!", details: err.message });
     }
 }
 
@@ -59,7 +59,7 @@ const updateMentorship = async (req, res) => {
         });
         res.status(201).json(updateConnection);
     } catch (err) {
-        res.status(404).json({ error: "Error updating connection!" }, err);
+        res.status(404).json({ error: "Error updating connection!", details: err.message });
     }
 }
 
@@ -80,14 +80,14 @@ const endMentorship = async (req, res) => {
 
         const request = await prisma.request.findFirst({
             where: { menteeId, mentorId }
-        })
+        });
         
         if (request) {
             await prisma.request.delete({ where: { id: request.id } });
         }
         res.status(204).send();
     } catch (err) {
-        res.status(404).json({ error: "Error ending connection" }, err);
+        res.status(404).json({ error: "Error ending connection", details: err.message });
     }
 }
 
@@ -100,7 +100,7 @@ const requestConnection = async (req, res) => {
         });
         res.status(201).json(request);
     } catch (err) {
-        res.status(404).json({ error: "Error sending request!" }, err);
+        res.status(404).json({ error: "Error sending request!", details: err.message });
     }
 }
 
@@ -113,7 +113,7 @@ const updateRequestStatus = async (req, res) => {
         });
         res.status(201).json(updateRequest);
     } catch (err) {
-        res.status(404).json({ error: "Error responding to request!" }, err);
+        res.status(404).json({ error: "Error responding to request!", details: err.message });
     }
 }
 

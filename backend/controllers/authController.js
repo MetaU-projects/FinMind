@@ -9,9 +9,7 @@ const signup = async (req, res) => {
         school,
         major,
         classification,
-        description,
-        bio,
-        availability } = req.body;
+        bio } = req.body;
 
     try {
         if (!email || !password) return res.status(400).json({ error: "Email and password are required" });
@@ -23,7 +21,7 @@ const signup = async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        const newUser = await prisma.user.create({
+        await prisma.user.create({
             data: {
                 name,
                 email,
@@ -32,16 +30,14 @@ const signup = async (req, res) => {
                 school,
                 major,
                 classification,
-                description,
                 bio,
-                availability
             }
         });
 
         res.status(201).json({ message: "Successfully Signed Up!" });
 
     } catch (err) {
-        res.status(500).json({ error: "Something went wrong signing up" }, err);
+        res.status(500).json({ error: "Something went wrong signing up", details: err.message });
     }
 }
 
@@ -61,7 +57,7 @@ const login = async (req, res) => {
 
         res.json({ message: "Login successful", user: { id: req.session.userId, email: user.email, role: user.role } });
     } catch (err) {
-        res.status(500).json({ error: "Something went wrong logging in" }, err);
+        res.status(500).json({ error: "Something went wrong logging in", details: err.message });
     }
 }
 
@@ -76,9 +72,8 @@ const isLoggedIn = async (req, res) => {
 
         res.json({ id: req.session.userId, email: user.email, role: user.role });
     } catch (err) {
-        res.status(500).json({ error: "Try logging in again!" }, err);
+        res.status(500).json({ error: "Try logging in again!", details: err.message });
     }
-
 }
 
 const logout = (req, res) => {
@@ -88,7 +83,7 @@ const logout = (req, res) => {
             res.json({ message: "See you next time!" })
         });
     } catch (err) {
-        res.status(500).json({ error: "Failed to log out" }, err)
+        res.status(500).json({ error: "Failed to log out", details: err.message })
     }
 }
 
