@@ -1,47 +1,74 @@
 @import 'tailwindcss';
 
 .card {
-    @apply bg-gray-100 rounded-lg p-3 mb-4 flex justify-between items-center shadow-md gap-10;
+    @apply h-65 flex flex-col justify-between bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm hover:shadow-lg transition border border-gray-200;
+}
+
+.card-content {
+    @apply flex items-center gap-4;
+}
+
+.profile-img {
+    @apply w-12 h-12 rounded-full object-cover cursor-pointer;
+}
+
+.card-name h3 {
+    @apply text-base font-semibold dark:text-white;
+}
+
+.card-name p {
+    @apply text-sm text-gray-500 dark:text-gray-300;
+}
+
+.card-bio {
+    @apply mt-2 text-sm text-gray-700 dark:text-gray-200 line-clamp-2;
+}
+
+.card-skills {
+    @apply mt-2 flex flex-wrap gap-2;
+}
+
+.card-skills span {
+    @apply text-xs bg-gray-200 dark:bg-[#5b6ea0] text-black dark:text-white px-1.5 py-0 rounded-full;
+}
+
+.btn {
+    @apply flex items-center justify-center mt-3 gap-1 px-4 py-1 border border-[#3D52A0] hover:bg-[#3D52A0] text-black hover:text-white text-sm rounded-full cursor-pointer dark:text-white;
+}
+
+.connect-icon {
+    @apply text-sm
 }
 
 .card-left {
-    @apply flex items-start gap-4 items-center;
-}
-
-.card-icon {
     @apply flex flex-col items-center gap-2;
 }
 
-/* .card-icon h4{
-    @apply text-sm text-gray-600 mb-1;
-} */
+.avatar {
+    @apply w-12 h-12 cursor-pointer rounded-full bg-[#3D52A0] flex items-center justify-center text-white text-2xl;
+}
 
 .tooltip {
     position: relative;
     display: inline-block;
+    cursor: pointer;
 }
 
 .tooltiptext {
+    position: absolute;
     visibility: hidden;
     width: 200px;
     font-size: 0.875rem;
-    background-color: rgb(201, 210, 218);
+    background-color:  white;
     left: 50%;
     bottom: 100%;
     margin-left: -60px;
-    margin-bottom: 5px;
-    color: black;
-    text-align: center;
-    padding: 8px 12px;
-    border-radius: 8px;
-    position: absolute;
     z-index: 1;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     transition: opacity 0.2s ease-in-out;
-
 }
 
-.tooltip:hover .tooltiptext{
+.tooltip:hover .tooltiptext {
     visibility: visible;
 }
 
@@ -53,55 +80,5 @@
     margin-left: -5px;
     border-width: 6px;
     border-style: solid;
-    border-color: rgb(201, 210, 218) transparent transparent transparent;
+    border-color: white transparent transparent transparent;
 }
-
-.avatar {
-    @apply w-12 h-12 cursor-pointer rounded-full bg-[#3D52A0] flex items-center justify-center text-white text-2xl;
-}
-
-.mentor-detail {
-    @apply flex flex-col gap-0.5;
-}
-
-.mentor-bio{
-    margin-bottom: 0.05rem;
-    line-height: 1.4;
-}
-
-.top {
-    @apply flex flex-row gap-7 items-start;
-}
-
-.name-class h3 {
-    @apply text-lg font-bold text-gray-800;
-}
-
-.name-class p {
-    @apply text-sm text-gray-600 mb-1;
-}
-
-.skill-tags {
-    @apply flex gap-2 mt-1;
-}
-
-.skill-tag {
-    @apply bg-gray-300 text-gray-700 text-xs px-2 py-1 rounded-full items-start;
-}
-
-.card-left p {
-    @apply text-gray-700 mt-2;
-}
-
-.card-right {
-    @apply flex flex-col items-end gap-10;
-}
-
-.card-right p {
-    @apply text-sm text-gray-600;
-}
-
-.connect-btn {
-    @apply cursor-pointer bg-[#8697C4] text-black px-4 py-1 rounded-md hover:bg-[#3D52A0] hover:text-white items-center;
-}
-

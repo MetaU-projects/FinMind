@@ -1,34 +1,34 @@
-import { RxAvatar } from "react-icons/rx";
+import { FaUserPlus } from "react-icons/fa";
 import './MentorCard.css';
 
 export default function MentorCard({ mentor, onConnect }) {
     return (
         <div className='card'>
-            <div className='card-left'>
-                <div className="card-icon">
-                    <div className="tooltip">
-                        <RxAvatar className="avatar" />
-                        <span className="tooltiptext"><strong>Available:</strong> {mentor.availability}</span>
-                    </div>
-
+            <div className='card-content'>
+                <div className="tooltip">
+                    <img
+                        src={`https://randomuser.me/api/portraits/women/${mentor.id + 20}.jpg`}
+                        alt={mentor.name + "profile"}
+                        className="profile-img"
+                    />
+                    <span className="tooltiptext"><strong>Available</strong>
+                        {mentor.preference.map(avail => (
+                            <li key={avail.id}>{avail.day}: {avail.startTime} - {avail.endTime}</li>
+                        ))}
+                    </span> 
                 </div>
-                <div className="mentor-detail">
-                    <div className="top">
-                        <div className="name-class">
-                            <h3>{mentor.name}</h3>
-                            <p>{mentor.classification}</p>
-                        </div>
-                        <div className="skill-tags">
-                        </div>
-                    </div>
-                    <p className="mentor-bio">{mentor.bio}</p>
+                <div className="card-name">
+                    <h3>{mentor.name}</h3>
+                    <p>{mentor.classification}</p>
                 </div>
             </div>
-
-            <div className="card-right">
-                <p>{mentor.major}</p>
-                <button className="connect-btn" onClick={onConnect}>Connect</button>
+            <p className="card-bio">{mentor.bio}</p>
+            <div className="card-skills">
+                {mentor.interest.map(skill => (
+                    <span key={skill}>{skill.interest.name}</span>
+                ))}
             </div>
-        </div>
+            <button className="btn" onClick={onConnect}><FaUserPlus className="connect-icon" /> Connect</button>
+        </div >
     )
 }
