@@ -1,9 +1,30 @@
 @import 'tailwindcss';
 
+.home-page {
+    @apply bg-gray-100 dark:bg-gray-900;
+}
+
+.home-header {
+    @apply sticky top-0 z-10 bg-gray-50;
+}
+
 .home-content {
-    @apply flex mt-8 m-10 gap-20;
+    @apply min-h-screen flex pt-5 ml-20 mr-20;
+}
+
+.home-left {
+    @apply pt-2 p-2 m-10 fixed flex flex-col gap-10 bg-white dark:bg-gray-700 rounded-xl;
 }
 
 .home-right {
-    @apply flex flex-col gap-10;
+    @apply flex-1 ml-85 overflow-y-auto;
+}
+
+.mentors-container {
+    @apply p-2 bg-white dark:bg-gray-700 rounded max-w-6xl grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 m-10 rounded-xl;
+
+}
+
+.mentor-request {
+    @apply p-10 text-3xl text-white;
 }
