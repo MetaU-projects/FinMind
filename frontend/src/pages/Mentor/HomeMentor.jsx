@@ -1,3 +1,4 @@
+import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
 import RequestList from "../../components/MenteeRequestsList/RequestList";
 
@@ -13,6 +14,7 @@ export default function HomeMentor() {
                 
                 <RequestList />
             </div>
+            <Footer />
         </div>
     )
 }
