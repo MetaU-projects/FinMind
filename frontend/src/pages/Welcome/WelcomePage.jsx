@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom"
 import Header from "../../components/Header/Header";
 import './WelcomePage.css'
+import Footer from "../../components/Footer/Footer";
 
 export default function WelcomePage() {
     const navigate = useNavigate();
@@ -43,6 +44,7 @@ export default function WelcomePage() {
                     </div>
                 </div>
             </section>
+            <Footer />
         </div>
     );
 }
