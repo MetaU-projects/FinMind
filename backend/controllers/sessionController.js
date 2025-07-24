@@ -9,9 +9,8 @@ const suggestSession = async (req, res) => {
     const mentorId = parseInt(req.params.mentorId);
 
     if (Number.isNaN(mentorId)) {
-        return res.status(400).json({ error: "MentorId is not a number" });
-    }
-
+        return res.status(400).json({ error: "Mentor Id a number" });
+    }    
     try {
         const user = await prisma.mentorship.findMany({
             where: { menteeId },
@@ -72,8 +71,7 @@ const suggestSession = async (req, res) => {
         res.status(404).json({ message: "No available time found" });
 
     } catch (err) {
-        console.log(err)
-        res.status(500).json({ error: "Something went wrong!" }, err);
+        res.status(500).json({ error: "Something went wrong!", details: err.message });
     }
 }
 
