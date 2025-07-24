@@ -1,7 +1,7 @@
 const { oneHourIntervals, timeOverlaps } = require('./schedulingUtils');
 const { getSessions, getAvailability, getFreeSlots } = require('../utils/scheduleHelpers');
 const prisma = require('../config/prismaClient');
-const { TOP_NUMBER, MS_PER_SECOND } = require('../config/constants');
+const { MS_PER_SECOND } = require('../config/constants');
 
 const mentorCache = new Map();
 
@@ -37,19 +37,6 @@ const loadMentorData = async (mentorId) => {
 }
 
 /**
- * Function to get the blocked session from a list of sessions and conflict times that needs to be resolved
- * 
- * @param {Array<[Number, Number]>} sessions - list of existing sessions
- * @param {Number} start - Start of conflicting time
- * @param {Number} end - - End of conflicting time
- * @returns {Array<[Object]>}
- */
-
-const filterOverlaps = (sessions, start, end) => {
-    return sessions.filter(s => s.startTime < end && s.endTime > start);
-}
-
-/**
  * Function that finds another to to shift a time where conflict exists
  * 
  * @param {Object} user - Logged in user details that includling sessions
@@ -59,7 +46,7 @@ const filterOverlaps = (sessions, start, end) => {
  * 
  */ 
 const now = Math.floor(Date.now()/MS_PER_SECOND);
-const resolveConflict = async (user, userSlots) => {
+const resolveConflict = async (user, userSlots, newMentorSlots) => {
     const allSessions = user.flatMap(connection =>
         connection.mentorshipSession.map(session => ({
             ...session,
@@ -71,8 +58,9 @@ const resolveConflict = async (user, userSlots) => {
         const mentorData = await loadMentorData(session.mentorId);
 
         const free = getFreeSlots(mentorData.availability, mentorData.sessions)
-        const rescheduleOptions = oneHourIntervals(timeOverlaps(userSlots, free));
-        if(!rescheduleOptions){
+        const mutual = getFreeSlots((timeOverlaps(userSlots, free)), newMentorSlots)
+        const rescheduleOptions = oneHourIntervals(mutual);
+        if(!rescheduleOptions.length){
             continue;
         }
         if (rescheduleOptions) {
