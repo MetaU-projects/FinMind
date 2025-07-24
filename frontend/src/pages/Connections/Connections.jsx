@@ -1,9 +1,9 @@
-import { BsPeople } from "react-icons/bs"; 
+import { BsPeople } from "react-icons/bs";
 import { MdPeopleOutline } from "react-icons/md";
 import { GoTasklist } from "react-icons/go";
 import { AiOutlineCalendar } from "react-icons/ai";
-import { getAllConnections, totalUpcomingSession } from "../../services/mentorshipService";
-import { useEffect, useState } from "react";
+import { getAllConnections, getMeetingHistory, getUpcomingMeeting, suggestedSession } from "../../services/mentorshipService";
+import { useCallback, useEffect, useState, useRef } from "react";
 import { useUser } from "../../contexts/UserContext";
 import ConnectionList from "../../components/ConnectionsList/ConnectionList";
 import Header from "../../components/Header/Header";
@@ -13,11 +13,15 @@ import Tasks from "../../components/ConnectionsComp/Tasks";
 import "./Connections.css"
 
 export default function Connections() {
+    const { user } = useUser();
     const [connections, setConnections] = useState([]);
     const tabs = ['Overview', 'Meetings', 'Tasks', 'Schedule'];
     const [activeTab, setActiveTab] = useState('Overview');
-    const [cardClick, setCardClick] = useState(false);
-    const { user } = useUser();
+    const [selectedConnection, setSelectedConnection] = useState(null);
+    const [upComing, setUpcoming] = useState([]);
+    const [meetingHistory, setMeetingHistory] = useState([]);
+    const [timeSuggestions, setTimeSuggestions] = useState([]);
+    const role = user.role === "MENTEE" ? "mentor" : "mentee";
     const [totalUpcoming, setTotalUpcoming] = useState(0);
 
     useEffect(() => {
@@ -27,11 +31,25 @@ export default function Connections() {
             setConnections(results);
         }
         fetchConnections();
-    }, [])
+    }, [user.role])
 
-    const handleCardClick = () => {
-        setCardClick(true);
-    }
+    const lastSelectedRef = useRef(null);
+    const handleSelect = useCallback(async (connection) => {
+        lastSelectedRef.current = connection.id;
+        setSelectedConnection(connection);
+        console.log(connection)
+
+        const [historyData, upComingData, sessionsData] = await Promise.all([
+            getMeetingHistory(connection.id),
+            getUpcomingMeeting(connection.id),
+            suggestedSession(connection[role].id)
+        ]);
+        if (lastSelectedRef.current === connection.id) {
+            setUpcoming(upComingData);
+            setMeetingHistory(historyData);
+            setTimeSuggestions(sessionsData);
+        }
+    }, []);
 
     return (
         <div className="page">
@@ -59,7 +77,7 @@ export default function Connections() {
                             <h1>Active Tasks</h1>
                             <GoTasklist className="info-icon" />
                         </div>
-                        <h2>Task Counts</h2>
+                        <h2>#Count Number</h2>
                         <p>Across all connections</p>
                     </div>
 
@@ -71,10 +89,10 @@ export default function Connections() {
                             connections={connections}
                             setConnections={setConnections}
                             role={user.role}
-                            onConnection={handleCardClick}
+                            onSelect={handleSelect}
                         />
                     </div>
-                    {cardClick ? 
+                    {selectedConnection ?
                         <div className="connections-right">
                             <div className="connection-nav">
                                 {tabs.map((tab) => (
@@ -88,9 +106,9 @@ export default function Connections() {
                                 ))}
                             </div>
                             <div className="right-content">
-                                {activeTab === 'Meetings' && <Meetings />}
-                                {activeTab === 'Tasks' && <Tasks />}
-                                {activeTab === 'Schedule' && <Schedule />}
+                                {activeTab === 'Meetings' && (<Meetings upComing={upComing} meetingHistory={meetingHistory} connection={selectedConnection} />)}
+                                {activeTab === 'Tasks' && (<Tasks />)}
+                                {activeTab === 'Schedule' && (<Schedule connection={selectedConnection} timeSuggestions={timeSuggestions} upDate={handleSelect} />)}
                             </div>
                         </div> :
                         <div className="connections-right-empty">
