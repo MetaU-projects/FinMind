@@ -5,7 +5,6 @@ import './MentorCard.css';
 export default function MentorCard({ mentor, onConnect }) {
     return (
         <div className='card'>
-            <div className='card-content'>
             <div className="card-content">
                 <div className="tooltip">
                     <img
@@ -33,6 +32,6 @@ export default function MentorCard({ mentor, onConnect }) {
                 ))}
             </div>
             <button className="btn" onClick={onConnect}><FaUserPlus className="connect-icon" /> Connect</button>
-        </div >
+        </div>
     )
 }
