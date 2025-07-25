@@ -10,7 +10,7 @@ const { Role } = require('./statusEnums')
  * @returns {boolean}
  */
 
-const overlaps = (slots, [start, end]) => {
+const containsIntervals = (slots, [start, end]) => {
     return slots.some(([s, e]) => s <= start && e >= end);
 }
 
@@ -24,27 +24,29 @@ const userCache = new Map();
 
 const loadUserData = async (userId) => {
     if (!userCache.has(userId)) {
-        const user = await prisma.mentorship.findMany({
-            where: {
-                OR: [
-                    { mentorId: userId },
-                    { menteeId: userId }
-                ]
-            },
-            select: { mentorshipSession: true }
-        });
-        const availability = await prisma.availability.findMany({
-            where: { userId },
-            select: {
-                id: true,
-                day: true,
-                startTime: true,
-                endTime: true
-            }
-        });
+        const [mentorshipInfo, availability] = await Promise.all([
+            prisma.mentorship.findMany({
+                where: {
+                    OR: [
+                        { mentorId: userId },
+                        { menteeId: userId }
+                    ]
+                },
+                select: { mentorshipSession: true }
+            }),
+            prisma.availability.findMany({
+                where: { userId },
+                select: {
+                    id: true,
+                    day: true,
+                    startTime: true,
+                    endTime: true
+                }
+            })
+        ])
 
         userCache.set(userId, {
-            freeSlots: oneHourIntervals(getFreeSlots(getAvailability(availability), getSessions(user)))
+            freeSlots: oneHourIntervals(getFreeSlots(getAvailability(availability), getSessions(mentorshipInfo)))
         });
     }
     return userCache.get(userId);
@@ -63,53 +65,53 @@ const loadUserData = async (userId) => {
 
 const suggestFromFreedTime = async ({ userId, startTime, endTime, otherUserId }) => {
     const freedSlot = [startTime, endTime]
+    try {
+        const user = await prisma.user.findUnique({
+            where: { id: userId },
+            select: { role: true }
+        });
 
-    const user = await prisma.user.findUnique({
-        where: { id: userId },
-        select: { role: true }
-    });
+        if (!user) return [];
 
-    if (!user) return [];
+        const isMentee = user.role === Role.MENTEE;
 
-    const isMentee = user.role === Role.MENTEE;
+        const mentorships = await prisma.mentorship.findMany({
+            where: isMentee ? { menteeId: userId } : { mentorId: userId },
+            include: {
+                mentor: true,
+                mentee: true,
+            },
+        });
 
-    const mentorships = await prisma.mentorship.findMany({
-        where: isMentee ? { menteeId: userId } : { mentorId: userId },
-        include: {
-            mentor: true,
-            mentee: true,
-        },
-    });
-
-    const suggestions = [];
-    let result;
-    for (const mentorship of mentorships) {
-        const partner = isMentee ? mentorship.mentor : mentorship.mentee;
-
-        if (partner.id === otherUserId) continue;
-
+        const suggestions = [];
         const userData = await loadUserData(userId);
-        const partnerData = await loadUserData(partner.id);
+        for (const mentorship of mentorships) {
+            const partner = isMentee ? mentorship.mentor : mentorship.mentee;
 
-        const userFree = userData.freeSlots;
-        const partnerFree = partnerData.freeSlots;
+            if (partner.id === otherUserId) continue;
 
-        const userCanUse = overlaps(userFree, freedSlot);
-        const mentorCanUse = overlaps(partnerFree, freedSlot);
+            const partnerData = await loadUserData(partner.id);
 
-        result = mentorCanUse
+            const userFree = userData.freeSlots;
+            const partnerFree = partnerData.freeSlots;
 
-        if (!userCanUse || !mentorCanUse) continue;
+            const userCanUse = containsIntervals(userFree, freedSlot);
+            const mentorCanUse = containsIntervals(partnerFree, freedSlot);
 
-        suggestions.push({
-            connectionId: mentorship.id,
-            name: partner.name,
-            withUser: partner.id,
-            suggesteTime: freedSlot
-        })
+            if (!userCanUse || !mentorCanUse) continue;
+
+            suggestions.push({
+                connectionId: mentorship.id,
+                name: partner.name,
+                withUser: partner.id,
+                suggestTime: freedSlot
+            })
+        }
+
+        return suggestions;
+    } catch (err) {
+        return "Error getting reschedule options"
     }
-
-    return suggestions;
 }
 
 module.exports = { suggestFromFreedTime }
