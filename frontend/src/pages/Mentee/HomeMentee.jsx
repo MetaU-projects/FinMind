@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import "./HomeMentee.css";
 import ToolBar from "../../components/MenteeHomeComp/ToolBar";
 import Recommended from "../../components/MenteeHomeComp/Recommendations";
+import Footer from "../../components/Footer/Footer";
 
 export default function HomeMentee() {
     const [pendingRequests, setPendingRequests] = useState([]);
@@ -55,6 +56,7 @@ export default function HomeMentee() {
                     />
                 </div>
             </div>
+            <Footer />
         </div>
     )
 }

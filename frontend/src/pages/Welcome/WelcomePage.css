@@ -1,19 +1,19 @@
 @import 'tailwindcss';
 
 .pg-wrapper {
-    @apply min-h-screen flex flex-col font-sans bg-white;
+    @apply min-h-screen flex flex-col font-sans bg-white dark:bg-gray-900;
 }
 
 .top-section {
-    @apply flex flex-col items-center text-center py-24 px-4 bg-gray-50;
+    @apply flex flex-col items-center text-center py-24 px-4 bg-gray-50 dark:bg-gray-800;
 }
 
 .top-section h2 {
-    @apply text-5xl font-bold mb-6 leading-tight max-w-3xl;
+    @apply text-5xl font-bold mb-6 leading-tight max-w-3xl dark:text-white;
 }
 
 .top-section p {
-    @apply max-w-xl text-gray-600 mb-8 text-lg;
+    @apply max-w-xl text-gray-600 mb-8 text-lg dark:text-gray-300;
 }
 
 .role-btn {
@@ -26,7 +26,7 @@
 }
 
 .mentee {
-    @apply border border-gray-300 text-gray-700 px-8 py-3 rounded-md cursor-pointer hover:bg-[#3D52A0] hover:text-white transition font-medium;
+    @apply border border-gray-300 text-gray-700 px-8 py-3 rounded-md cursor-pointer hover:bg-[#3D52A0] hover:text-white transition font-medium dark:text-white;
 }
 
 .about {
@@ -34,7 +34,7 @@
 }
 
 .about h3 {
-    @apply text-3xl font-bold text-center mb-12;
+    @apply text-3xl font-bold text-center mb-12 dark:text-white;
 }
 
 .info-cards {
@@ -42,13 +42,13 @@
 }
 
 .info-card {
-    @apply border border-gray-200 rounded-lg p-8 text-center shadow hover:shadow-lg transition bg-white;
+    @apply border border-gray-200 rounded-lg p-8 text-center shadow hover:shadow-lg dark:hover:shadow-white transition bg-white dark:bg-gray-800;
 }
 
 .info-card h4 {
-    @apply text-xl font-bold text-center mb-3;
+    @apply text-xl font-bold text-center mb-3 dark:text-gray-100;
 }
 
 .info-card p {
-    @apply max-w-xl text-gray-600 text-sm;
+    @apply max-w-xl text-gray-600 text-sm dark:text-gray-300;
 }
