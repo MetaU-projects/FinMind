@@ -53,7 +53,7 @@ const subtractInterval = (preference, sessions) => {
     let result = [];
     let [start, end] = preference;
     let currentStart = start
-    for (const [sessionStart, sessionEnd] of sessions) {
+    for (const [sessionStart, sessionEnd] of sessions || []) {
         if (sessionStart > currentStart) {
             result.push([currentStart, Math.min(sessionStart, end)]);
         }
@@ -98,6 +98,31 @@ const timeConversion = (day, time) => {
 
     return unixTime;
 }
+
+/*
+    const today = new Date();
+    const todayDay = today.getDay();
+    const now = new Date();
+
+    const targetDay = DayMap[day];
+    const [hour, minute] = time.split(':').map(Number);
+
+    let daysAhead = (targetDay - todayDay + DAYS_IN_WEEK) % DAYS_IN_WEEK;
+    const slotTime = new Date(today);
+    slotTime.setDate(today.getDate() + daysAhead);
+    slotTime.setHours(hour, minute, 0, 0);
+    if(daysAhead === 0 && slotTime > now) {
+        slotTime.setDate(slotTime.getDate() + DAYS_IN_WEEK);
+    }
+
+    const nextDate = new Date(today);
+    nextDate.setDate(today.getDate() + daysAhead);
+    nextDate.setHours(hour, minute, 0, 0);
+
+    const unixTime = Math.floor(nextDate.getTime() / MS_PER_SECOND)
+
+    return unixTime;
+*/
 
 /**
  * Function to convert a range of time interval into one hour slots.
