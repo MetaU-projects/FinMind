@@ -45,7 +45,7 @@ const timeOverlaps = (menteeSlots, mentorSlots) => {
  * 
  * @param {[string, string]} avail - The availability interval
  * @param {Array<[Number, Number]>} sessions - The existing session to subtract
- * @returns {Array<[Number, Number]>} - Free tğmes
+ * @returns {Array<[Number, Number]>} - Free times
  * 
  */
 
@@ -53,11 +53,11 @@ const subtractInterval = (preference, sessions) => {
     let result = [];
     let [start, end] = preference;
     let currentStart = start
-    for (const [sessStart, sessEnd] of sessions) {
-        if (sessStart > currentStart) {
-            result.push([currentStart, Math.min(sessStart, end)]);
+    for (const [sessionStart, sessionEnd] of sessions) {
+        if (sessionStart > currentStart) {
+            result.push([currentStart, Math.min(sessionStart, end)]);
         }
-        currentStart = Math.max(currentStart, sessEnd);
+        currentStart = Math.max(currentStart, sessionEnd);
         if (currentStart >= end) break;
     }
     if (start < end) {
