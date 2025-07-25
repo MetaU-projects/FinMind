@@ -4,31 +4,31 @@ import './MentorCard.css';
 export default function MentorCard({ mentor, onConnect }) {
     return (
         <div className='card'>
-            <div className='card-left'>
-                <div className="card-icon">
+            <div className='card-content'>
+                <div className="card-content">
                     <div className="tooltip">
-                        <RxAvatar className="avatar" />
-                        <span className="tooltiptext"><strong>Available:</strong> {mentor.availability}</span>
+                        <img
+                            src={`https://randomuser.me/api/portraits/women/${mentor.id + 20}.jpg`}
+                            alt={mentor.name + "profile"}
+                            className="profile-img"
+                        />
+                        <span className="tooltiptext p-3"><strong>Attends: </strong>
+                            {mentor.school}
+                        </span>
                     </div>
-
                 </div>
-                <div className="mentor-detail">
-                    <div className="top">
-                        <div className="name-class">
-                            <h3>{mentor.name}</h3>
-                            <p>{mentor.classification}</p>
-                        </div>
-                        <div className="skill-tags">
-                        </div>
-                    </div>
-                    <p className="mentor-bio">{mentor.bio}</p>
+                <div className="card-name">
+                    <h3>{mentor.name}</h3>
+                    <p>{mentor.classification} {mentor.major}</p>
                 </div>
             </div>
-
-            <div className="card-right">
-                <p>{mentor.major}</p>
-                <button className="connect-btn" onClick={onConnect}>Connect</button>
+            <p className="card-bio">{mentor.bio}</p>
+            <div className="card-skills">
+                {mentor.interest.map(skill => (
+                    <span key={skill.id}>{skill.interest.name}</span>
+                ))}
             </div>
+            <button className="btn" onClick={onConnect}><FaUserPlus className="connect-icon" /> Connect</button>
         </div>
     )
 }

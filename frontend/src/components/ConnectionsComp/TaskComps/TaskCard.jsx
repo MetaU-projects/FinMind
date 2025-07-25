@@ -5,7 +5,7 @@ import { taskStatus } from "../../../utils/status";
 import { updateTask } from "../../../services/taskService";
 import ErrorModal from "../../ErrorModal/ErrorModal";
 
-export default function TaskCard({ task }) {
+export default function TaskCard({ task, onStatusChange }) {
     const [action, setAction] = useState(false);
     const [error, setError] = useState("")
 
@@ -23,11 +23,7 @@ export default function TaskCard({ task }) {
                 break;
         }
         setAction(false);
-        try {
-            const data = await updateTask(task.id, taskAction);
-        } catch(err) {
-            setError(err.message)
-        }
+        onStatusChange(task.id, value)
     }
 
     

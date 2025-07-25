@@ -7,7 +7,7 @@ import ErrorModal from "../ErrorModal/ErrorModal";
 import { formatUnixTimes } from "../../utils/formatUnixTime";
 import { sessionCancel } from "../../utils/status";
 
-export default function Schedule({ connection, timeSuggestions, update }) {
+export default function Schedule({ connection, timeSuggestions, update, onCountUpdate }) {
     const [date, setDate] = useState("");
     const [startTime, setStartTime] = useState("");
     const [endTime, setEndTime] = useState("");
@@ -43,6 +43,7 @@ export default function Schedule({ connection, timeSuggestions, update }) {
             });
             handleClear();
             update(connection);
+            onCountUpdate?.();
         } catch (err) {
             setError(err.message);
         }

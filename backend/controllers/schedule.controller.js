@@ -8,13 +8,13 @@ dayjs.extend(isoWeek);
 const getTotalUpcoming = async (req, res) => {
     const userId = req.session.userId;
 
-    const startOfWeek = dayjs().startOf('isoWeek').unix();
+    const now = Math.floor(Date.now() /1000);
     const endOfWeek = dayjs().endOf('isoWeek').unix();
     try {
         const totalUpcoming = await prisma.session.count({
             where: {
                 startTime: {
-                    gte: startOfWeek,
+                    gte: now,
                     lte: endOfWeek,
                 },
                 mentorship: {
