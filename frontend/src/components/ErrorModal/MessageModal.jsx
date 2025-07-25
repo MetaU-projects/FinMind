@@ -1,3 +1,4 @@
+import { formatUnixTimes } from "../../utils/formatUnixTime";
 import "./ErrorModal.css"
 
 export default function MessageModal({ message, setMessage }) {
@@ -14,11 +15,10 @@ export default function MessageModal({ message, setMessage }) {
                     <button onClick={handleClose} className="err-close">Close</button>
                 </div>
             ) : (
-                <div className="error-container">
+                <div className="err-container">
                     <h2 className="err-title">Your are free! Schedule with</h2>
-                    <p className="err-message">{message.suggestions[0].name} 
-                        from 
-                        {message.suggestions[0].suggestTime[0]} to {message.suggestions[0].suggestTime[1]}</p>
+                    <p className="err-message">{message.suggestions[0].name} </p>
+                    <p className="err-message">{formatUnixTimes(message.suggestions[0].suggestTime[0], message.suggestions[0].suggestTime[1])}</p>
                     <button onClick={handleClose} className="err-close">Close</button>
                 </div>
             )

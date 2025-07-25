@@ -26,7 +26,7 @@ export default function MentorCard({ mentor, onConnect }) {
             <p className="card-bio">{mentor.bio}</p>
             <div className="card-skills">
                 {mentor.interest.map(skill => (
-                    <span key={skill.id}>{skill.interest.name}</span>
+                    <span key={mentor}>{skill.interest.name}</span>
                 ))}
             </div>
             <button className="btn" onClick={onConnect}><FaUserPlus className="connect-icon" /> Connect</button>
