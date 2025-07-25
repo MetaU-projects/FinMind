@@ -27,11 +27,19 @@ export default function Connections() {
     const [totalUpcoming, setTotalUpcoming] = useState(0);
     const [activeTasks, setActiveTasks] = useState(0);
 
+    const refreshCounts = useCallback(async () => {
+        const [total, active] = await Promise.all([
+            totalUpcomingSession(),
+            getActiveTasks()
+        ]);
+        setTotalUpcoming(total);
+        setActiveTasks(active);
+    }, []);
+
     useEffect(() => {
         const fetchConnections = async () => {
             const results = await getAllConnections(user.role);
-            setTotalUpcoming(await totalUpcomingSession());
-            setActiveTasks(await getActiveTasks());
+            await refreshCounts();
             setConnections(results);
         }
         fetchConnections();
@@ -41,7 +49,6 @@ export default function Connections() {
     const handleSelect = useCallback(async (connection) => {
         lastSelectedRef.current = connection.id;
         setSelectedConnection(connection);
-        console.log(connection)
 
         const [historyData, upComingData, sessionsData] = await Promise.all([
             getMeetingHistory(connection.id),
@@ -53,7 +60,7 @@ export default function Connections() {
             setMeetingHistory(historyData);
             setTimeSuggestions(sessionsData);
         }
-    }, []);
+    });
 
     return (
         <div className="page">
@@ -110,9 +117,9 @@ export default function Connections() {
                                 ))}
                             </div>
                             <div className="right-content">
-                                {activeTab === 'Meetings' && (<Meetings upComing={upComing} meetingHistory={meetingHistory} connection={selectedConnection} />)}
-                                {activeTab === 'Tasks' && (<Tasks connection={selectedConnection} />)}
-                                {activeTab === 'Schedule' && (<Schedule connection={selectedConnection} update={handleSelect} timeSuggestions={timeSuggestions} />)}
+                                {activeTab === 'Meetings' && (<Meetings upComing={upComing} setUpcoming={setUpcoming} meetingHistory={meetingHistory} onCountUpdate={refreshCounts} connection={selectedConnection} />)}
+                                {activeTab === 'Tasks' && (<Tasks connection={selectedConnection} onCountUpdate={refreshCounts} />)}
+                                {activeTab === 'Schedule' && (<Schedule connection={selectedConnection} onCountUpdate={refreshCounts} update={handleSelect} timeSuggestions={timeSuggestions} />)}
                             </div>
                         </div> :
                         <div className="connections-right-empty">

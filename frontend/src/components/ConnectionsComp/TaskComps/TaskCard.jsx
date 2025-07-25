@@ -5,17 +5,13 @@ import { taskStatus } from "../../../utils/status";
 import { updateTask } from "../../../services/taskService";
 import ErrorModal from "../../ErrorModal/ErrorModal";
 
-export default function TaskCard({ task }) {
+export default function TaskCard({ task, onStatusChange }) {
     const [action, setAction] = useState(false);
     const [error, setError] = useState("")
 
     const handleTaskAction = async (value) => {
         setAction(false);
-        try {
-            const data = await updateTask(task.id, value);
-        } catch(err) {
-            setError(err.message)
-        }
+        onStatusChange(task.id, value)
     }
 
     return (

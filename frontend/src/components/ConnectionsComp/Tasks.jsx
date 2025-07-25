@@ -2,11 +2,11 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { useEffect, useState } from 'react';
 import NewTaskModal from "./TaskComps/NewTaskModal";
 import TaskColumn from "./TaskComps/TaskColumn";
-import { getTasks } from "../../services/taskService";
+import { getTasks, updateTask } from "../../services/taskService";
 import { taskStatus } from "../../utils/status";
 import ErrorModal from "../ErrorModal/ErrorModal";
 
-export default function Tasks({ connection }) {
+export default function Tasks({ connection, onCountUpdate }) {
     const [addTask, setAddTask] = useState(false);
     const [todo, setTodo] = useState([]);
     const [inProgress, setInProgress] = useState([]);
@@ -27,6 +27,30 @@ export default function Tasks({ connection }) {
         fetchData();
     }, [connection.id]);
 
+    const handleStatusChange = async (taskId, newStatus) => {
+        try {
+            const updatedTask = await updateTask(taskId, newStatus);
+            setTodo(prev => prev.filter(task => task.id !== taskId));
+            setInProgress(prev => prev.filter(task => task.id !== taskId));
+            setComplete(prev => prev.filter(task => task.id !== taskId));
+
+            switch(newStatus){
+                case taskStatus.TODO:
+                    setTodo(prev => [updatedTask, ...prev]);
+                    break;
+                case taskStatus.INPROGRESS:
+                    setInProgress(prev => [updatedTask, ...prev]);
+                    break;
+                case taskStatus.COMPLETE:
+                    setComplete(prev => [updatedTask, ...prev]);
+                    break;
+            }
+            onCountUpdate?.();
+        } catch (err) {
+            setError(err.message)
+        }
+    }
+
     return (
         <div>
             {error && <ErrorModal error={error} setError={setError} />}
@@ -40,14 +64,15 @@ export default function Tasks({ connection }) {
             </div>
 
             <div className="task-cards">
-                <TaskColumn value="ToDo" taskList={todo} />
-                <TaskColumn value="In Progress" taskList={inProgress} />
-                <TaskColumn value="Completed" taskList={complete} />
+                <TaskColumn value="ToDo" taskList={todo} handleStatusChange={handleStatusChange} />
+                <TaskColumn value="In Progress" taskList={inProgress} handleStatusChange={handleStatusChange} />
+                <TaskColumn value="Completed" taskList={complete} handleStatusChange={handleStatusChange} />
             </div>
             {addTask &&
                 <NewTaskModal
                     connection={connection}
                     setAddTask={setAddTask}
+                    onCountUpdate={onCountUpdate}
                 />
             }
         </div>

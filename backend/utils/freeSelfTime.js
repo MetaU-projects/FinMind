@@ -89,7 +89,6 @@ const suggestFromFreedTime = async ({ userId, startTime, endTime, otherUserId })
             const partner = isMentee ? mentorship.mentor : mentorship.mentee;
 
             if (partner.id === otherUserId) continue;
-
             const partnerData = await loadUserData(partner.id);
 
             const userFree = userData.freeSlots;
@@ -97,9 +96,6 @@ const suggestFromFreedTime = async ({ userId, startTime, endTime, otherUserId })
 
             const userCanUse = containsIntervals(userFree, freedSlot);
             const mentorCanUse = containsIntervals(partnerFree, freedSlot);
-
-            if (!userCanUse || !mentorCanUse) continue;
-
             suggestions.push({
                 connectionId: mentorship.id,
                 name: partner.name,
