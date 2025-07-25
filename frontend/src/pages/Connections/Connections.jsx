@@ -40,7 +40,6 @@ export default function Connections() {
     const handleSelect = useCallback(async (connection) => {
         lastSelectedRef.current = connection.id;
         setSelectedConnection(connection);
-        console.log(connection)
 
         const [historyData, upComingData, sessionsData] = await Promise.all([
             getMeetingHistory(connection.id),
