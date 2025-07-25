@@ -1,7 +1,8 @@
 const prisma = require('../config/prismaClient');
 const { Role } = require('../utils/statusEnums');
 const bfsAlgorithm = require('../utils/recommendUtils');
-const { TOP_NUMBER, SCORE_BASE, SCORE_MORE } = require('../config/constants');
+const { TOP_NUMBER, WEIGHTS } = require('../config/constants');
+const recommendFromBios = require('../utils/generateRecommendations')
 
 const mentorRecomendations = async (req, res) => {
     const menteeId = req.session.userId;
@@ -13,7 +14,8 @@ const mentorRecomendations = async (req, res) => {
                 id: true,
                 major: true,
                 school: true,
-                interest: true
+                interest: true,
+                bio: true
             }
         });
 
@@ -29,7 +31,8 @@ const mentorRecomendations = async (req, res) => {
                 role: true,
                 school: true,
                 major: true,
-                interest: true
+                interest: true,
+                bio: true
             }
         });
 
@@ -80,19 +83,29 @@ const mentorRecomendations = async (req, res) => {
         }
 
         const otherRecom = bfsAlgorithm(mentees, mentorsList, menteeId);
+        const bioScores = recommendFromBios(mentee.bio, mentors);
+        const bioScoreMap = {};
+        bioScores.forEach(({ id, score }) => {
+            bioScoreMap[id] = score
+        });
 
         const scoreMentors = mentors.map(mentor => {
             let score = 0;
-            if (mentor.interest == 0) score -= SCORE_BASE;
-            mentor.interest.map(d => {
+            let interestScore = 0;
+            mentor.interest.forEach(d => {
                 if (menteeIntIds.has(d.interestId)) {
-                    score += SCORE_BASE;
-                    if (popularInterests[d.interestId]) score += popularInterests[d.interestId];
+                    interestScore += WEIGHTS.interest;
                 }
-            })
-            if (otherRecom[mentor.id]) score += otherRecom[mentor.id]
-            if (mentee.school === mentor.school) score += SCORE_BASE;
-            if (mentee.major === mentor.major) score += SCORE_MORE;
+                if (popularInterests[d.interestId]){
+                     interestScore += popularInterests[d.interestId] * WEIGHTS.bonus;
+                }
+            });
+            const schoolScore = mentee.school === mentor.school ? WEIGHTS.school : 0;
+            const majorScore = mentee.major === mentor.major ? WEIGHTS.major : 0;
+            const graphScore = otherRecom[mentor.id] ? otherRecom[mentor.id] * WEIGHTS.graph : 0;
+            const bioScore = bioScoreMap[mentor.id] ? bioScoreMap[mentor.id] * WEIGHTS.bio : 0;
+
+            score = interestScore + schoolScore + majorScore + graphScore + bioScore;
 
             return { ...mentor, score };
         });
