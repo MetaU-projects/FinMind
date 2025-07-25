@@ -32,14 +32,15 @@ const getTotalUpcoming = async (req, res) => {
 }
 
 const createSession = async (req, res) => {
-    const { mentorshipId, startTime, endTime, reason } = req.body;
+    const { mentorshipId, startTime, endTime, reason, cancelable } = req.body;
     try {
         const session = await prisma.session.create({
             data: {
                 mentorshipId,
                 startTime,
                 endTime,
-                reason
+                reason,
+                cancelable
             }
         })
         res.status(201).json(session)
@@ -69,15 +70,14 @@ const removeSession = async (req, res) => {
         }
 
         const { startTime, endTime, cancelable, mentorship } = session;
-        const otherUserId = userId === mentorship.mentorId ? mentorship.menteeId : mentorship.mentorId;
-
-        await prisma.session.delete({ where: { id: sessionId } });
-
         if(!cancelable) {
-            res.status(404).json({ message: "This session cannot be cancelled" })
+            return res.status(200).json({ message: "This session cannot be cancelled", suggestions: [] })
         }
 
-        let suggestions;
+        const otherUserId = userId === mentorship.mentorId ? mentorship.menteeId : mentorship.mentorId;
+        await prisma.session.delete({ where: { id: sessionId } });
+
+        let suggestions = [];
         suggestions = await suggestFromFreedTime({ userId, startTime, endTime, otherUserId });
         res.status(200).json({ message: "Session cancelled successfully!", suggestions });
 
