@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { allInterests } from "../../services/mentorshipService";
 import "./SignupComp.css";
 
@@ -19,7 +19,11 @@ export default function InterestSearch({ onSelect }) {
         fetchInterests();
     }, []);
 
-    const filterInterests = interests.filter(i => i.name.toLowerCase().includes(query.toLowerCase()));
+    const filterInterests = useMemo(() => {
+        return interests.filter(i => 
+            i.name.toLowerCase().includes(query.toLowerCase())
+        )
+    }, [interests, query]);
 
     const handleSelect = (name) => {
         if (!selected.includes(name)) {
