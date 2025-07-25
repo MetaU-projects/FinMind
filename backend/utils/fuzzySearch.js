@@ -3,7 +3,7 @@ const Fuse = require('fuse.js');
 /**
  * 
  * @param {Array} users - Array of user objects from the DB
- * @param {*} query - The search term inputted by the user.
+ * @param {String} query - The search term inputted by the user.
  * @returns 
  */
 
