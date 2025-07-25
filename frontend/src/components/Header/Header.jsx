@@ -17,7 +17,7 @@ export default function Header() {
         <header>
             {user ? (
                 <div className="header-wrapper">
-                    <h1>MentorMe</h1>
+                    <Link to='/'><h1>MentorMe</h1></Link>
                     <nav className="nav-links">
                         <Link className="nav-link" to={user.role === 'MENTOR' ? '/mentor/home' : '/mentee/home'}> Home </Link>
                         <Link className="nav-link" to='/connections'>Connections</Link>
