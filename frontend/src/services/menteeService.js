@@ -46,3 +46,12 @@ export const getRecommendedMentors = async () => {
         throw new Error(err.response?.data?.error);
     }
 }
+
+export const searchMentors = async (query) => {
+    try {
+        const response = await mentee.get(`/mentor/search?query=${query}`);
+        return response.data;
+    } catch(err) {
+        throw new Error(err.response?.data?.error);
+    }
+}

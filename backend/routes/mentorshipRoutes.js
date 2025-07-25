@@ -8,6 +8,7 @@ const suggestSession = require('../controllers/sessionController');
 const { getInterests } = require('../controllers/interestController');
 const { createSession, removeSession, sessionsHistory, upcomingSessions, getTotalUpcoming } = require('../controllers/schedule.controller');
 const { getTasks, createTask, updateTask, activeTasks } = require('../controllers/taskController');
+const { searchMentors } = require('../controllers/searchController');
 
 
 router.get('/mentee/home', isAuthenticated, getMentors);
@@ -22,7 +23,7 @@ router.delete('/request/remove/:requestId', isAuthenticated, removeRequest);
 router.delete('/connection/remove/:connectionId', isAuthenticated, endMentorship);
 router.get('/recommendations', isAuthenticated, mentorRecomendations);
 router.get('/suggest-time/:mentorId', isAuthenticated, suggestSession);
-router.get('/interests', isAuthenticated, getInterests);
+router.get('/interests', getInterests);
 router.post('/session', isAuthenticated, createSession);
 router.delete('/remove/session/:sessionId', isAuthenticated, removeSession);
 router.get('/session/past/:mentorshipId', isAuthenticated, sessionsHistory);
@@ -32,5 +33,6 @@ router.get('/task/:mentorshipId', isAuthenticated, getTasks);
 router.patch('/task/update', isAuthenticated, updateTask);
 router.get('/task/active/total', isAuthenticated, activeTasks);
 router.get('/session/total', isAuthenticated, getTotalUpcoming);
+router.get('/mentor/search', isAuthenticated, searchMentors);
 
 module.exports = router;

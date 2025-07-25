@@ -1,3 +1,4 @@
+import { FaUserPlus } from "react-icons/fa";
 import { RxAvatar } from "react-icons/rx";
 import './MentorCard.css';
 

@@ -16,6 +16,12 @@ export const taskStatus = Object.freeze({
     COMPLETE: "COMPLETE"
 });
 
+export const Role = Object.freeze({
+    MENTEE: "MENTEE",
+    MENTOR: "MENTOR"
+
+});
+
 export const sessionCancel = Object.freeze({
     YES: true,
     NO: false

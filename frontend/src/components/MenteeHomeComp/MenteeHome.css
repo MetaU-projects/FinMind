@@ -1,31 +1,55 @@
 @import 'tailwindcss';
 
 .side-container {
-    @apply max-h-[500px] overflow-y-auto bg-gray-50 p-4 rounded-md shadow-md w-[400px];
+    @apply h-[250px] w-[300px] lg:block bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 p-4 overflow-y-auto shadow-md rounded-xl z-30;
 }
 
 .side-header {
-    @apply flex font-bold items-center justify-between mb-4;
+    @apply text-lg font-semibold text-gray-800 dark:text-white mb-4;
 }
 
 .side-list {
-    @apply space-y-3;
+    @apply space-y-2;
 }
 
 .side-item {
-    @apply flex items-center justify-between bg-gray-200 py-2 rounded;
+    @apply flex items-center justify-between bg-gray-100 dark:bg-gray-700 p-2 rounded;
 }
 
 .side-item div h5 {
-    @apply font-medium ml-2;
+    @apply font-medium ml-2 dark:text-white;
 }
 
 .side-item div p {
-    @apply text-sm text-gray-600 ml-2;
+    @apply text-sm text-gray-600 ml-2 dark:text-gray-300;
+}
+
+.side-empty {
+    @apply dark:text-white;
 }
 
 .cancel-btn {
     @apply mr-2 cursor-pointer text-sm text-red-500 hover:underline;
+}
+
+.banner {
+    @apply flex flex-col items-center justify-between bg-gradient-to-r from-[#3D52A0] to-[#8697C4] to-blue-400;
+}
+
+.tool-quote {
+    @apply flex flex-col justify-center items-center text-white pt-6;
+}
+
+.tool-quote h2 {
+    @apply text-3xl font-bold;
+}
+
+.tool-quote p {
+    @apply text-base mt-1;
+}
+
+.tool-search {
+    @apply rounded-full bg-gray-50 border-gray-300 text-gray-900 text-sm block w-200 mt-10 ps-10 p-2.5 mb-5;
 }
 
 .tool-top {
@@ -44,10 +68,10 @@
     @apply rounded-full bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-red-500 focus:border-red-500 block w-full ps-10 p-2.5;
 }
 
-.tool-bottom {
-    @apply flex flex-wrap gap-2 mb-15 justify-end;
+.search-icon {
+    @apply absolute text-3xl cursor-pointer text-white bg-[#3D52A0] hover:bg-[#ADBBDA] hover:text-black rounded-full px-1.5 py-1.5;
 }
 
-.tool-bottom button {
-    @apply border border-gray-300 shadow-md px-3 py-1 rounded-full cursor-pointer;
+.search-bar {
+    @apply flex items-center relative gap-3;
 }

@@ -9,7 +9,10 @@ const signup = async (req, res) => {
         school,
         major,
         classification,
-        bio } = req.body;
+        bio,
+        interestIds,
+        availability
+    } = req.body;
 
     try {
         if (!email || !password) return res.status(400).json({ error: "Email and password are required" });
@@ -31,6 +34,16 @@ const signup = async (req, res) => {
                 major,
                 classification,
                 bio,
+                interest: {
+                    createMany: {
+                        data: interestIds.map(id => ({ interestId: id })),
+                    }
+                },
+                preference: {
+                    createMany: {
+                        data: availability
+                    }
+                }
             }
         });
 
@@ -55,7 +68,7 @@ const login = async (req, res) => {
 
         req.session.userId = user.id;
 
-        res.json({ message: "Login successful", user: { id: req.session.userId, email: user.email, role: user.role } });
+        res.json({ message: "Login successful", user: { id: req.session.userId, email: user.email, role: user.role, name: user.name } });
     } catch (err) {
         res.status(500).json({ error: "Something went wrong logging in", details: err.message });
     }
@@ -67,10 +80,10 @@ const isLoggedIn = async (req, res) => {
     try {
         const user = await prisma.user.findUnique({
             where: { id: req.session.userId },
-            select: { email: true, role: true }
+            select: { email: true, role: true, name: true }
         });
 
-        res.json({ id: req.session.userId, email: user.email, role: user.role });
+        res.json({ id: req.session.userId, email: user.email, role: user.role, name: user.name });
     } catch (err) {
         res.status(500).json({ error: "Try logging in again!", details: err.message });
     }

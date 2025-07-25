@@ -10,23 +10,9 @@ export default function TaskCard({ task, onStatusChange }) {
     const [error, setError] = useState("")
 
     const handleTaskAction = async (value) => {
-        let taskAction;
-        switch(value){
-            case "todo":
-                taskAction = taskStatus.TODO;
-                break;
-            case "inprogress":
-                taskAction = taskStatus.INPROGRESS;
-                break;
-            case "complete":
-                taskAction = taskStatus.COMPLETE;
-                break;
-        }
         setAction(false);
         onStatusChange(task.id, value)
     }
-
-    
 
     return (
         <div>
@@ -39,9 +25,9 @@ export default function TaskCard({ task, onStatusChange }) {
                 {action &&
                     <select className="action-dropdown" onChange={(e) => handleTaskAction(e.target.value)}>
                         <option value="">Mark as</option>
-                        <option value="todo">todo</option>
-                        <option value="inprogress">in progress</option>
-                        <option value="complete">complete</option>
+                        <option value={taskStatus.TODO}>todo</option>
+                        <option value={taskStatus.INPROGRESS}>in progress</option>
+                        <option value={taskStatus.COMPLETE}>complete</option>
                     </select>
                 }
                 <p className="task-description">{task.description}</p>

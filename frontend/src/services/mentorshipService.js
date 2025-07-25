@@ -29,6 +29,15 @@ export const endMentorship = async (connectionId) => {
     }
 }
 
+export const allInterests = async() => {
+    try {
+        const response = await mentorship.get('/interests');
+        return response.data;
+    } catch (err) {
+        throw new Error(err.response?.data?.error || err.message || 'Unknown error occurred');
+    }
+}
+
 export const createSession = async (sessionInfo) => {
     try {
         const data = {...sessionInfo};

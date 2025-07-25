@@ -12,6 +12,7 @@ import Schedule from "../../components/ConnectionsComp/Schedule";
 import Tasks from "../../components/ConnectionsComp/Tasks";
 import "./Connections.css"
 import { getActiveTasks } from "../../services/taskService";
+import Footer from "../../components/Footer/Footer";
 
 export default function Connections() {
     const { user } = useUser();
@@ -129,6 +130,7 @@ export default function Connections() {
                     }
                 </div>
             </div>
+            <Footer />
         </div>
     )
 }
