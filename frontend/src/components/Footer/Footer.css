@@ -1,0 +1,21 @@
+@import 'tailwindcss';
+
+.footer-container {
+    @apply w-full border-t bg-[#7091E6] dark:bg-blue-900 px-4 py-6 text-sm text-white;
+}
+
+.footer-content {
+    @apply mx-auto flex-col items-center justify-between gap-4 md:flex-row;
+}
+
+.copyright {
+    @apply text-center;
+}
+
+.footer-links {
+    @apply flex flex-wrap gap-4;
+}
+
+.link-text {
+    @apply cursor-pointer hover:underline;
+}

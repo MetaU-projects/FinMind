@@ -6,17 +6,13 @@ export default function MentorList({ setPendingRequests, mentors, setMentors }) 
     const { user } = useUser();
 
     const handleConnect = async (mentorId) => {
-        try {
-            const newRequest = await sendRequest(user.id, mentorId);
-            setPendingRequests(prev => [...prev, newRequest]);
-            setMentors(mentors.filter(mentor => mentor.id !== mentorId));
-        } catch (err) {
-            console.error("Error sending request");
-        }
+        const newRequest = await sendRequest(user.id, mentorId);
+        setPendingRequests(prev => [...prev, newRequest]);
+        setMentors(mentors.filter(mentor => mentor.id !== mentorId));
     }
 
     return (
-        <div className="list-container">
+        <div className="mentors-container">
             {mentors.map(mentor => (
                 <MentorCard
                     key={mentor.id}
