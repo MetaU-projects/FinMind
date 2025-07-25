@@ -77,8 +77,7 @@ const removeSession = async (req, res) => {
         const otherUserId = userId === mentorship.mentorId ? mentorship.menteeId : mentorship.mentorId;
         await prisma.session.delete({ where: { id: sessionId } });
 
-        let suggestions = [];
-        suggestions = await suggestFromFreedTime({ userId, startTime, endTime, otherUserId });
+        const suggestions = await suggestFromFreedTime({ userId, startTime, endTime, otherUserId });
         res.status(200).json({ message: "Session cancelled successfully!", suggestions });
 
     } catch (err) {
