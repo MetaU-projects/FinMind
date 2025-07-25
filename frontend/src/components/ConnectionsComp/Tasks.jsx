@@ -1,15 +1,36 @@
 import { AiOutlinePlus } from "react-icons/ai";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import NewTaskModal from "./TaskComps/NewTaskModal";
 import TaskColumn from "./TaskComps/TaskColumn";
+import { getTasks } from "../../services/taskService";
+import { taskStatus } from "../../utils/status";
+import ErrorModal from "../ErrorModal/ErrorModal";
 
-export default function Tasks() {
+export default function Tasks({ connection }) {
     const [addTask, setAddTask] = useState(false);
-    const handleTask = () => {
-        //TODO handle backend logics
-    }
+    const [todo, setTodo] = useState([]);
+    const [inProgress, setInProgress] = useState([]);
+    const [complete, setComplete] = useState([]);
+    const [error, setError] = useState("");
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getTasks(connection.id);
+                setTodo(data.filter(item => item.status === taskStatus.TODO));
+                setInProgress(data.filter(item => item.status === taskStatus.INPROGRESS));
+                setComplete(data.filter(item => item.status === taskStatus.COMPLETE));
+            } catch (err) {
+                setError(err.message);
+            }
+        }
+        fetchData();
+    }, [connection.id]);
+
     return (
         <div>
+            {error && <ErrorModal error={error} setError={setError} />}
+
             <div className="task-top">
                 <div className="task-text">
                     <h2>Tasks</h2>
@@ -19,14 +40,15 @@ export default function Tasks() {
             </div>
 
             <div className="task-cards">
-                <TaskColumn />
-                <TaskColumn />
-                <TaskColumn />
+                <TaskColumn value="ToDo" taskList={todo} />
+                <TaskColumn value="In Progress" taskList={inProgress} />
+                <TaskColumn value="Completed" taskList={complete} />
             </div>
             {addTask &&
                 <NewTaskModal
+                    connection={connection}
                     setAddTask={setAddTask}
-                    onSubmit={handleTask} />
+                />
             }
         </div>
     )

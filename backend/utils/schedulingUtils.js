@@ -51,15 +51,17 @@ const timeOverlaps = (menteeSlots, mentorSlots) => {
 
 const subtractInterval = (preference, sessions) => {
     let result = [];
-    let start = preference[0];
-    for (let session of sessions) {
-        if (start < session[0]) {
-            result.push([start, session[0]]);
+    let [start, end] = preference;
+    let currentStart = start
+    for (const [sessionStart, sessionEnd] of sessions) {
+        if (sessionStart > currentStart) {
+            result.push([currentStart, Math.min(sessionStart, end)]);
         }
-        if (start < session[1]) start = session[1];
+        currentStart = Math.max(currentStart, sessionEnd);
+        if (currentStart >= end) break;
     }
-    if (start < preference[1]) {
-        result.push([start, preference[1]]);
+    if (start < end) {
+        result.push([currentStart, end]);
     }
     return result;
 }

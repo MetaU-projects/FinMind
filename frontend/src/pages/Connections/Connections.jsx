@@ -2,7 +2,7 @@ import { BsPeople } from "react-icons/bs";
 import { MdPeopleOutline } from "react-icons/md";
 import { GoTasklist } from "react-icons/go";
 import { AiOutlineCalendar } from "react-icons/ai";
-import { getAllConnections, getMeetingHistory, getUpcomingMeeting, suggestedSession } from "../../services/mentorshipService";
+import { getAllConnections, getMeetingHistory, getUpcomingMeeting, suggestedSession, totalUpcomingSession } from "../../services/mentorshipService";
 import { useCallback, useEffect, useState, useRef } from "react";
 import { useUser } from "../../contexts/UserContext";
 import ConnectionList from "../../components/ConnectionsList/ConnectionList";
@@ -11,23 +11,26 @@ import Meetings from "../../components/ConnectionsComp/Meetings";
 import Schedule from "../../components/ConnectionsComp/Schedule";
 import Tasks from "../../components/ConnectionsComp/Tasks";
 import "./Connections.css"
+import { getActiveTasks } from "../../services/taskService";
 
 export default function Connections() {
     const { user } = useUser();
     const [connections, setConnections] = useState([]);
-    const tabs = ['Overview', 'Meetings', 'Tasks', 'Schedule'];
-    const [activeTab, setActiveTab] = useState('Overview');
+    const tabs = ['Meetings', 'Tasks', 'Schedule'];
+    const [activeTab, setActiveTab] = useState('Meetings');
     const [selectedConnection, setSelectedConnection] = useState(null);
     const [upComing, setUpcoming] = useState([]);
     const [meetingHistory, setMeetingHistory] = useState([]);
     const [timeSuggestions, setTimeSuggestions] = useState([]);
     const role = user.role === "MENTEE" ? "mentor" : "mentee";
     const [totalUpcoming, setTotalUpcoming] = useState(0);
+    const [activeTasks, setActiveTasks] = useState(0);
 
     useEffect(() => {
         const fetchConnections = async () => {
             const results = await getAllConnections(user.role);
             setTotalUpcoming(await totalUpcomingSession());
+            setActiveTasks(await getActiveTasks());
             setConnections(results);
         }
         fetchConnections();
@@ -77,7 +80,7 @@ export default function Connections() {
                             <h1>Active Tasks</h1>
                             <GoTasklist className="info-icon" />
                         </div>
-                        <h2>#Count Number</h2>
+                        <h2>{activeTasks}</h2>
                         <p>Across all connections</p>
                     </div>
 
@@ -107,8 +110,8 @@ export default function Connections() {
                             </div>
                             <div className="right-content">
                                 {activeTab === 'Meetings' && (<Meetings upComing={upComing} meetingHistory={meetingHistory} connection={selectedConnection} />)}
-                                {activeTab === 'Tasks' && (<Tasks />)}
-                                {activeTab === 'Schedule' && (<Schedule connection={selectedConnection} timeSuggestions={timeSuggestions} upDate={handleSelect} />)}
+                                {activeTab === 'Tasks' && (<Tasks connection={selectedConnection} />)}
+                                {activeTab === 'Schedule' && (<Schedule connection={selectedConnection} update={handleSelect} timeSuggestions={timeSuggestions} />)}
                             </div>
                         </div> :
                         <div className="connections-right-empty">

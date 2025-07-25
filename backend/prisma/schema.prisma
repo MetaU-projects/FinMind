@@ -95,6 +95,7 @@ model Session {
   reason             String?
   startTime          Int
   endTime            Int
+  cancelable         Boolean    @default(true)
 }
 
 model Task {

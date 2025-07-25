@@ -6,7 +6,7 @@ import { createSession } from "../../services/mentorshipService";
 import ErrorModal from "../ErrorModal/ErrorModal";
 import { formatUnixTimes } from "../../utils/formatUnixTime";
 
-export default function Schedule({ connection, timeSuggestions, upDate }) {
+export default function Schedule({ connection, timeSuggestions, update }) {
     const [date, setDate] = useState("");
     const [startTime, setStartTime] = useState("");
     const [endTime, setEndTime] = useState("");
@@ -28,7 +28,7 @@ export default function Schedule({ connection, timeSuggestions, upDate }) {
                 reason: note
             });
             handleClear();
-            upDate(connection);
+            update(connection);
         } catch (err) {
             setError(err.message);
         }
@@ -77,7 +77,7 @@ export default function Schedule({ connection, timeSuggestions, upDate }) {
                     </div>
 
                     <div className="schedule-btns">
-                        <button type="submit" className="btn send-schedule">Send Meeting Request</button>
+                        <button type="submit" className="btn send-schedule">Create Session</button>
                         <button type="button" onClick={handleClear} className="btn clear-schedule">Clear</button>
                     </div>
                 </form>
@@ -100,17 +100,13 @@ export default function Schedule({ connection, timeSuggestions, upDate }) {
                                 <h3>Cancel<strong>{formatUnixTimes(timeSuggestions.resolvedSession.freedTime[0], timeSuggestions.resolvedSession.freedTime[1])}</strong></h3>
                             </div>
                             <h3>Rescheduling Option</h3>
-                            {timeSuggestions.resolvedSession.rescheduleTo.map(session => {
                                 <div className="session">
                                     <div className="time">
                                         <AiOutlineClockCircle />
-                                        <h3><strong>{formatUnixTimes(session[0], session[1])}</strong></h3>
+                                        <h3><strong>{formatUnixTimes(timeSuggestions.resolvedSession.rescheduleTo[0], timeSuggestions.resolvedSession.rescheduleTo[1])}</strong></h3>
                                     </div>
                                 </div>
-                            })
-                            }
                         </div>
-
                     )}
                 </div>
             </div>
