@@ -15,3 +15,8 @@ export const taskStatus = Object.freeze({
     INPROGRESS: "INPROGRESS",
     COMPLETE: "COMPLETE"
 });
+
+export const sessionCancel = Object.freeze({
+    YES: true,
+    NO: false
+})
