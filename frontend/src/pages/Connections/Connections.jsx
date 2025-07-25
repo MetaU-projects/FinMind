@@ -117,7 +117,7 @@ export default function Connections() {
                                 ))}
                             </div>
                             <div className="right-content">
-                                {activeTab === 'Meetings' && (<Meetings upComing={upComing} meetingHistory={meetingHistory} connection={selectedConnection} />)}
+                                {activeTab === 'Meetings' && (<Meetings upComing={upComing} setUpcoming={setUpcoming} meetingHistory={meetingHistory} onCountUpdate={refreshCounts} connection={selectedConnection} />)}
                                 {activeTab === 'Tasks' && (<Tasks connection={selectedConnection} onCountUpdate={refreshCounts} />)}
                                 {activeTab === 'Schedule' && (<Schedule connection={selectedConnection} onCountUpdate={refreshCounts} update={handleSelect} timeSuggestions={timeSuggestions} />)}
                             </div>

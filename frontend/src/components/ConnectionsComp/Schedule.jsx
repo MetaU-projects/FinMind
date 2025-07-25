@@ -118,7 +118,7 @@ export default function Schedule({ connection, timeSuggestions, update, onCountU
                             <h3>Reschedule To meet with mentor</h3>
                             <div className="time">
                                 <AiOutlineClockCircle />
-                                <h3>Cancel<strong>{formatUnixTimes(timeSuggestions.resolvedSession.freedTime[0], timeSuggestions.resolvedSession.freedTime[1])}</strong></h3>
+                                <h3>Cancel</h3><h3><strong>{formatUnixTimes(timeSuggestions.resolvedSession.freedTime[0], timeSuggestions.resolvedSession.freedTime[1])}</strong></h3>
                             </div>
                             <h3>Rescheduling Option</h3>
                             <div className="session">

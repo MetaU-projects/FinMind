@@ -10,15 +10,16 @@ import { deleteSession } from "../../services/mentorshipService";
 import { useState } from "react";
 import MessageModal from "../ErrorModal/MessageModal";
 
-export default function Meetings({ upComing, meetingHistory, connection }) {
+export default function Meetings({ upComing, setUpcoming, meetingHistory, connection, onCountUpdate }) {
     const { user } = useUser();
     const role = user.role === "MENTEE" ? "mentor" : "mentee";
     const [message, setMessage] = useState("");
 
     const handleSessionCancel = async (sessionId) => {
         const data = await deleteSession(sessionId);
-        console.log(data);
         setMessage(data);
+        setUpcoming(prev => prev.filter(session => session.id !== sessionId));
+        onCountUpdate?.();
     }
 
     return (
