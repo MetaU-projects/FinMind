@@ -9,7 +9,10 @@ const signup = async (req, res) => {
         school,
         major,
         classification,
-        bio } = req.body;
+        bio,
+        interestIds,
+        availability
+    } = req.body;
 
     try {
         if (!email || !password) return res.status(400).json({ error: "Email and password are required" });
@@ -31,6 +34,16 @@ const signup = async (req, res) => {
                 major,
                 classification,
                 bio,
+                interest: {
+                    createMany: {
+                        data: interestIds.map(id => ({ interestId: id })),
+                    }
+                },
+                preference: {
+                    createMany: {
+                        data: availability
+                    }
+                }
             }
         });
 

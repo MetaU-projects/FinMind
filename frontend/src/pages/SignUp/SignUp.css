@@ -1,19 +1,23 @@
 @import 'tailwindcss';
 
 .signup {
-    min-height: 100vh;
-    display: flex;
-    background: linear-gradient(to left, #EDE8F5, #EDE8F5, #ADBBDA);
+    @apply min-h-screen flex bg-gradient-to-l from-[#EDE8F5] via-[#EDE8F5] to-[#ADBBDA] dark:from-gray-800 dark:to-gray-900;
 }
 
 .left-side {
-    @apply w-1/3 bg-gray-100 flex flex-col justify-start p-6;
+    @apply w-1/3 bg-gray-100 flex flex-col justify-start items-center gap-4 p-6 dark:bg-gray-800 dark:text-white;
 }
 
 .left-side h2 {
     font-size: 1.875rem;
     line-height: 2.25rem;
     font-weight: 700;
+}
+
+.left-side h3 {
+    font-size: 1.575rem;
+    line-height: 1.25rem;
+    font-weight: 400;
 }
 
 .search-drop {
@@ -27,7 +31,6 @@
 .school {
     @apply text-sm cursor-pointer hover:bg-[#ADBBDA];
 }
-
 
 .first-section {
     font-size: 1.25rem;
@@ -61,24 +64,12 @@ label {
     @apply grid grid-cols-2 gap-4;
 }
 
-.interests-section {
-    @apply flex gap-2 mb-2;
+.role-pick {
+    @apply flex gap-10
 }
 
-.interests-section p {
-    color: #6B7280;
-}
-
-.tags {
-    @apply flex flex-wrap gap-2 mb-2;
-}
-
-.tags span {
-    @apply bg-[#8697C4] text-white px-3 py-1 rounded-full cursor-pointer hover:bg-[#3D52A0];
-}
-
-.add-custom {
-    @apply border rounded px-2 py-1 text-sm shadow-xl;
+.role {
+    @apply bg-[#3D52A0] hover:bg-[#7091E6] hover:text-black text-white cursor-pointer p-3 rounded-full;
 }
 
 .select-interest {
@@ -93,23 +84,6 @@ label {
     @apply font-bold cursor-pointer hover:text-gray-700;
 }
 
-.days {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-}
-
-.avail {
-    @apply px-3 py-1 rounded-full text-sm cursor-pointer;
-}
-
-.unpicked {
-    @apply bg-[#8697C4] text-white px-3 py-1 rounded-full;
-}
-
-.picked {
-    background-color: #ffffff;
-}
 
 .btn-submit {
     @apply font-medium bg-[#7091E6] px-6 py-3 rounded mt-8 hover:bg-[#3D52A0] hover:text-white hover:cursor-pointer;

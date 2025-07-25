@@ -3,3 +3,8 @@ export const requestStatus = Object.freeze({
     PENDING: "PENDING",
     DECLINED: "DECLINED"
 });
+
+export const Role = Object.freeze({
+    MENTEE: "MENTEE",
+    MENTOR: "MENTOR"
+});
