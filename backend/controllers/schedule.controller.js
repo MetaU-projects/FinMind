@@ -2,6 +2,7 @@ const { MS_PER_SECOND } = require('../config/constants');
 const prisma = require('../config/prismaClient');
 const dayjs = require('dayjs');
 const isoWeek = require('dayjs/plugin/isoWeek');
+const { suggestFromFreedTime } = require('../utils/freeSelfTime');
 dayjs.extend(isoWeek);
 
 const getTotalUpcoming = async (req, res) => {
@@ -49,14 +50,37 @@ const createSession = async (req, res) => {
 
 const removeSession = async (req, res) => {
     const sessionId = parseInt(req.params.sessionId);
+    const userId = req.session.userId;
     if (Number.isNaN(sessionId)) {
         return res.status(400).json({ error: "Session ID is not a number" });
     }
     try {
-        await prisma.session.delete({
-            where: { id: sessionId }
+        const session = await prisma.session.findUnique({
+            where: { id: sessionId },
+            include: {
+                mentorship: {
+                    select: { menteeId: true, mentorId: true }
+                }
+            }
         });
-        res.status(200).send();
+
+        if (!session) {
+            return res.status(404).json({ error: "Session not found" });
+        }
+
+        const { startTime, endTime, cancelable, mentorship } = session;
+        const otherUserId = userId === mentorship.mentorId ? mentorship.menteeId : mentorship.mentorId;
+
+        await prisma.session.delete({ where: { id: sessionId } });
+
+        if(!cancelable) {
+            res.status(404).json({ message: "This session cannot be cancelled" })
+        }
+
+        let suggestions;
+        suggestions = await suggestFromFreedTime({ userId, startTime, endTime, otherUserId });
+        res.status(200).json({ message: "Session cancelled successfully!", suggestions });
+
     } catch (err) {
         res.status(404).json({ error: "Error removing session", details: err.message });
     }
@@ -105,7 +129,7 @@ const upcomingSessions = async (req, res) => {
             }
         })
         res.status(200).json(upcomings);
-    } catch(err) {
+    } catch (err) {
         res.status(500).json({ error: "Error getting upcoming session", details: err.message });
     }
 }

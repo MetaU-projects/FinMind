@@ -1,0 +1,33 @@
+@import 'tailwindcss';
+
+.interest-search {
+    @apply relative;
+}
+
+.interest-list {
+    @apply absolute p-2 mt-2 rounded bg-white dark:bg-gray-700 dark:text-white;
+}
+
+.interest-name {
+    @apply cursor-pointer hover:bg-[#8697C4] px-2
+}
+
+.days-container {
+    @apply flex items-center gap-5 my-2;
+}
+
+.day-label {
+    @apply flex items-center gap-2 cursor-pointer;
+}
+
+.day-name {
+    @apply px-3 py-1 w-20 text-center rounded-full border;
+}
+
+.active {
+    @apply bg-[#3D52A0] text-white;
+}
+
+.inactive {
+    @apply bg-gray-100 text-gray-700;
+}

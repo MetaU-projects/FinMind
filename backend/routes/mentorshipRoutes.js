@@ -23,7 +23,7 @@ router.delete('/request/remove/:requestId', isAuthenticated, removeRequest);
 router.delete('/connection/remove/:connectionId', isAuthenticated, endMentorship);
 router.get('/recommendations', isAuthenticated, mentorRecomendations);
 router.get('/suggest-time/:mentorId', isAuthenticated, suggestSession);
-router.get('/interests', isAuthenticated, getInterests);
+router.get('/interests', getInterests);
 router.post('/session', isAuthenticated, createSession);
 router.delete('/remove/session/:sessionId', isAuthenticated, removeSession);
 router.get('/session/past/:mentorshipId', isAuthenticated, sessionsHistory);
