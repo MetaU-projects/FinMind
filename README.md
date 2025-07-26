@@ -119,14 +119,13 @@ Mentor: a user who provides support within the same major.
 1. As a mentee, I want to create a profile, so mentors can learn about me.  
 2. As a mentor, I want to create a profile and list my strengths, so that mentees can find me.  
 3. As a user, I want to log out of my account, so that I can protect my privacy  
-4. As a mentee, I want to browse mentors in my major, so that I can choose who to connect with.  
-5. As a mentee, I want to filter mentors by availability or area of support to find the best match.  
-6. As a mentee, I want to send a mentorship request to a mentor to start a connection.  
-7. As a mentor, I want to see all of the new mentorship  requests, so that I can respond quickly.  
-8. As a mentor, I want to accept or reject mentorship requests, so that I can respond quickly.  
-9. As a mentee or mentor, I want to view my active mentorship connections in one place.  
-10. As a mentee or mentor, I want to end a mentorship connection if needed, to keep my network  up to date.  
-11. As a mentee, I want to see all of my pending requests, so  I can remove  them incase I change my mind.
+4. As a mentee, I want to browse mentors in my major, so that I can choose who to connect with.    
+5. As a mentee, I want to send a mentorship request to a mentor to start a connection.  
+6. As a mentor, I want to see all of the new mentorship  requests, so that I can respond quickly.  
+7. As a mentor, I want to accept or reject mentorship requests, so that I can respond quickly.  
+8. As a mentee or mentor, I want to view my active mentorship connections in one place.  
+9. As a mentee or mentor, I want to end a mentorship connection if needed, to keep my network  up to date.  
+10. As a mentee, I want to see all of my pending requests, so  I can remove  them incase I change my mind.
 
 ## Required
 
@@ -144,6 +143,7 @@ Mentor: a user who provides support within the same major.
 * Proper error handling pop up modal  
 * Dark & Light Mode Using System Mode 
 * Task Assignment
+* Search for mentors
 
 ### Screen Archetypes
 
