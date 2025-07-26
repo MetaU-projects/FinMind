@@ -6,7 +6,7 @@ import { searchSchool } from "../../services/apiClient";
 import "./SignUp.css"
 import logo from "../../assets/logo.png"
 import ErrorModal from "../../components/ErrorModal/ErrorModal";
-import InterestSearch from "../../components/SignupComp/interestSearch";
+import InterestSearch from "../../components/SignupComp/InterestSearch";
 import { Role } from "../../utils/status";
 import AvailabilityInput from "../../components/SignupComp/AvailabilityInput";
 
