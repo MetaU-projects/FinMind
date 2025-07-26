@@ -10,7 +10,7 @@
 
 ## Overview
 
-MentorMe is a dynamic, community-powered web platform designed to connect learners (mentees) with experienced individuals (mentors) for peer-led mentoring sessions. The core mission is to democratize access to informal guidance, empower personal growth, and foster meaningful one-on-one learning experiences \-especially for underrepresented communities in tech, education, and career development.
+MentorMe is a dynamic, community-powered web platform designed to connect learners (mentees) with experienced individuals (mentors) for peer-led mentoring sessions. The core mission is to democratize access to informal guidance, empower personal growth, and foster meaningful one-on-one learning experiences \-especially for communities in tech, education, and career development.
 
 ## Problem Statement
 
@@ -18,7 +18,7 @@ Traditional mentorship platforms often rely on rigid structures, exclusive acces
 MentorMe tackles this by offering:
 
 - A decentralized approach to mentorship.  
-- A skill-based discovery and recommendation engine.  
+- An interest-based discovery and recommendation engine.  
 - A scheduling system that balances availability across time zones and commitments.  
 - Peer accountability without bureaucracy.
 
@@ -35,7 +35,7 @@ What makes MentorMe different is its **peer-driven structure**. Unlike tradition
 
 In this system:
 
-- **Only mentees can initiate a connection \-** keeping the platform low-pressure for mentors and international for mentees.  
+- **Only mentees can initiate a connection \-** keeping the platform low-pressure for mentors and intentional for mentees.  
 - **Mentors can accept or decline** \- maintaining autonomy and trust.  
 - Once accepted, **a connection is formed** and tracked in a dedicated space \- enabling follow-up session scheduling, and relational building.
 
@@ -45,7 +45,6 @@ The idea was born from seeing how much potential and knowledge exists within stu
 
 MentorMe is designed for university/college students (primary group).  
 College students often:
-
 - Feel uncertain about career decisions  
 - Struggle to find relatable guidance  
 - Desire  mentorship, but don’t know how or where to start. 
@@ -73,7 +72,7 @@ MentorMe is designed to create **meaningful, recurring engagement** without over
 1. **Browse a feed of available mentors** via search of the top number of recommendations.  
 2. **Send a connection request** to someone aligned with their goals or interests.  
 3. If accepted, the connection appears on their **Connections page.**   
-4. From there further actions such as creating sessions, creating tasks, and building a relationship overtime.
+4. From there further actions such as creating sessions, creating tasks, and building a relationship overtime can be executed.
 
 ### For Mentors:
 
@@ -81,16 +80,23 @@ MentorMe is designed to create **meaningful, recurring engagement** without over
 2. **Accept or decline** based on availability or interest.  
 3. Stay in control of how and when they engage, reducing pressure.
 
-## Scope 
+## 🧭 Scope
 
-The current version of MentorMe delivers the **core building blocks** for students-to-student mentorship.
+The current version of **MentorMe** delivers the **core building blocks** for student-to-student mentorship.
 
-### What’s built now:
+### ✅ What’s built now:
+- **Role-based onboarding**: users join as a mentee or mentor  
+- **Interest and background setup**: profiles reflect what users are looking for or can offer  
+- **Connection system**:  
+  - *Only mentees can send requests*  
+  - *Mentors can accept or decline*  
+  - *Accepted connections are stored and displayed*  
+- **Connections page**: users can view all their active mentorship links  
+- **Smart recommendations**: mentors suggested based on profile data and interests  
+- **Search and filtering**: users can search for mentors by skills, interests, and more  
+- **Session scheduling suggestion**: conflict-aware logic that checks availability  
+- **Dark/light mode**: responsive UI design  
 
-* **Role-based onboarding:** users can join as a mentee or mentor  
-* **Connection System**: profiles reflect what users are lookin
-
-**Scope:** An app that connects students with mentors in their major for one-one academic and career guidance through profile matching .
 
 ## Product Spec
 
@@ -155,30 +161,18 @@ Mentor: a user who provides support within the same major.
   * **Mentee’s Home Page**: shows all the available mentors to mentee, pending requests, and recommended mentors based on profile, and connections made by similar mentees.  
   * **Mentor’s Home Page**: shows all the requests made to mentor and button to either accept or reject.  
   * **Connections Page**: same for both mentors and mentees. Shows all active connections for users.  
-* MentorMe demonstrates interesting cursor interaction by a custom tooltip that displays a mentor’s school  on profile picture hover.  
+* MentorMe demonstrates interesting cursor interaction by a custom tooltip that displays a each mentor's avaialable days and time on profile picture hover.  
 * MentorMe has pages (components) with complex and custom layout.  
 * Loading State shows when the app opens and when pages refresh.
 
 ## Technical Challenges
 
-### Technical Challenge \#1 \- Recommendation System
+### Technical Challenge \#1 \- 🧠 Recommendation System 
 [Recommendation System Documentatation](https://docs.google.com/document/d/1I1KhixNyWTjoKgGhMlTU-pD2xTB7GG7eQAR7PeGfNV8/edit?tab=t.0)
-#### What
-
-**Overview**: A recommendation system that recommends mentors to mentees based on common interest or goals.  
-The recommendation feature would be by the side of the mentee’s page as the pending requests.  
-For the recommendation, I’d use a dataset that can produce similarity between mentee and mentor.
-
-#### How
-![flowchart](doc/flowcharts//Recommendation%20System%20Flowchart.jpg)
-
-# 🧠 Recommendation System — MentorMe
-
-This document outlines the design and logic of the MentorMe recommendation engine. It uses a **hybrid approach** combining content-based filtering, collaborative filtering, and semantic vector similarity to generate relevant mentor suggestions for each user.
-
----
 
 ## 🌟 Overview
+
+A recommendation system that recommends mentors to mentees based on common interest or goals. The system is designed to help mentees discover mentors who are most aligned with their goals, interests, and potential fit - without overwhelming them with irrelevant options.
 
 The goal is to recommend mentors who are:
 
@@ -187,6 +181,15 @@ The goal is to recommend mentors who are:
 * Behaviorally connected via shared interaction patterns  
 * Not already connected or blocked  
 * Available and actively participating  
+
+---
+
+#### How
+![flowchart](doc/flowcharts//Recommendation%20System%20Flowchart.jpg)
+
+
+
+This document outlines the design and logic of the MentorMe recommendation engine. It uses a **hybrid approach** combining content-based filtering, collaborative filtering, and semantic vector similarity to generate relevant mentor suggestions for each user.
 
 ---
 
@@ -233,7 +236,6 @@ Each mentor is scored based on how well their profile fields match the mentee's 
 
 * Captures meaning even when keywords differ.
 
----
 
 ## ⚖️ Final Score Calculation
 
@@ -246,7 +248,6 @@ totalScore = contentScore + vectorScore + graphScore
 * Individual components can be weighted (e.g. `vectorScore × 1.2`)  
 * Top mentors are returned based on the sorted final score
 
----
 
 ## 🛑 Exclusion Criteria
 
@@ -266,7 +267,6 @@ Mentors are excluded from results if:
 4. **Sort**: Rank mentors by total score  
 5. **Output**: Return top N mentor suggestions
 
----
 
 ## ✅ Frontend Integration
 
@@ -283,8 +283,6 @@ Mentors are excluded from results if:
 
 * Use embeddings (e.g. BERT) for smarter semantic matching  
 * Prioritize mentors with open time slots  
-* Train ML model to re-rank results based on click data  
-* Integrate learning loop from user feedback
 
 
 ### Technical Challenge \#2
@@ -412,15 +410,6 @@ MentorMe uses **PostgreSQL**, managed through **Prisma ORM**, to persist all sch
   - Suggestions are displayed as banners or toast-like components
   - Users can optionally click to schedule that session manually
 
----
-
-## ⚙️ Error Handling
-
-- All backend logic is wrapped in `try...catch` blocks to prevent unhandled failures.
-- Failures result in safe default values (empty arrays or simple error messages).
-- Time-based constraints (e.g., sessions starting in under 2 hours cannot be canceled or rescheduled) are enforced consistently.
-
----
 
 ## 💡 Future Improvements
 
@@ -434,8 +423,6 @@ MentorMe uses **PostgreSQL**, managed through **Prisma ORM**, to persist all sch
 # **External APIs**
 MentorMe integrates the **College Scorecard API** (U.S. Department of Education) during onboarding. This API standardizes college name inputs by matching user-provided values to verified institutional records, improving data quality across user profiles.
 
----
-
 # **Authentication**
 User authentication is handled using **Express sessions** for persistent login across visits.  
 * On login/signup, credentials are verified using **bcrypt**, and a session is stored via `express-session`.  
@@ -444,7 +431,6 @@ User authentication is handled using **Express sessions** for persistent login a
 * Pages are wrapped in a **role-based protection layer**, ensuring that only users with the appropriate role (e.g., mentor-only pages) can access certain routes.  
 * This structure allows seamless page navigation without requiring repeated logins or manual role checks.
 
----
 
 # **Visuals and Interactions**
 
