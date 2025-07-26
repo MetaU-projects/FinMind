@@ -18,7 +18,7 @@ export default function Meetings({ upComing, setUpcoming, meetingHistory, connec
     const handleSessionCancel = async (sessionId) => {
         const data = await deleteSession(sessionId);
         setMessage(data);
-        setUpcoming(prev => prev.filter(session => session.id !== sessionId));
+        if(data.suggestions.length > 0) setUpcoming(prev => prev.filter(session => session.id !== sessionId));
         onCountUpdate?.();
     }
 
