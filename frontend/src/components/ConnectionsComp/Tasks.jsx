@@ -13,17 +13,18 @@ export default function Tasks({ connection, onCountUpdate }) {
     const [complete, setComplete] = useState([]);
     const [error, setError] = useState("");
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const data = await getTasks(connection.id);
-                setTodo(data.filter(item => item.status === taskStatus.TODO));
-                setInProgress(data.filter(item => item.status === taskStatus.INPROGRESS));
-                setComplete(data.filter(item => item.status === taskStatus.COMPLETE));
-            } catch (err) {
-                setError(err.message);
-            }
+    const fetchData = async () => {
+        try {
+            const data = await getTasks(connection.id);
+            setTodo(data.filter(item => item.status === taskStatus.TODO));
+            setInProgress(data.filter(item => item.status === taskStatus.INPROGRESS));
+            setComplete(data.filter(item => item.status === taskStatus.COMPLETE));
+        } catch (err) {
+            setError(err.message);
         }
+    }
+
+    useEffect(() => {
         fetchData();
     }, [connection.id]);
 
@@ -34,7 +35,7 @@ export default function Tasks({ connection, onCountUpdate }) {
             setInProgress(prev => prev.filter(task => task.id !== taskId));
             setComplete(prev => prev.filter(task => task.id !== taskId));
 
-            switch(newStatus){
+            switch (newStatus) {
                 case taskStatus.TODO:
                     setTodo(prev => [updatedTask, ...prev]);
                     break;
@@ -73,6 +74,7 @@ export default function Tasks({ connection, onCountUpdate }) {
                     connection={connection}
                     setAddTask={setAddTask}
                     onCountUpdate={onCountUpdate}
+                    updateColumn={fetchData}
                 />
             }
         </div>

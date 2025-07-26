@@ -6,14 +6,25 @@ import { useUser } from "../../contexts/UserContext"
 export default function ToolBar({ searchQuery, setSearchQuery, getData, onSearch }) {
     const { user } = useUser();
     const handleSearch = () => {
-        if(searchQuery){
+        if (searchQuery) {
             onSearch(searchQuery);
         }
     }
-    const  handleClear = async () => {
+    const handleClear = async () => {
         setSearchQuery("");
+        onSearch("");
         getData();
     }
+
+    const handleKeyPress = (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            if (searchQuery) {
+                setSearchQuery(searchQuery.trim());
+                onSearch(searchQuery.trim());
+            }
+        }
+    };
     return (
         <div className="banner">
             <div className="tool-quote">
@@ -25,6 +36,7 @@ export default function ToolBar({ searchQuery, setSearchQuery, getData, onSearch
                 <input className="tool-search"
                     type="text"
                     value={searchQuery}
+                    onKeyDown={handleKeyPress}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search for mentors by 'name', 'major', 'school', 'interest' " />
                 <button onClick={handleClear} className="search-icon right-0"><FaTimes /></button>

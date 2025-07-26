@@ -3,7 +3,7 @@ import "./TaskComps.css"
 import { createTask } from '../../../services/taskService';
 import { taskPriority } from '../../../utils/status';
 
-export default function NewTaskModal({ setAddTask, connection, onCountUpdate}) {
+export default function NewTaskModal({ setAddTask, connection, onCountUpdate, updateColumn}) {
     const [ title, setTitle] = useState("");
     const [ description, setDescription] = useState("");
     const [ priority, setPriority] = useState("");
@@ -14,6 +14,7 @@ export default function NewTaskModal({ setAddTask, connection, onCountUpdate}) {
         e.preventDefault();
         const data = await createTask(connection.id, title, description, priority )
         onClose();
+        updateColumn();
         onCountUpdate?.();
     }
     const handlePriority = (value) => {
