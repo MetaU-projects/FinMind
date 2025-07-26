@@ -215,12 +215,11 @@ Each mentor is scored based on how well their profile fields match the mentee's 
 
 ### 2. **Collaborative Filtering via Graph Traversal**
 
-* Constructs an interaction graph of users and posts  
-* Performs BFS from the current user to find nearby users (neighbors)  
-* Scores unseen mentors based on:
+* Constructs an interaction graph of mentee to mentor connections 
+* Performs BFS from the logged in mentee to find nearby users (mentors)  
+* Scores each mentor on the network based on:
   * **Proximity** (1 / hop distance)
-  * **Recency** of interactions
-  * **Interest alignment** with neighboring users
+  * **Number of connections** with other mentees
 
 * This allows indirect but behaviorally relevant mentor recommendations.
 
@@ -241,8 +240,7 @@ Each mentor is scored based on how well their profile fields match the mentee's 
 
 The total recommendation score is computed as:
 
-totalScore = contentScore + vectorScore + graphScore
-
+totalScore = contentScore  + graphScore + vectorScore
 
 * Each component is normalized  
 * Individual components can be weighted (e.g. `vectorScore × 1.2`)  
