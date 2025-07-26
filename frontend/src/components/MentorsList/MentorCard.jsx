@@ -21,14 +21,12 @@ export default function MentorCard({ mentor, onConnect }) {
                 <div className="card-name">
                     <h3>{mentor.name}</h3>
                     <p>{mentor.classification} {mentor.major}</p>
-                    <p>{mentor.classification}</p>
-                    <span className="tooltiptext"><strong>Available:</strong> {mentor.availability}</span>
                 </div>
             </div>
             <p className="card-bio">{mentor.bio}</p>
             <div className="card-skills">
                 {mentor.interest.map(skill => (
-                    <span key={skill}>{skill.interest.name}</span>
+                    <span key={mentor}>{skill.interest.name}</span>
                 ))}
             </div>
             <button className="btn" onClick={onConnect}><FaUserPlus className="connect-icon" /> Connect</button>

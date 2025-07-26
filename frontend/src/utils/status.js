@@ -21,3 +21,8 @@ export const Role = Object.freeze({
     MENTOR: "MENTOR"
 
 });
+
+export const sessionCancel = Object.freeze({
+    YES: true,
+    NO: false
+})

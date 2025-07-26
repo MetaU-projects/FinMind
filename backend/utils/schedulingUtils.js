@@ -53,7 +53,7 @@ const subtractInterval = (preference, sessions) => {
     let result = [];
     let [start, end] = preference;
     let currentStart = start
-    for (const [sessionStart, sessionEnd] of sessions) {
+    for (const [sessionStart, sessionEnd] of sessions || []) {
         if (sessionStart > currentStart) {
             result.push([currentStart, Math.min(sessionStart, end)]);
         }
