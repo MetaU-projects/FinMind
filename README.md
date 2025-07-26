@@ -1,4 +1,3 @@
-# ![][image1]
 
 # MentorMe
 
@@ -137,86 +136,14 @@ Mentor: a user who provides support within the same major.
 ## Optional
 
 * Proper error handling pop up modal  
-* Dark & Light Mode Toggle  
+* Dark & Light Mode Using System Mode 
 * Task Assignment
 
 
 ### Screen Archetypes
 
-*ie. wireframes*
+[Figma](https://www.figma.com/design/qDBAMyyZAjUgEzFdKD6dwp/MentorMe?node-id=0-1&t=kJSMWWU3BToiFW8t-0)
 
-![][image2]
-
-![][image3]
-
-![][image4]
-
-### **Data Model**
-
-Mentor/Mentee  table
-
-| Column name | type | description |
-| :---- | :---- | :---- |
-| id | integer | Primary key |
-| name | string | Name of mentee |
-| email | string | School email address of mentee |
-| role | enum | Either mentee or mentor |
-| School | string | College or university |
-| description | string | Description of why the role |
-| major | string | User’s major |
-| classification | string | Freshman-Senior |
-| bio | Text | Short user bio |
-| availability | String | Mentors availability(days) |
-
-Mentorship table
-
-| Column name | type | description |
-| :---- | :---- | :---- |
-| id | integer | Primary key |
-| mentor\_id | integer | Foreign key |
-| mentee\_id | integer | Foreign key |
-| startedAt | Timestamp | When mentorship was accepted |
-| endedAt | Timestamp | When mentorship was ended |
-| status | enum | ‘active’, ‘ended |
-
-Mentorship Request
-
-| Column name | type | description |
-| :---- | :---- | :---- |
-| id | int | Primary key  |
-| mentee\_id | int | Foreign key to mentee’s id |
-| mentor\_id | int | Foreign key to mentor’s id |
-| status | enum | Accepted, pending, declined |
-| createdAt | Timestamp | When mentee’s request was sent |
-| respondedAt | Timestamp | When mentor accepted/declined request |
-
-### 
-
-### **Server Endpoints**
-
-Authentication
-
-| HTTP Verb | Name | Description | User Stories |
-| :---- | :---- | :---- | :---- |
-| POST | /auth/signup | Create an account a user (mentee or mentor) | 1 |
-| POST | /auth/login | Login to an existing account | 2 |
-| GET | /auth/me | Authenticate user before accessing pages | 1,2,3  |
-| POST | /auth/logout | Log out users  | 3 |
-
-Mentorship Enpoints
-
-| HTTP Verb | Name | Description | User Stories |
-| :---- | :---- | :---- | :---- |
-| GET | /mentee/home | Fetches list of available mentors filtered by none active connections or pending requests | 4, 5 |
-| GET | /connections?role=MENTEE or /connections?role=MENTOR | Fetches a list of active connections for user based on role | 9 |
-| POST | /request | Mentee to send connection requests to mentors. | 6 |
-| PATCH | /request/update | Update request status based on mentor’s response to mentee | 7 |
-| GET | /requests/mentors | Fetch all requests made to mentors by mentees | 7 |
-| POST | /connected | Create mentorship connection when mentor accepts request | 9 |
-| PATCH | /connected/updated | Update connection status e.g. end connection | 9 |
-| GET | /pending | Get a list of all pending requests for mentees | 11 |
-| DELETE | /request/remove/:requestId | Delete request made to mentor | 7 |
-| DELETE | /connection/remove/:connectionId | Delete mentorship connection | 10 |
 
 ## Project Requirements
 
@@ -237,7 +164,7 @@ Mentorship Enpoints
 ## Technical Challenges
 
 ### Technical Challenge \#1 \- Recommendation System
-
+[Recommendation System Documentatation](https://docs.google.com/document/d/1I1KhixNyWTjoKgGhMlTU-pD2xTB7GG7eQAR7PeGfNV8/edit?tab=t.0)
 #### What
 
 **Overview**: A recommendation system that recommends mentors to mentees based on common interest or goals.  
@@ -245,138 +172,125 @@ The recommendation feature would be by the side of the mentee’s page as the pe
 For the recommendation, I’d use a dataset that can produce similarity between mentee and mentor.
 
 #### How
+![flowchart](doc/flowcharts//Recommendation%20System%20Flowchart.jpg)
 
-Recommend the most relevant mentors to a mentee based on profile similarity and mentor experience.
+# 🧠 Recommendation System — MentorMe
 
-Part 1: Content-Based Matching (Profile Similarity)  
-Match mentors to mentees based on share profile attributes
+This document outlines the design and logic of the MentorMe recommendation engine. It uses a **hybrid approach** combining content-based filtering, collaborative filtering, and semantic vector similarity to generate relevant mentor suggestions for each user.
 
-* Use interests, school, and major to score mentors based on relevance  
-* Weight common interests based on their popularity in the system  
-* Filter out mentors who are already connected to mentee or have been sent a request  
-* Return a top number of mentors with highest similarity scores. 
+---
+
+## 🌟 Overview
+
+The goal is to recommend mentors who are:
+
+* Aligned with the mentee’s academic background and interests  
+* Semantically relevant based on bio similarity  
+* Behaviorally connected via shared interaction patterns  
+* Not already connected or blocked  
+* Available and actively participating  
+
+---
+
+## 🧩 System Components
+
+### 1. **Content-Based Filtering**
+
+Each mentor is scored based on how well their profile fields match the mentee's profile.
+
+**Scoring Weights:**
+
+| Profile Field | Weight | Reasoning |
+|---------------|--------|-----------|
+| Bio           | 4.0    | Rich in natural language — captures tone, skills, and experience |
+| Interest      | 3.0    | Primary signal of topical alignment |
+| Major         | 1.5    | Academic compatibility |
+| School        | 1.0    | Cultural and institutional alignment |
+| Bonus Match   | 1.5    | Extra score for strong or multiple overlaps |
+
+* Matching is done via token overlap and typo-tolerant fuzzy search (Fuse.js).
+
+---
+
+### 2. **Collaborative Filtering via Graph Traversal**
+
+* Constructs an interaction graph of users and posts  
+* Performs BFS from the current user to find nearby users (neighbors)  
+* Scores unseen mentors based on:
+  * **Proximity** (1 / hop distance)
+  * **Recency** of interactions
+  * **Interest alignment** with neighboring users
+
+* This allows indirect but behaviorally relevant mentor recommendations.
+
+---
+
+### 3. **Semantic Vector Similarity**
+
+* Converts user and mentor bios into tokenized term vectors  
+* Computes **cosine similarity** between:
+  * Mentee vector (interests + bio)
+  * Mentor vector (interests + bio)  
+* Outputs a `vectorScore` reflecting semantic closeness
+
+* Captures meaning even when keywords differ.
+
+---
+
+## ⚖️ Final Score Calculation
+
+The total recommendation score is computed as:
+
+totalScore = contentScore + vectorScore + graphScore
 
 
-Part 2: Experience-Based Matching (Mentor History)  
-Recommend mentors who’ve successfully worked with similar mentees (Connected)
+* Each component is normalized  
+* Individual components can be weighted (e.g. `vectorScore × 1.2`)  
+* Top mentors are returned based on the sorted final score
 
-* Identify other mentees who are similar to the current one based on shared interests, school, and major.  
-* Score mentors based on how many of those similar mentees they have already mentored.  
-* Add a small bonus for mentors who’ve had more mentorship experience  
-* Get a top number of mentors ranked by relevance and experience.
+---
 
-Part 3: Bio Description Matching (Users Bio)  
-This pseudocode outlines a method for calculating TF-IDF and Cosine Similarity to find resemblances between a mentee's interests and various mentor skills. The process involves:
+## 🛑 Exclusion Criteria
 
-1. **Text Preparation:** Combining mentee and mentor texts, tokenizing them, and cleaning them by removing special characters and stopwords.  
-2. **Vocabulary Creation:** Identifying all unique words and mapping them to numerical indices for matrix representation.  
-3. **TF-IDF Calculation:** Generating a Term Frequency (TF) matrix to count word occurrences, then calculating Document Frequency (DF) and Inverse Document Frequency (IDF) to create numerical vectors for each text.  
-4. **Cosine Similarity:** Computing the cosine similarity between the mentee's interest vector and each mentor's skill vector. This involves calculating dot products and magnitudes to determine the angle (and thus similarity) between them.  
-5. **Recommendation Generation:** Mapping the similarity scores to mentor IDs, sorting them in descending order, and extracting the top 10 recommendations based on the highest similarity scores.
+Mentors are excluded from results if:
 
-References
+* They are already connected to the user  
+* They are blocked by the user  
+* They have no overlapping availability with the user  
 
-* [Understanding and implementing TF-IDF in Python](https://medium.com/@coldstart_coder/understanding-and-implementing-tf-idf-in-python-a325d1301484)  
-* [Content Based Recommendation](https://www.youtube.com/watch?v=h13Kv1Fla2g)  
-* [Implementing tf-idf](https://medium.com/bitgrit-data-science-publication/tf-idf-from-scratch-in-python-ea587d003e9e)
+---
 
-```javascript
+## 🔁 Flow Summary
 
-```
+1. **Input**: Mentee profile and history  
+2. **Filter**: Remove blocked or already connected mentors  
+3. **Score**: Apply content-based, graph-based, and vector-based scoring  
+4. **Sort**: Rank mentors by total score  
+5. **Output**: Return top N mentor suggestions
 
-Goal: Recommend mentors based on mentee profile using weighted, content-based filtering approach.
+---
 
-**Step 1: Data Modeling**  
-Add two new tables to the database
+## ✅ Frontend Integration
 
-1. Interest table  
-   * Fields: id, name  
-   * One-to-many relation with UserInterest table  
-2. UserInterest table  
-   * Fields: id, userId, interestId  
-   * Many-to-one relation with user
+* Uses `/recommendations` endpoint  
+* Results rendered in mentor cards with “Express Interest” CTA  
+* Updates dynamically on:
+  * Interest changes  
+  * New mentor joins  
+  * Session or connection updates
 
-**Step 2: Retrieve Mentee Interests**
+---
 
-1. Get the current mentee ID from session  
-2. Fetch their interest IDs and store in menteeInterestIds
+## 💡 Future Improvements
 
-**Step 3: Calculate Popular Interest Weights**
+* Use embeddings (e.g. BERT) for smarter semantic matching  
+* Prioritize mentors with open time slots  
+* Train ML model to re-rank results based on click data  
+* Integrate learning loop from user feedback
 
-1. Fetch all interests and how many users have each  
-2. Build an object where interestId is property and userCount is the value  
-3. Find the maximum count, maxCount of all the userCounts  
-4. For each interest:	  
-   * Calculate the weight which is the userCount divided by maxCount  
-   * Create an property, value if weight is greater than 0.5
-
-**Step 4: Filter Available Mentors**
-
-1. Get all mentors who:  
-   * Do not have an existing connection with the mentee.  
-   * Have not sent a request to the mentee.
-
-**Step 5: Score Each Mentor**
-
-1. Loop through each mentor  
-   * Intialiaze **score** to 0  
-   * For each of their interest IDs:  
-     * If it exists in menteeInterestIds, add 1 to score  
-     * If it also exists in populatInterests, add weight to score  
-   * Additional matching:  
-     * If mentor’s school match mentee’s add 1 to score  
-     * If mentor’s major match mentee’s add 2 to score  
-   * Sava each mentor with a final score.
-
-**Step 6: Return top mentors**
-
-1. Sort mentors by score in descending order  
-2. Return the top 10 mentors with their relevant info and score
-
-**Part 2: Recommendation System (Graph-Based Proximity)**  
-Goal: Recommend mentors based on how closely they are connected to the current mentee in the mentorship network graph.
-
-**Step 1: Setup**
-
-1. Get the current mentee ID from session  
-2. Fetch   
-   * All mentees and their mentorships  
-   * All mentors and their mentorships
-
-**Step 2: Get all other Mentees**
-
-1. Create a usersConnection map:  
-   * For each mentee, store the list of mentorIds they’ve been mentored by  
-   * For each mentor, store the list of menteeIds they’ve mentored  
-   * This creates the graph where both mentees and mentors are nodes and edges are the mentorship connections.
-
-**Step 3: BFS Traversal to Find Edge Distance to root** 
-
-1. Initialization:  
-   * visited object: keep track of visited users  
-   * result object: store edge distance from current mentee  
-   * Queue: stores the id and edge count to be processed for BFS  
-2. While queue is not empty,  
-   * Remove the first element in queue  
-   * Save the removed element in the result  
-   * For each of the neighboring connections,   
-     * If not visited, updates the visited to id  
-     * Push new element  to queue with updated depth
-
-**Step 4: Filter and Score Mentors**
-
-1. Filter out mentors that do not appear in result  
-2. For remaining mentors, map them to:  
-   * User detail  
-   * Their edge value
-
-**Step 5: Return Sorted Mentors**
-
-1. Sort mentors in ascending order of edge where (the smaller the closer)  
-2. Return final ranked mentor list
 
 ### Technical Challenge \#2
-
+[Scheduling System Documenation](https://docs.google.com/document/d/1fXDvHjGgdr1wBWDQqU5W394Eh8L3YS1JpI_BicTFzQg/edit?tab=t.0)
 #### What
 
 **Overview:**
@@ -399,121 +313,188 @@ This system is crucial for:
 
 #### How
 
-**Part 1: Best Time to Meet**
+![flowchart](doc/flowcharts/Scheduling%20System%20Flowchart.jpg)
+
+# 📅 Scheduling System — MentorMe
+
+This document provides a complete overview of MentorMe’s scheduling system, describing the logic behind session suggestions, conflict resolution, and freed-slot reuse when cancellations occur.
+
+---
+
+## 🧠 Part 1: Best Time to Meet
 
 This section describes the process for identifying suitable meeting times:
 
-1. **Gather & Order Intervals:** Collect all available time intervals for both the mentee and the new mentor and sort them chronologically.  
-2. **Apply User Preference:** Identify time intervals where neither party has an existing session, ensuring these free slots align with the user's preferred daily availability. If a day is full, the system moves to the next.  
-3. **Present Suggestions:** Propose the most suitable meeting times.
+1. **Gather & Order Intervals:** Collect all available time intervals for both the mentee and the new mentor, and sort them chronologically.
+2. **Apply User Preference:** Identify time intervals where neither party has an existing session, ensuring these free slots align with the user’s availability. If a day is fully booked, the system moves to the next.
+3. **Present Suggestions:** Propose the most suitable mutual meeting times between both users.
 
-**Part 2: Time Conflict Resolution**
+---
 
-This section details the logic for resolving scenarios where mutual availability is blocked by existing mentee sessions:
+## 🔄 Part 2: Time Conflict Resolution (Fallback)
 
-1. **Identify Blocking Sessions:** Pinpoint existing sessions preventing the new mentor-mentee meeting.  
-2. **Find Rescheduling Options:** Search for new times to reschedule the identified blocking session with the *existing* mentor.  
-3. **Return First Successful Option:** The system proposes the first successful rescheduling option that frees up the blocking slot for the new meeting.
+This section outlines how the system handles scenarios where mutual availability is blocked by an existing session:
 
-Part 3: Cancellability Conflict Resolution 
+1. **Identify Blocking Sessions:** The system scans existing mentee sessions that overlap with mutual availability between a mentee and a new mentor.
+2. **Find Rescheduling Options:** For each blocking session, it checks if it can be moved to a new mutual time between the mentee and the *existing* mentor of that session.
+3. **Return First Successful Option:** If a viable reschedule is found, the system proposes this plan and uses the freed slot for the new session.
 
-Upon cancelling a session, algorithm suggest another connection that is available at that time to the mentee.When a mentoring session is canceled, the system's algorithm should proactively identify and suggest alternative connections to the mentee. This ensures that the mentee's learning and development journey remains uninterrupted. The algorithm would consider factors such as the mentee's learning objectives, the mentor's expertise, and the availability of other mentors within the network to provide the most relevant and timely alternative options. This immediate recommendation helps maintain momentum and provides continuous support, minimizing any potential disruption caused by the cancellation
+---
 
-**Input Parameters:**
+## ❌ Part 3: Cancellability-Based Reschedule Suggestions
 
-* \`userId\`: The ID of the user whose schedule has a freed slot.  
-* \`startTime\`: The start time of the freed slot.  
-* \`endTime\`: The end time of the freed slot.  
-* \`otherUserId\` (optional): If provided, suggestions will exclude this user.
+When a user cancels a session, the system immediately reuses the now-freed time to **suggest new meetings** with the user’s other connections — including the one they just canceled with.
 
-**Process:**
+### Key Behavior:
+- Only sessions marked `cancelable: true` trigger this logic.
+- Suggestions are **only made to the user who canceled**, scoped to their existing mentor or mentee connections.
+- The system checks for overlapping availability and schedule conflicts before offering new suggestions.
 
-1. **Define Freed Slot:** The \`startTime\` and \`endTime\` are combined into a \`freedSlot\` array \`\[startTime, endTime\]\`.  
-2. **Retrieve User Role:**  
-   * The system fetches the \`role\` of the \`userId\` from the \`prisma.user\` database.  
-   * If the user is not found, an empty array is returned.  
-3. **Determine Mentorship Type:**  
-   * \`isMentee\` is set to \`true\` if the user's role is \`Role.MENTEE\`.  
-4. **Fetch Mentorship Connections:**  
-   * The system retrieves all mentorships associated with the \`userId\`.  
-   * If \`isMentee\` is true, it finds mentorships where the \`menteeId\` matches \`userId\`.  
-   * If \`isMentee\` is false (meaning the user is a mentor), it finds mentorships where the \`mentorId\` matches \`userId\`.  
-   * The \`mentor\` and \`mentee\` details for each mentorship are included in the results.  
-5. **Initialize Suggestions:** An empty array named \`suggestions\` is created to store potential reschedule options.  
-6. **Load User Schedule Data:** The \`loadUserData(userId)\` function is called to get the user's free slots (\`userData.freeSlots\`).  
-7. **Iterate Through Mentorships:** For each mentorship connection:  
-   * **Identify Partner:** The \`partner\` is identified as the mentor if the current user is a mentee, or the mentee if the current user is a mentor.  
-   * **Exclude Specific Partner (if \`otherUserId\` provided):** If \`otherUserId\` is provided and matches the \`partner.id\`, this mentorship is skipped.  
-   * **Load Partner Schedule Data:** The \`loadUserData(partner.id)\` function is called to get the partner's free slots (\`partnerData.freeSlots\`).  
-   * **Check Availability:**  
-     * \`userCanUse\`: Checks if the \`freedSlot\` is contained within the \`userFree\` slots using \`containsIntervals()\`.  
-     * \`mentorCanUse\`: Checks if the \`freedSlot\` is contained within the \`partnerFree\` slots using \`containsIntervals()\`.  
-   * **Add to Suggestions (if both are available):** If both \`userCanUse\` and \`mentorCanUse\` are true, a suggestion object is added to the \`suggestions\` array. This object includes:  
-     * \`connectionId\`: The ID of the mentorship.  
-     * \`name\`: The name of the partner.  
-     * \`withUser\`: The ID of the partner.  
-     * \`suggestTime\`: The \`freedSlot\`.  
-8. **Return Suggestions:** The algorithm returns the \`suggestions\` array.
 
-**Error Handling:**
+## 🧩 Pseudocode Summary
 
-* A \`try...catch\` block is used to handle potential errors during the process.  
-* If an error occurs, the string "Error getting reschedule options" is returned.
+### Best Time to Meet
 
-**Assumptions:**
+1. **Data Modeling:**  
+   Add `Availability` and `Session` models. Define weekdays using Prisma enums.
 
-* \`prisma.user\` and \`prisma.mentorship\` are database models accessible via a Prisma client.  
-* \`Role.MENTEE\` is a defined enum value.  
-* \`loadUserData(userId)\` is an asynchronous function that retrieves a user's free time slots.  
-* \`containsIntervals(freeSlots, interval)\` is a function that checks if a given \`interval\` is fully contained within a set of \`freeSlots\`.
+2. **Get Mentee Sessions:**  
+   Fetch all mentee sessions and group by day.
 
-**Pseudocode (Detailed Steps)**
+3. **Get Mentor Sessions:**  
+   For each connected mentor, retrieve sessions and availability.
 
-**Part 1: Suggest Best Meeting Session**
+4. **Find Free Slots:**  
+   Subtract session intervals from availability for both mentee and mentor.
 
-* **Step 1: Data Modeling:** Add \`Availability\` (id, day, userId, start\_time, end\_time) and \`Session\` (id, menteeId, mentorId, start\_time, end\_time, reason, connectionId) tables. Define an Enum for weekdays.  
-* **Step 2: Retrieve Mentee’s Existing Sessions:** Get the mentee's ID, fetch all their sessions, store connected mentor IDs, and organize sessions by day.  
-* **Step 3: Retrieve Connected Mentors' Existing Sessions:** For each connected mentor, fetch their availability and sessions, storing them in an object keyed by mentor ID, then by weekday with time intervals.  
-* **Step 4: Find Mentee’s Free Slots:** For each day of mentee's availability, subtract booked sessions using interval subtraction to find free slots. Sort and loop through sessions to identify and store free intervals.  
-* **Step 5: Find Free Times from Each Mentor:** Repeat the logic from Step 3 for each mentor to get their free slots.  
-* **Step 6: Find Overlapping Free Intervals:** For each day, identify overlapping free intervals between the mentee and mentors.  
-* **Step 7: Store and Return Result:** Store the results in an object, organized by mentor ID, then by day of the week, with free intervals as values.
+5. **Compare Free Times:**  
+   Find overlapping free intervals between users.
 
-**Part 2: Time Conflict Resolution (Fallback)**
+6. **Return Suggestions:**  
+   Store and display sorted suggestions based on availability and alignment.
 
-* **Step 1: Identify New Mentor’s Free Slots:** Calculate the new mentor's free slots by subtracting their sessions from their availability.  
-* **Step 2: Identify Mentors Responsible for Mentee’s Sessions:** Loop through mentee's sessions and store a list of \`{sessionId: int, mentorId: int}\`.  
-* **Step 3: Get the First Session That Can Be Rescheduled:**  
-  * Iterate through the mentee's sessions (\`S\`).  
-  * For each session, find if another time exists for it with the *existing* mentor by calculating the existing mentor's free slots and checking for overlaps with the mentee's free slots.  
-  * If a new time exists, identify the \`SessionToReschedule\`, \`newTimeSlot\`, and \`freedBlockedSlot\` (original conflicting slot). If not, continue to the next session.
+---
 
-### Database Integration
+### Time Conflict Resolution
 
-Prisma ORM  
-PostgreSQL 
+1. **Find Mentor’s Free Time:**  
+   Subtract the mentor’s existing sessions from their availability.
 
-### External APIs
+2. **Map Blocking Sessions:**  
+   Loop through mentee sessions and record mentor-session pairs.
 
-College Scorecard API is a free API provided by the US Department of Education.  
-[College Scorecard API](https://collegescorecard.ed.gov/data/api/) 
+3. **Try Rescheduling Each Blocker:**  
+   For each session:
+   - Check if the existing mentor has another mutual free time with the mentee.
+   - If yes, suggest rescheduling and free up the blocked time.
 
-### Authentication
+---
 
-### Visuals and Interactions
+## 🛠 Database Integration
 
-* Interesting Cursor Interaction  
-* UI Component with Custom Visual Styling  
-* Loading State
+MentorMe uses **PostgreSQL**, managed through **Prisma ORM**, to persist all scheduling-related data.
 
-## Timeline
+### Key Models:
+- `User`: Stores user profile and role (`MENTOR` or `MENTEE`)
+- `Mentorship`: Tracks connections between users
+- `Request`: Manages connection requests
+- `Availability`: Stores recurring weekly time slots for each user
+- `Session`: Stores scheduled session data with timing, participants, and cancelability
 
-| MU Week | Project Week | Focus | Tasks & Timelines |
-| ----- | ----- | :---- | :---- |
-| 4 | 1 | Focus on the components that will serve as the skeleton of your project. You will probably be using most of what you learned in CodePath to set up things like the client and server repositories, initial routing, login / registration, creating a database with object models, etc. | Mentee/Mentor Creation & Authentication Frontend Forms: 2 days Database Setup for users: 2 days Design users table with roles Run migrations to create table Test user creation through Prisma API: POST/users 1-2 days Setup route to handle user registration. Validate input & store user in DB Send a response confirming creation. Authentication \- Login/Sign Up: 2-3days Implement password with bcrypt Create login route (check credentials, return session) Setup express-session for session management Test login/logout functionality Protect private routes (middlewares) |
-| 5 | 2 | Week 5 and 6 should be where you focus on the specific requirements of your project. | Main Page \- Connections List of connections (shared between mentee & mentor) Frontend : 2 days UI display mentor list Exclude mentors with existing connections or request APIs: 1 day ‘GET’ method Filter mentors with no active mentorship or pending request List of current mentors (Mentee side) Frontend: 1day APIs: 2 days ‘GET’ to fetch current connections ‘POST’ to create new mentorship requests |
-| 6 | 3 | By this point, you should be getting started with your technical challenges as well. | Requests \- Sidebar Frontend: 2 days Sidebar UI showing requests list Different views for mentors and mentees Status indicators (pending, accepted, rejected) APIs: 2 days ‘GET’ filter mentor/mentee id ‘POST’ update request status |
-| 7 | 4 | You should focus on finishing your MVP and core requirements. By this point, you should be done with at least one of your technical challenges. | Technical Challenge 1 Backend: 2 days **Data Modeling**: set up Interest and UserInterest tables  **Profile-Based Recommendation Logic:** Implement interest weighting, school/major matching, scoring and sorting logic. **Graph-Based Recommendation:** Implement BFS algorithm for connection distance \+ edge scoring. API Integration Create controller functions, export functions, export endpoints Frontend API integration; GET request method to fetch top recommendations UI component, display recommended mentors on the side bar of the Mentee’s Home Page  |
-| 8 | 5 | Continue work on finishing touches and stretch goals for your MVP. By this point, your core functionality and both TAPs should all be in place. It is also a good point to start working on stretch goals that could further expand on the functionality (and technical complexity) of your project. This week you also have to submit your self-review, make sure you allocate enough time for this alongside your final submission for your project\! | Technical Challenge 2 Backend **Availability Modeling:** Design weekly recurring time slots using weekday \+ start/end (Unix) **Session Suggestion Logic:** Compare mentor and mentee availability to generate mutual meeting times. **Conflict Resolution:** Implemented an algorithm to get the first rescheduling options with an existing mentor to free up blocked sessions with a new mentor. API Integration GET request method to get suggested time passing in mentor’s Id Frontend **API integration**: Fetch suggested time and conflict fallback suggestions. **UI**: Display suggested sessions between two connections Empty State: Show fallback text if no time is available  Session History: Display past sessions  Upcoming Session: Display scheduled sessions. |
-| 9 | 6 | It’s time to show others what you have built\! Work on a presentation and demo that you will present to other interns to showcase your work. You are also free to continue polishing and expanding on your project\! |  |
-| 10 | 7 | For this week, we have a bunch of extra activities prepared to give you a quick dive of what it is to work at Meta. You will find activities around using internal tools and frameworks, and even committing code to our internal repositories. |  |
+---
+
+## ✅ Frontend Integration
+
+- **Cancel Flow:**
+  - When a user cancels a session, a DELETE request is made to `/session/:id`
+  - If the session was cancelable, the backend returns suggested replacement sessions
+  - These are shown as suggestions immediately in the UI (e.g., “You now have an open slot with Alice from 3–4 PM”)
+
+- **Suggestions UI:**
+  - Suggestions are displayed as banners or toast-like components
+  - Users can optionally click to schedule that session manually
+
+---
+
+## ⚙️ Error Handling
+
+- All backend logic is wrapped in `try...catch` blocks to prevent unhandled failures.
+- Failures result in safe default values (empty arrays or simple error messages).
+- Time-based constraints (e.g., sessions starting in under 2 hours cannot be canceled or rescheduled) are enforced consistently.
+
+---
+
+## 💡 Future Improvements
+
+- Support for dynamic session durations (e.g., 30 or 45 minutes)
+- Auto-detection of double-bookings
+- Session priority scoring during fallback resolution
+- Calendar view of all free slots and suggestions
+
+---
+
+# **External APIs**
+MentorMe integrates the **College Scorecard API** (U.S. Department of Education) during onboarding. This API standardizes college name inputs by matching user-provided values to verified institutional records, improving data quality across user profiles.
+
+---
+
+# **Authentication**
+User authentication is handled using **Express sessions** for persistent login across visits.  
+* On login/signup, credentials are verified using **bcrypt**, and a session is stored via `express-session`.  
+* Middleware protects backend routes by validating session data before granting access.  
+* On the frontend, a global `UserContext` tracks session state and role, enabling conditional rendering and navigation.  
+* Pages are wrapped in a **role-based protection layer**, ensuring that only users with the appropriate role (e.g., mentor-only pages) can access certain routes.  
+* This structure allows seamless page navigation without requiring repeated logins or manual role checks.
+
+---
+
+# **Visuals and Interactions**
+
+## *Interesting Cursor Interaction*  
+A **custom tooltip** appears when hovering over a mentor's profile image. This tooltip displays additional metadata (e.g., school or location), implemented using conditional rendering and Framer Motion for smooth entry/exit transitions.
+
+## *UI Component with Custom Visual Styling*  
+The **Connections page** features a **tabbed navigation system**, where tabs respond to hover and active states. This is built using **Tailwind CSS** with custom variants for a polished, interactive feel tailored to MentorMe’s visual identity.
+
+## *Loading State*  
+Async operations throughout the app—such as login, fetching mentors, or scheduling sessions—trigger **loading indicators** (spinners or skeleton UIs). These are implemented using conditional state flags and ensure a smooth, responsive user experience during backend calls.
+
+## 🚀 Stretch Features
+
+### *Task Management System*
+MentorMe includes a built-in task management feature that empowers users—particularly mentees—to organize their mentorship goals.
+
+* Users can:
+  * Create new tasks with a **title**, **description**, and **priority level** (e.g., high, medium, low)
+  * Track task progress by updating their status to one of three categories:
+    * **To Do** – Initial state, indicating tasks that need attention  
+    * **In Progress** – Tasks actively being worked on  
+    * **Complete** – Finished tasks that serve as a log of accomplishments
+
+This feature is tightly integrated into the mentorship workflow, promoting structure, accountability, and productivity.
+
+---
+
+### *Fuzzy Search for Mentor Discovery*
+To enhance discoverability and personalization, MentorMe implements a dynamic fuzzy search system powered by **Fuse.js**.
+
+* Mentees can:
+  * Search using **partial matches** or **typo-tolerant** input
+  * Look across multiple fields including **name**, **interest**, **school**, and **major**
+  * View real-time filtered results as they type
+
+This makes it easier for mentees to find and connect with relevant mentors quickly and intuitively.
+
+---
+
+### *Light/Dark Mode Support*
+MentorMe’s UI supports **automatic light/dark mode** based on the user’s system preference.
+
+* Implemented using:
+  * CSS media queries
+  * Tailwind’s `dark` variant styling
+
+* Benefits:
+  * Dynamically adapts without manual toggle
+  * Enhances accessibility and visual comfort
+  * Maintains a clean, modern experience aligned with device settings
