@@ -139,11 +139,9 @@ Mentor: a user who provides support within the same major.
 * Dark & Light Mode Using System Mode 
 * Task Assignment
 
-
 ### Screen Archetypes
 
 [Figma](https://www.figma.com/design/qDBAMyyZAjUgEzFdKD6dwp/MentorMe?node-id=0-1&t=kJSMWWU3BToiFW8t-0)
-
 
 ## Project Requirements
 
@@ -498,3 +496,7 @@ MentorMe’s UI supports **automatic light/dark mode** based on the user’s sys
   * Dynamically adapts without manual toggle
   * Enhances accessibility and visual comfort
   * Maintains a clean, modern experience aligned with device settings
+
+
+### Final Review
+Thanks to the codepath sessions and feedbacks from my manager, Andrew and peer mentor, Madhu and Chandra, this project was completed.

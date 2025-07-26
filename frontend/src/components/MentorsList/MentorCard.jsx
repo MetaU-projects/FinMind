@@ -12,9 +12,9 @@ export default function MentorCard({ mentor, onConnect }) {
                         alt={mentor.name + "profile"}
                         className="profile-img"
                     />
-                    <span className="tooltiptext"><strong>Available</strong>
-                        {mentor.preference.map(avail => (
-                            <li key={avail.id}>{avail.day}: {avail.startTime} - {avail.endTime}</li>
+                    <span className="tooltiptext"><strong>Available: <p>School</p></strong>
+                        {Array.isArray(mentor.preference) && mentor.preference.map(avail => (
+                            <li key={mentor.preference.id}>{avail.day}: {avail.startTime} - {avail.endTime}</li>
                         ))}
                     </span> 
                 </div>
@@ -25,8 +25,8 @@ export default function MentorCard({ mentor, onConnect }) {
             </div>
             <p className="card-bio">{mentor.bio}</p>
             <div className="card-skills">
-                {mentor.interest.map(skill => (
-                    <span key={mentor}>{skill.interest.name}</span>
+                {Array.isArray(mentor.interest) && mentor.interest.map(skill => (
+                    <span key={mentor.interest.id}>{skill.interest.name}</span>
                 ))}
             </div>
             <button className="btn" onClick={onConnect}><FaUserPlus className="connect-icon" /> Connect</button>
