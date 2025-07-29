@@ -27,6 +27,7 @@ export default function RequestList() {
                 break;
             case requestStatus.DECLINED:
                 await removeRequest(requestId);
+                break;
         }
         setRequests(requests.filter(request => request.mentee.id !== menteeId));
     }
