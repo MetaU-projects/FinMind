@@ -1,0 +1,31 @@
+@import 'tailwindcss';
+
+.profile-overlay {
+    @apply fixed inset-5 backdrop-blur-xs flex items-center justify-center z-60;
+}
+
+.profile-container {
+    @apply relative bg-white gap-10 border border-gray-300 dark:bg-gray-900 rounded-xl p-6 w-[90vh] h-[80vh] flex flex-col;
+}
+
+.profile-top h2 {
+    @apply text-3xl font-bold dark:text-white;
+}
+
+.profile-top h3 {
+    @apply text-base font-light dark:text-white;
+}
+
+.profile-class {
+    display: flex;
+    gap: 10rem;
+}
+
+.profile-sub {
+    @apply dark:text-white;
+}
+
+.profile-sub h4 {
+    font-size:large;
+    font-weight: 500;
+}
