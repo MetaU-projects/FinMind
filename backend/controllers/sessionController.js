@@ -57,7 +57,7 @@ const suggestSession = async (req, res) => {
         const mentorFree = getAvailability(mentorAvailability);
         const mentorSlots = getFreeSlots(mentorFree, mentorSessions);
 
-        const proposedSlots = oneHourIntervals(timeOverlaps(userSlots, mentorSlots));
+        const proposedSlots = timeOverlaps(userSlots, mentorSlots);
 
         if (proposedSlots.length > 0) {
             return res.status(200).json({ proposedSession: proposedSlots.slice(0, TOP_NUMBER), resolvedSession: [] });
@@ -68,7 +68,7 @@ const suggestSession = async (req, res) => {
             return res.status(200).json({ proposedSession: [], resolvedSession: newSession });
         }
 
-        res.status(404).json({ message: "No available time found" });
+        res.status(200).json({ message: "You might have to increase your availabiity!", proposedSession: [], resolvedSession: [] });
 
     } catch (err) {
         res.status(500).json({ error: "Something went wrong!", details: err.message });
