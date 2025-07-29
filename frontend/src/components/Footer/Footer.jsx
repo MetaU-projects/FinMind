@@ -7,8 +7,8 @@ export default function Footer() {
             <div className='footer-content'>
                 <p className='copyright'>&copy; {new Date().getFullYear()} MentorMe. All right reserved.</p>
                 <div className='footer-links'>
-                    <Link to="/" smooth duration={500} className='link-text'>Terms & Conditions</Link>
-                    <Link to="/" smooth duration={500} className='link-text'>Privacy</Link>
+                    <Link to="/" smooth="true" duration={500} className='link-text'>Terms & Conditions</Link>
+                    <Link to="/" smooth="true" duration={500} className='link-text'>Privacy</Link>
                 </div>
             </div>
         </footer>
