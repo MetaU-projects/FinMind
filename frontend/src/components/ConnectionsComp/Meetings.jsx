@@ -48,7 +48,7 @@ export default function Meetings({ upComing, setUpcoming, meetingHistory, connec
                                         <p>{formatUnixTimes(meeting.startTime, meeting.endTime)}</p>
                                     </div>
                                 </div>
-                                <button className="text-red-500 cursor-pointer" onClick={() => handleSessionCancel(meeting.id)}>Cancel</button>
+                                <button className="cancel-session" onClick={() => handleSessionCancel(meeting.id)}>Cancel</button>
                                 <span className="upcoming-status">
                                     <AiOutlineWechat />
                                     <a href={`mailto:${connection[role].email}`}>Send Email</a>
