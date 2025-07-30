@@ -8,8 +8,9 @@ dayjs.extend(timezone);
 const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timezone;
 
 export const formatUnixTimes = (startTime, endTime) => {
-    const start = dayjs.unix(startTime).tz(userTimeZone);
-    const end = dayjs.unix(endTime).tz(userTimeZone);
+    const start = dayjs.unix(startTime).utc().tz(userTimeZone);
+    const end = dayjs.unix(endTime).utc().tz(userTimeZone);
 
     return `${start.format('MM/DD/YYYY h:mm A')} - ${end.format('h:mm A')}`;
 }
+
