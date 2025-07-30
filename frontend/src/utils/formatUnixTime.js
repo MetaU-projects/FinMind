@@ -5,7 +5,7 @@ import timezone from 'dayjs/plugin/timezone';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-const userTimeZone = Int1.DateTimeFormat().resolvedOptions().timezone;
+const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timezone;
 
 export const formatUnixTimes = (startTime, endTime) => {
     const start = dayjs.unix(startTime).tz(userTimeZone);
