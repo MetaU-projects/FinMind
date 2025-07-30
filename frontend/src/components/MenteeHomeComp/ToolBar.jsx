@@ -32,13 +32,13 @@ export default function ToolBar({ searchQuery, setSearchQuery, getData, onSearch
                 <p>Hi {user.name}, this is your chance to connect with mentors that match your interests.</p>
             </div>
             <div className="search-bar">
-                <button onClick={handleSearch} className="search-icon"><BiSearchAlt /></button>
                 <input className="tool-search"
                     type="text"
                     value={searchQuery}
                     onKeyDown={handleKeyPress}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search for mentors by 'name', 'major', 'school', 'interest' " />
+                <button onClick={handleSearch} className="search-icon"><BiSearchAlt /></button>
                 <button onClick={handleClear} className="search-icon right-0"><FaTimes /></button>
             </div>
         </div>

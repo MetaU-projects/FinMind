@@ -33,7 +33,7 @@
 }
 
 .banner {
-    @apply flex flex-col items-center justify-between bg-gradient-to-r from-[#3D52A0] to-[#8697C4] to-blue-400;
+    @apply flex flex-col items-center justify-between bg-gradient-to-r from-[#3D52A0] to-[#8697C4] to-blue-400 px-4 py-6;
 }
 
 .tool-quote {
@@ -41,15 +41,15 @@
 }
 
 .tool-quote h2 {
-    @apply text-3xl font-bold;
+    @apply text-2xl sm:text-3xl font-bold text-center;
 }
 
 .tool-quote p {
-    @apply text-base mt-1;
+    @apply text-sm sm:text-base text-center mt-1;
 }
 
 .tool-search {
-    @apply rounded-full bg-gray-50 border-gray-300 text-gray-900 text-sm block w-200 mt-10 ps-10 p-2.5 mb-5;
+    @apply flex-1 rounded-full bg-gray-50 border border-gray-300 text-gray-900 text-sm min-w-0 px-4 py-2;
 }
 
 .tool-top {
@@ -69,9 +69,10 @@
 }
 
 .search-icon {
-    @apply absolute text-3xl cursor-pointer text-white bg-[#3D52A0] hover:bg-[#ADBBDA] hover:text-black rounded-full px-1.5 py-1.5;
+    @apply text-2xl cursor-pointer text-white bg-[#3D52A0] hover:bg-[#ADBBDA] hover:text-black rounded-full px-1.5 py-1.5;
 }
 
+
 .search-bar {
-    @apply flex items-center relative gap-3;
+    @apply w-full max-w-xl flex justify-center gap-2 mt-4 items-center;
 }

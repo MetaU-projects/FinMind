@@ -22,13 +22,13 @@ export default function Schedule({ connection, timeSuggestions, update, onCountU
         const endDate = new Date(`${date} ${endTime}`)
         const startUnix = Math.floor(startDate.getTime() / MS_PER_SECOND);
         const endUnix = Math.floor(endDate.getTime() / MS_PER_SECOND);
-        
-        if(startUnix < now) {
+
+        if (startUnix < now) {
             alert("‼️ You cannot schedule a session in the past.");
             return;
         }
 
-        if(startUnix > endUnix) {
+        if (startUnix > endUnix) {
             alert("‼️ Start time cannot be greater than end time!");
             return;
         }
@@ -113,22 +113,27 @@ export default function Schedule({ connection, timeSuggestions, update, onCountU
                                     <h3><strong>{formatUnixTimes(session[0], session[1])}</strong></h3>
                                 </div>
                             </div>
-                        ))) : (
-                        <div className="session">
-                            <h3>Reschedule To meet with mentor</h3>
-                            <div className="time">
-                                <AiOutlineClockCircle />
-                                <h3>Cancel</h3><h3><strong>{formatUnixTimes(timeSuggestions.resolvedSession.freedTime[0], timeSuggestions.resolvedSession.freedTime[1])}</strong></h3>
-                            </div>
-                            <h3>Rescheduling Option</h3>
+                        ))) : 
+                        (timeSuggestions.resolvedSession.length !== 0 ? (
                             <div className="session">
+                                <h3>Reschedule To meet with mentor</h3>
                                 <div className="time">
                                     <AiOutlineClockCircle />
-                                    <h3><strong>{formatUnixTimes(timeSuggestions.resolvedSession.rescheduleTo[0], timeSuggestions.resolvedSession.rescheduleTo[1])}</strong></h3>
+                                    <h3>Cancel</h3><h3><strong>{formatUnixTimes(timeSuggestions.resolvedSession.freedTime[0], timeSuggestions.resolvedSession.freedTime[1])}</strong></h3>
+                                </div>
+                                <h3>Rescheduling Option</h3>
+                                <div className="session">
+                                    <div className="time">
+                                        <AiOutlineClockCircle />
+                                        <h3><strong>{formatUnixTimes(timeSuggestions.resolvedSession.rescheduleTo[0], timeSuggestions.resolvedSession.rescheduleTo[1])}</strong></h3>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    )}
+                        ) : (
+                            <div>{timeSuggestions.message}</div>
+                        )
+                        )
+                    }
                 </div>
             </div>
         </div>

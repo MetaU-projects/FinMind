@@ -17,19 +17,6 @@ export default function NewTaskModal({ setAddTask, connection, onCountUpdate, up
         updateColumn();
         onCountUpdate?.();
     }
-    const handlePriority = (value) => {
-        switch(value){
-            case 'LOW':
-                setPriority(taskPriority.LOW)
-                return;
-            case 'MEDIUM':
-                setPriority(taskPriority.MEDIUM);
-                return;
-            case 'HIGH':
-                setPriority(taskPriority.HIGH);
-                return;
-        }
-    }
 
     return (
         <div className="modal-overlay">
@@ -43,10 +30,10 @@ export default function NewTaskModal({ setAddTask, connection, onCountUpdate, up
                     <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Task title" required />
                     <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Description" />
 
-                    <select value={priority} onChange={(e)=>handlePriority(e.target.value)} className="new-task-priority">
-                        <option value='LOW'>Low</option>
-                        <option value="MEDIUM">Medium</option>
-                        <option value="HIGH">High</option>
+                    <select value={priority} onChange={(e)=>setPriority(e.target.value)} className="new-task-priority">
+                        <option value={taskPriority.LOW}>Low</option>
+                        <option value={taskPriority.MEDIUM}>Medium</option>
+                        <option value={taskPriority.HIGH}>High</option>
                     </select>
 
                     <button type="submit" className="submit-task" >Create Task</button>
