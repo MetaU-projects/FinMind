@@ -1,3 +1,4 @@
+import { BiArrowBack } from "react-icons/bi";
 import { BsPeople } from "react-icons/bs";
 import { MdPeopleOutline } from "react-icons/md";
 import { GoTasklist } from "react-icons/go";
@@ -26,6 +27,7 @@ export default function Connections() {
     const role = user.role === "MENTEE" ? "mentor" : "mentee";
     const [totalUpcoming, setTotalUpcoming] = useState(0);
     const [activeTasks, setActiveTasks] = useState(0);
+    const [showDetails, setShowDetails] = useState(false);
 
     const refreshCounts = useCallback(async () => {
         const [total, active] = await Promise.all([
@@ -49,6 +51,7 @@ export default function Connections() {
     const handleSelect = useCallback(async (connection) => {
         lastSelectedRef.current = connection.id;
         setSelectedConnection(connection);
+        if (window.innerWidth < 1024) setShowDetails(true);
 
         const [historyData, upComingData, sessionsData] = await Promise.all([
             getMeetingHistory(connection.id),
@@ -95,16 +98,21 @@ export default function Connections() {
                 </div>
 
                 <div className="connections-content">
-                    <div className="connections-left">
-                        <ConnectionList
-                            connections={connections}
-                            setConnections={setConnections}
-                            role={user.role}
-                            onSelect={handleSelect}
-                        />
-                    </div>
-                    {selectedConnection ?
+                    {(!showDetails || window.innerWidth >= 1024) &&
+                        (<div className="connections-left">
+                            <ConnectionList
+                                connections={connections}
+                                setConnections={setConnections}
+                                role={user.role}
+                                onSelect={handleSelect}
+                            />
+                        </div>)
+                    }
+                    {(showDetails || window.innerWidth >= 1024) && selectedConnection ?
                         <div className="connections-right">
+                            <button onClick={() => setShowDetails(false)} className="back-btn">
+                                <BiArrowBack />
+                            </button>
                             <div className="connection-nav">
                                 {tabs.map((tab) => (
                                     <button
@@ -121,12 +129,14 @@ export default function Connections() {
                                 {activeTab === 'Tasks' && (<Tasks connection={selectedConnection} onCountUpdate={refreshCounts} />)}
                                 {activeTab === 'Schedule' && (<Schedule connection={selectedConnection} onCountUpdate={refreshCounts} update={handleSelect} timeSuggestions={timeSuggestions} />)}
                             </div>
-                        </div> :
-                        <div className="connections-right-empty">
-                            <BsPeople className="empty-icon" />
-                            <h2>Select a connection</h2>
-                            <p>Choose a connection from list the list to view details and manage your relationship</p>
-                        </div>
+                        </div> : (
+                            window.innerWidth >= 1024 &&
+                            (<div className="connections-right-empty">
+                                <BsPeople className="empty-icon" />
+                                <h2>Select a connection</h2>
+                                <p>Choose a connection from list the list to view details and manage your relationship</p>
+                            </div>)
+                        )
                     }
                 </div>
             </div>

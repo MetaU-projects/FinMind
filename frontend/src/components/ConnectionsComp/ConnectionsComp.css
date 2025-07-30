@@ -1,15 +1,15 @@
 @import 'tailwindcss';
 
 .wrapper {
-    @apply flex flex-col justify-between;
+    @apply flex flex-col gap-6 px-4 sm:px-8 justify-between;
 }
 
 .upcoming {
-    @apply p-6 bg-white m-5 shadow-md rounded-xl dark:bg-gray-700 overflow-y-auto;
+    @apply p-4 sm:p-6 bg-white m-2 sm:m-5 shadow-md rounded-xl dark:bg-gray-700 overflow-y-auto;
 }
 
 .meeting-top {
-    @apply flex items-center gap-2 text-3xl dark:text-white;
+    @apply flex items-center gap-2 text-xl dark:text-white;
 }
 
 .upcoming-icon {
@@ -21,7 +21,7 @@
 }
 
 .meeting-empty {
-    @apply flex flex-col items-center justify-center m-10;
+    @apply flex flex-col items-center justify-center text-center gap-2 my-6 text-gray-400 dark:text-gray-300;
 }
 
 .meeting-empty h2 {
@@ -33,11 +33,11 @@
 }
 
 .meeting-list {
-    @apply flex justify-between items-center mt-5 gap-2 border border-gray-200 p-3 rounded-xl;
+    @apply flex justify-between items-center flex-wrap mt-4 gap-2 border border-gray-200 p-4 rounded-xl;
 }
 
 .meeting-details {
-    @apply flex items-center gap-2;
+    @apply flex flex-col sm:flex-row items-start gap-2;
 }
 
 .meeting-details h3 {
@@ -48,12 +48,16 @@
     @apply text-sm dark:text-gray-200;
 }
 
+.cancel-session {
+    @apply text-red-500 text-xs sm:text-sm px-1 cursor-pointer;
+}
+
 .upcoming-status {
-    @apply flex items-center text-sm px-3 py-0.5 rounded-full gap-2 cursor-pointer bg-[#3D52A0] text-white;
+    @apply flex items-center gap-1 text-xs sm:text-sm px-2 py-1 whitespace-nowrap rounded-full cursor-pointer bg-[#3D52A0] text-white;
 }
 
 .history {
-    @apply p-6 bg-white m-5 shadow-md rounded-xl dark:bg-gray-700 overflow-y-auto;
+    @apply p-4 sm:p-6 bg-white m-2 sm:m-5 shadow-md rounded-xl dark:bg-gray-700 overflow-y-auto;
 }
 
 .history-icon {
@@ -65,15 +69,15 @@
 }
 
 .meeting-stats {
-    @apply p-6 bg-white m-5 shadow-md rounded-xl dark:bg-gray-700;
+    @apply bg-white p-4 m-2 sm:m-5 shadow-md rounded-xl dark:bg-gray-700;
 }
 
 .stats-details {
-    @apply flex justify-around mt-10;
+    @apply flex flex-col sm:flex-row justify-around gap-4 mt-6;
 }
 
 .stats {
-    @apply flex flex-col justify-center items-center;
+    @apply flex flex-col gap-1 text-center items-center;
 }
 
 .stats p {
@@ -81,15 +85,15 @@
 }
 
 .stats-total {
-    @apply text-3xl text-blue-400 font-bold;
+    @apply text-xl sm:text-2xl text-blue-400 font-bold;
 }
 
 .stats-completed {
-    @apply text-3xl text-green-400 font-bold;
+    @apply text-xl sm:text-2xl text-green-400 font-bold;
 }
 
 .stats-upcoming {
-    @apply text-3xl text-yellow-400 font-bold;
+    @apply text-xl sm:text-2xl text-yellow-400 font-bold;
 }
 
 .task-top {
