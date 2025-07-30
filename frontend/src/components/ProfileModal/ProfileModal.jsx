@@ -17,7 +17,7 @@ export default function ProfileModal({ setPickMentor, user, onResponse, sendMent
                 <span onClick={onClose} className="close-task">&times;</span>
                 <div className="profile-top">
                     <h2>{user.name}</h2>
-                    <h3>{user.classification} {user.major}</h3>
+                    <h3>{user.major}</h3>
                 </div>
                 <div className="profile-sub">
                     <h4>About</h4>
