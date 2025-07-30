@@ -97,31 +97,31 @@
 }
 
 .task-top {
-    @apply flex items-center justify-between m-5;
+    @apply flex items-center justify-between mb-5;
 }
 
 .task-text h2 {
-    @apply font-bold text-xl dark:text-white;
+    @apply font-bold text-base sm:text-xl dark:text-white;
 }
 
 .task-text p {
-    @apply font-light text-base text-gray-500 dark:text-gray-200;
+    @apply font-light text-sm sm:text-base text-gray-500 dark:text-gray-200;
 }
 
 .task-cards {
-    @apply flex flex-row sm:flex-row gap-4 mt-10 m-5 max-h-screen;
+    @apply flex flex-wrap justify-between md:flex-nowrap gap-4 mt-10 m-5 max-h-screen;
 }
 
 .add-task {
-    @apply flex gap-4 p-2 text-white items-center text-sm bg-[#3D52A0] rounded-md cursor-pointer;
+    @apply flex p-1 lg:gap-4 lg:p-2 text-white items-center text-xs lg:text-sm bg-[#3D52A0] rounded-md cursor-pointer;
 }
 
 .schedule-container {
-    @apply p-6 bg-white shadow-md rounded-xl m-5 dark:bg-gray-700 dark:text-white;
+    @apply w-full mx-auto p-4 sm:p-6 bg-white shadow-md rounded-xl m-5 dark:bg-gray-700 dark:text-white;
 }
 
 .schedule-title {
-    @apply text-xl font-semibold mb-1;
+    @apply text-base sm:text-lg font-semibold mb-1;
 }
 
 .schedule-text {
@@ -129,7 +129,7 @@
 }
 
 .date-time {
-    @apply flex flex-col sm:flex-row gap-4
+    @apply flex flex-col sm:flex-row gap-4;
 }
 
 .schedule-time {
@@ -145,11 +145,19 @@
 }
 
 .schedule-btns {
-    @apply flex flex-col sm:flex-row gap-4 justify-end mt-4;
+    @apply flex flex-col sm:flex-row gap-1 sm:gap-2 justify-end mt-4;
+}
+
+.schedule-btns2 {
+    @apply gap-1 sm:gap-2 justify-end mt-4;
+}
+
+.cancellable {
+    @apply flex gap-2;
 }
 
 .send-schedule {
-    @apply w-full sm:w-auto px-4 py-2 rounded-md bg-[#3D52A0] text-white hover:bg-[#ADBBDA] hover:text-black;
+    @apply text-sm w-full sm:w-auto px-2 py-1 sm:px-4 sm:py-2 rounded-md bg-[#3D52A0] text-white hover:bg-[#ADBBDA] hover:text-black;
 }
 
 .btn {
@@ -157,7 +165,7 @@
 }
 
 .clear-schedule {
-    @apply w-full sm:w-auto px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:text-black;
+    @apply w-full sm:w-auto px-2 py-1 sm:px-4 sm:py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:text-black;
 }
 
 .session {
@@ -165,5 +173,5 @@
 }
 
 .time {
-    @apply flex flex-row items-center gap-2
+    @apply flex flex-row items-center gap-2;
 }
