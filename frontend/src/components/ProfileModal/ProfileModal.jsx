@@ -1,3 +1,6 @@
+import { AiTwotoneCalendar } from "react-icons/ai"; 
+import { AiFillTag } from "react-icons/ai"; 
+import { FaGraduationCap } from "react-icons/fa"; 
 import "./ProfileModal.css"
 
 export default function ProfileModal({ setPickMentor, user, onResponse, sendMentorId }) {
@@ -13,7 +16,6 @@ export default function ProfileModal({ setPickMentor, user, onResponse, sendMent
             <div className="profile-container">
                 <span onClick={onClose} className="close-task">&times;</span>
                 <div className="profile-top">
-                    
                     <h2>{user.name}</h2>
                     <h3>{user.classification} {user.major}</h3>
                 </div>
@@ -23,23 +25,31 @@ export default function ProfileModal({ setPickMentor, user, onResponse, sendMent
                 </div>
                 <div className="profile-class">
                     <div className="profile-sub">
-                        <h4>Classification</h4>
+                        <h4><AiFillTag />Classification</h4>
                         <p>{user.classification}</p>
                     </div>
                     <div className="profile-sub">
-                        <h4>Education</h4>
+                        <h4><FaGraduationCap />Education</h4>
                         <p>{user.school}</p>
                     </div>
                 </div>
                 <div className="profile-sub">
-                    <h4>Interests</h4>
-                    <p>{user.interest}</p>
+                    <h4>Skills/Interests</h4>
+                    <div className="interest-tags">
+                        {Array.isArray(user.interest) && user.interest.map(skill => (
+                            <span key={skill.interest.id}>{skill.interest.name}</span>
+                        ))}
+                    </div>
                 </div>
                 <div className="profile-sub">
-                    <h4>Available</h4>
-                    <p>{user.preference}</p>
+                    <h4><AiTwotoneCalendar />Available</h4>
+                    <div className="avail-tags">
+                    {Array.isArray(user.preference) && user.preference.map(avail => (
+                        <p key={user.preference.id}><strong>{avail.day}</strong>: {avail.startTime} - {avail.endTime}</p>
+                    ))}
+                    </div>
                 </div>
-                <button className="btn" onClick={() => handleResponse(user.id)}>Send Request to Connect</button>
+                <button className="btn flex-end" onClick={() => handleResponse(user.id)}>Send Request to Connect</button>
             </div>
         </div>
     )
