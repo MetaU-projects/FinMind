@@ -433,13 +433,13 @@ User authentication is handled using **Express sessions** for persistent login a
 # **Visuals and Interactions**
 
 ## *Interesting Cursor Interaction*  
-A **custom tooltip** appears when hovering over a mentor's profile image. This tooltip displays additional metadata (e.g., school or location), implemented using conditional rendering and Framer Motion for smooth entry/exit transitions.
+A **custom tooltip** appears when hovering over a mentor's profile image. This tooltip displays additional metadata e.g (days available), implemented using tailwind css.
 
 ## *UI Component with Custom Visual Styling*  
 The **Connections page** features a **tabbed navigation system**, where tabs respond to hover and active states. This is built using **Tailwind CSS** with custom variants for a polished, interactive feel tailored to MentorMe’s visual identity.
 
 ## *Loading State*  
-Async operations throughout the app—such as login, fetching mentors, or scheduling sessions—trigger **loading indicators** (spinners or skeleton UIs). These are implemented using conditional state flags and ensure a smooth, responsive user experience during backend calls.
+Loading state is implemented when app loads.
 
 ## 🚀 Stretch Features
 
