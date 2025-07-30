@@ -18,6 +18,7 @@ export default function HomeMentee() {
     const [searchQuery, setSearchQuery] = useState("");
     const [mentorId, setMentorId] = useState(null)
     const [pickMentor, setPickMentor] = useState(null);
+    const [activePanel, setActivePanel] = useState(null);
     const { user } = useUser();
 
     const fetchData = async () => {
@@ -28,7 +29,6 @@ export default function HomeMentee() {
         setMentors(results);
         setRecommend(recomData);
     }
-
 
     const handleMentorSearch = async (query) => {
         const data = await searchMentors(query);
@@ -45,38 +45,42 @@ export default function HomeMentee() {
         setMentors(mentors.filter(mentor => mentor.id !== mentorId));
     }
 
+    const togglePanel = (panel) => {
+        setActivePanel(prev => (prev === panel ? null : panel));
+    }
+
     return (
         <div>
             <div className="home-page">
                 <div className="home-header">
-                    <Header />
-                    <ToolBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} onSearch={handleMentorSearch} setMentors={setMentors} getData={fetchData} />
-                </div>
-                <div className="home-content">
-                    <div className="home-left">
+                    <Header togglePanel={togglePanel} />
+                    {activePanel === 'pending' &&
                         <PendingRequests
                             pendingRequests={pendingRequests}
                             setMentors={setMentors}
                             setPendingRequests={setPendingRequests}
                         />
+                    }
+                    {activePanel === 'recommended' &&
                         <Recommended recommend={recommend} />
-                    </div>
-                    <div className="home-right">
-                        <MentorList
-                            mentors={mentors}
-                            setMentors={setMentors}
-                            onRequest={setMentorId}
-                            onSendRequest={handleConnectionReq} 
-                            setPendingRequests={setPendingRequests}
-                            onSelect={setPickMentor}
-                        />
-                    </div>
+                    }
+                    <ToolBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} onSearch={handleMentorSearch} setMentors={setMentors} getData={fetchData} />
+                </div>
+                <div className="home-content">
+                    <MentorList
+                        mentors={mentors}
+                        setMentors={setMentors}
+                        onRequest={setMentorId}
+                        onSendRequest={handleConnectionReq}
+                        setPendingRequests={setPendingRequests}
+                        onSelect={setPickMentor}
+                    />
                 </div>
                 <Footer />
             </div>
 
             {pickMentor &&
-                <ProfileModal setPickMentor={setPickMentor} user={pickMentor} sendMentorId={setMentorId} onResponse={handleConnectionReq}  />
+                <ProfileModal setPickMentor={setPickMentor} user={pickMentor} sendMentorId={setMentorId} onResponse={handleConnectionReq} />
             }
         </div>
     )
