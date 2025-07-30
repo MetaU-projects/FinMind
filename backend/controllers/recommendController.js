@@ -95,9 +95,9 @@ const mentorRecomendations = async (req, res) => {
             mentor.interest.forEach(d => {
                 if (menteeIntIds.has(d.interestId)) {
                     interestScore += WEIGHTS.interest;
-                }
-                if (popularInterests[d.interestId]){
-                     interestScore += popularInterests[d.interestId] * WEIGHTS.bonus;
+                    if (popularInterests[d.interestId]) {
+                        interestScore += popularInterests[d.interestId] * WEIGHTS.bonus;
+                    }
                 }
             });
             const schoolScore = mentee.school === mentor.school ? WEIGHTS.school : 0;

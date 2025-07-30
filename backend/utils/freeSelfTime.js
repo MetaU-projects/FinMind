@@ -46,7 +46,7 @@ const loadUserData = async (userId) => {
         ])
 
         userCache.set(userId, {
-            freeSlots: oneHourIntervals(getFreeSlots(getAvailability(availability), getSessions(mentorshipInfo)))
+            freeSlots: getFreeSlots(getAvailability(availability), getSessions(mentorshipInfo))
         });
     }
     return userCache.get(userId);
@@ -96,6 +96,9 @@ const suggestFromFreedTime = async ({ userId, startTime, endTime, otherUserId })
 
             const userCanUse = containsIntervals(userFree, freedSlot);
             const mentorCanUse = containsIntervals(partnerFree, freedSlot);
+
+            if(!userCanUse || !mentorCanUse) continue;
+
             suggestions.push({
                 connectionId: mentorship.id,
                 name: partner.name,
