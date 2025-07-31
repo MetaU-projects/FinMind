@@ -2,7 +2,6 @@ import { useState } from "react";
 import "./TaskComps.css";
 import { AiOutlineEllipsis } from "react-icons/ai";
 import { taskStatus } from "../../../utils/status";
-import { updateTask } from "../../../services/taskService";
 import ErrorModal from "../../ErrorModal/ErrorModal";
 
 export default function TaskCard({ task, onStatusChange }) {

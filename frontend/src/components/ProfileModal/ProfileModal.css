@@ -1,0 +1,45 @@
+@import 'tailwindcss';
+
+.profile-overlay {
+    @apply fixed inset-5 backdrop-blur-xs flex items-center justify-center z-60;
+}
+
+.profile-container {
+    @apply relative bg-white gap-3 lg:gap-10 border border-gray-300 dark:bg-gray-900 rounded-xl p-6 w-[90%] sm:w-[80%] md:w-[60%] lg:w-[50%] xl:w-[40%] h-[50vh] lg:h-[70vh] flex flex-col;
+}
+
+.profile-top h2 {
+    @apply text-xl sm:text-3xl font-bold dark:text-white;
+}
+
+.profile-top h3 {
+    @apply text-sm sm:text-base font-light dark:text-white;
+}
+
+.profile-class {
+    @apply flex gap-20 lg:gap-10
+}
+
+.profile-sub {
+    @apply dark:text-white;
+}
+
+.profile-sub h4 {
+    @apply font-medium text-sm sm:text-lg flex items-center gap-2;
+}
+
+.profile-sub p {
+    @apply text-xs sm:text-base text-gray-600 dark:text-gray-400;
+}
+
+.interest-tags {
+    @apply mt-2 flex flex-wrap gap-2;
+}
+
+.interest-tags span {
+    @apply text-xs px-1 lg:text-sm bg-gray-200 dark:bg-[#5b6ea0] text-black dark:text-white lg:px-2 lg:py-1 rounded-full;
+}
+
+.avail-tags {
+    @apply flex text-gray-600 gap-5 lg:gap-10;
+}

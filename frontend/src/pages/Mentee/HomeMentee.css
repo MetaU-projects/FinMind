@@ -9,19 +9,11 @@
 }
 
 .home-content {
-    @apply min-h-screen flex pt-5 ml-20 mr-20;
-}
-
-.home-left {
-    @apply pt-2 p-2 m-10 fixed flex flex-col gap-10 bg-white dark:bg-gray-700 rounded-xl;
-}
-
-.home-right {
-    @apply flex-1 ml-85 overflow-y-auto;
+    @apply min-h-screen flex flex-col lg:flex-row pt-5;
 }
 
 .mentors-container {
-    @apply p-2 bg-white dark:bg-gray-700 rounded max-w-6xl grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 m-10 rounded-xl;
+    @apply p-2 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-6 m-10 rounded-xl;
 
 }
 

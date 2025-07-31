@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
 .card {
-    @apply h-65 flex flex-col justify-between bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm hover:shadow-lg transition border border-gray-200;
+    @apply h-75 flex flex-col justify-between bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm hover:shadow-lg transition border border-gray-200;
 }
 
 .card-content {
@@ -21,7 +21,7 @@
 }
 
 .card-bio {
-    @apply mt-2 text-sm text-gray-700 dark:text-gray-200 line-clamp-2;
+    @apply mt-2 text-sm text-gray-700 dark:text-gray-200 line-clamp-3 cursor-pointer;
 }
 
 .card-skills {

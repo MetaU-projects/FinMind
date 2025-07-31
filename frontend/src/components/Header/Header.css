@@ -8,16 +8,22 @@
     @apply text-base sm:text-xl font-bold;
 }
 
-
 .nav-links {
     @apply flex items-center gap-4 text-sm sm:text-base sm:gap-6;
 }
-
 
 .nav-link {
     @apply relative font-normal after:block after:h-[2px] after:bg-black after:scale-x-0 after:transition-transform after:duration-300 after:origin-left hover:after:scale-x-100 after:mt-1;
 }
 
-.header-action {
+.header-actions {
+    @apply flex items-center lg:gap-4;
+}
+
+.header-icon {
+    @apply text-xl lg:text-3xl text-blue-900 cursor-pointer;
+}
+
+.header-log {
     @apply cursor-pointer text-[#3D52A0] text-sm px-3 py-1 rounded-sm hover:bg-[#3D52A0] hover:text-white transition;
 }

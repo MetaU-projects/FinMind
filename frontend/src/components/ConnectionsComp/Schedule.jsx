@@ -5,7 +5,8 @@ import { MS_PER_SECOND } from "../../utils/constants";
 import { createSession } from "../../services/mentorshipService";
 import ErrorModal from "../ErrorModal/ErrorModal";
 import { formatUnixTimes } from "../../utils/formatUnixTime";
-import { sessionCancel } from "../../utils/status";
+import { Role, sessionCancel } from "../../utils/status";
+import { useUser } from "../../contexts/UserContext";
 
 export default function Schedule({ connection, timeSuggestions, update, onCountUpdate }) {
     const [date, setDate] = useState("");
@@ -14,6 +15,8 @@ export default function Schedule({ connection, timeSuggestions, update, onCountU
     const [note, setNote] = useState("");
     const [error, setError] = useState("")
     const [canCancel, setCanCancel] = useState(true);
+    const { user } = useUser();
+    const role = user.role === Role.MENTEE ? 'mentor' : 'mentee';
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -63,7 +66,7 @@ export default function Schedule({ connection, timeSuggestions, update, onCountU
             }
             <div className="wrapper">
                 <form onSubmit={handleSubmit} className="schedule-container">
-                    <h2 className="schedule-title">Schedule a meeting with Olivia Spencer</h2>
+                    <h2 className="schedule-title">Schedule a meeting with {connection[role].name}</h2>
                     <p className="schedule-text">Choose a date and time for your one-hour meeting session</p>
                     <div className="schedule-time">
                         <label className="input-title">Select Date</label>
@@ -91,10 +94,12 @@ export default function Schedule({ connection, timeSuggestions, update, onCountU
                         ></textarea>
                     </div>
                     <div className="flex items-center justify-between">
-                        <div className="schedule-btns">
-                            <h3>Cancellable</h3>
-                            <button onClick={() => setCanCancel(sessionCancel.YES)} type="button" className="btn send-schedule">Yes</button>
-                            <button onClick={() => setCanCancel(sessionCancel.NO)} type="button" className="btn send-schedule">No</button>
+                        <div className="schedule-btns2">
+                            <h3>Cancellable?</h3>
+                            <div className="cancellable">
+                                <button onClick={() => setCanCancel(sessionCancel.YES)} type="button" className="btn send-schedule">Yes</button>
+                                <button onClick={() => setCanCancel(sessionCancel.NO)} type="button" className="btn send-schedule">No</button>
+                            </div>
                         </div>
                         <div className="schedule-btns">
                             <button type="submit" className="btn send-schedule">Create Session</button>

@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
 .side-container {
-    @apply h-[250px] w-[300px] lg:block bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 p-4 overflow-y-auto shadow-md rounded-xl z-30;
+    @apply absolute right-10 border border-gray-300 h-[250px] w-[300px] lg:block bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 p-4 overflow-y-auto shadow-md rounded-xl z-30;
 }
 
 .side-header {
