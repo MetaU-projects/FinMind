@@ -1,5 +1,7 @@
 const bcrypt = require('bcrypt');
 const prisma = require('../config/prismaClient');
+const { Role } = require('../utils/statusEnums');
+const { invalidateCache } = require('../utils/cache');
 
 const signup = async (req, res) => {
     const { name,
@@ -46,6 +48,10 @@ const signup = async (req, res) => {
                 }
             }
         });
+
+        if(role === Role.MENTOR) {
+            await invalidateCache('mentors:all');
+        }
 
         res.status(201).json({ message: "Successfully Signed Up!" });
 
