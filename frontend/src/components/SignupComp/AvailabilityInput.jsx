@@ -24,6 +24,7 @@ export default function AvailabilityInput({onChange}){
     }
     return (
         <div>
+            <h2 className="dark:text-white font-medium">Choose days and time available</h2>
             {weekdays.map((day) => {
                 const active = selected.find((s) => s.day === day);
                 return (
@@ -35,9 +36,11 @@ export default function AvailabilityInput({onChange}){
                             </span>
                         </label>
                         {active && (
-                            <div>
-                                <input type='time' value={active.startTime} onChange={(e) => handleTimeChange(day, 'startTime', e.target.value)} />
-                                <input type='time' value={active.endTime} onChange={(e) => handleTimeChange(day, 'endTime', e.target.value)} />
+                            <div className='time-inputs'>
+                                From
+                                <input className='time-input' type='time' value={active.startTime} onChange={(e) => handleTimeChange(day, 'startTime', e.target.value)} />
+                                to
+                                <input className='time-input' type='time' value={active.endTime} onChange={(e) => handleTimeChange(day, 'endTime', e.target.value)} />
                             </div>
                         )}
                     </div>
