@@ -1,3 +1,4 @@
+import { BiArrowBack } from "react-icons/bi";
 import { BsPeople } from "react-icons/bs";
 import { MdPeopleOutline } from "react-icons/md";
 import { GoTasklist } from "react-icons/go";
@@ -109,11 +110,9 @@ export default function Connections() {
                     }
                     {(showDetails || window.innerWidth >= 1024) && selectedConnection ?
                         <div className="connections-right">
-                            <div className="block lg:hidden mb-3">
-                                <button onClick={() => setShowDetails(false)} className="text-blue-600 font-semibold">
-                                    Back to Connections
-                                </button>
-                            </div>
+                            <button onClick={() => setShowDetails(false)} className="back-btn">
+                                <BiArrowBack />
+                            </button>
                             <div className="connection-nav">
                                 {tabs.map((tab) => (
                                     <button

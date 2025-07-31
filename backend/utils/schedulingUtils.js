@@ -65,8 +65,7 @@ const subtractInterval = (preference, sessions) => {
     }
     const oneHours = oneHourIntervals(result);
     const now = Math.floor(Date.now() / 1000)
-    const filtered = oneHours.filter(([start, end]) => start > now );
-    return filtered;
+    return oneHours.filter(([start, end]) => start > now );
 }
 
 /**
