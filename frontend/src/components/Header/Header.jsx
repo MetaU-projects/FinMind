@@ -1,9 +1,11 @@
+import { MdOutlineRecommend } from "react-icons/md"; 
+import { IoMdNotifications } from "react-icons/io";
 import { logoutUser } from "../../services/dataService"
 import { useUser } from "../../contexts/UserContext"
 import { Link, useNavigate } from 'react-router-dom'
 import "./Header.css"
 
-export default function Header() {
+export default function Header({ togglePanel }) {
     const { user, setUser } = useUser();
     const navigate = useNavigate();
 
@@ -22,12 +24,16 @@ export default function Header() {
                         <Link className="nav-link" to={user.role === 'MENTOR' ? '/mentor/home' : '/mentee/home'}> Home </Link>
                         <Link className="nav-link" to='/connections'>Connections</Link>
                     </nav>
-                    <button className="header-action" onClick={handlelogout}>Logout</button>
+                    <div className="header-actions">
+                        <IoMdNotifications className="header-icon" onClick={() => togglePanel('pending')} />
+                        <MdOutlineRecommend className="header-icon" onClick={() => togglePanel('recommended')} />
+                        <button className="header-log" onClick={handlelogout}>Logout</button>
+                    </div>
                 </div>
             ) : (
                 <div className="header-wrapper">
                     <h1>MentorMe</h1>
-                    <Link className="header-action" to="/auth/login">Login</Link>
+                    <Link className="header-log" to="/auth/login">Login</Link>
                 </div>
             )
             }
