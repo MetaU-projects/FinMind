@@ -5,11 +5,11 @@
 }
 
 .interest-list {
-    @apply absolute p-2 mt-2 rounded bg-white dark:bg-gray-700 dark:text-white;
+    @apply absolute p-2 mt-2 rounded bg-gray-200 dark:bg-gray-600 dark:text-white;
 }
 
 .interest-name {
-    @apply cursor-pointer hover:bg-[#8697C4] px-2
+    @apply cursor-pointer hover:bg-[#8697C4] px-2;
 }
 
 .days-container {
@@ -17,11 +17,11 @@
 }
 
 .day-label {
-    @apply flex items-center gap-2 cursor-pointer;
+    @apply flex items-center gap-1 text-sm sm:text-base sm:gap-2 cursor-pointer;
 }
 
 .day-name {
-    @apply px-3 py-1 w-20 text-center rounded-full border;
+    @apply w-20 text-center rounded-full border;
 }
 
 .active {
@@ -30,4 +30,12 @@
 
 .inactive {
     @apply bg-gray-100 text-gray-700;
+}
+
+.time-inputs {
+    @apply flex gap-1 text-xs sm:text-base sm:gap-3 dark:text-white;
+}
+
+.time-input {
+    @apply p-0 px-0.5 bg-gray-100 dark:text-black;
 }
