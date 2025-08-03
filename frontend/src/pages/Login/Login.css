@@ -1,11 +1,16 @@
 @import 'tailwindcss';
 
 .signIn {
-    @apply px-5 relative min-h-screen flex items-center justify-center bg-gradient-to-l from-[#EDE8F5] via-[#EDE8F5] to-[#ADBBDA] dark:from-gray-800 dark:to-gray-900;
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to left,#EDE8F5, #EDE8F5 ,#ADBBDA);
 }
 
 .login-form {
-    @apply w-[500px] max-w-full h-[450px] sm:h-[500px] bg-white dark:bg-gray-800 border border-gray-200 p-6 rounded-2xl shadow-lg overflow-hidden;
+    @apply bg-white p-8 rounded shadow-md w-full h-[90vh] max-w-md justify-start ;
 }
 
 .top-content {
@@ -16,12 +21,12 @@
 }
 
 .top-content h2 {
-    @apply text-3xl font-bold mb-1 dark:text-white;
+    @apply text-3xl font-bold mb-1;
 }
 
 .top-content p {
     font-size: small;
-    color: rgb(155, 154, 154);
+    color: gray;
 }
 
 .bottom-content {
@@ -31,23 +36,18 @@
 }
 
 .link{
-    @apply font-medium text-[#3D52A0] dark:text-[#ADBBDA];
+    @apply font-medium text-[#3D52A0];
 }
 
 .bottom-content p {
-    @apply mt-4 text-gray-600 dark:text-white;
+    @apply mt-4 text-gray-600;
 }
 
-.login-form label {
-    @apply dark:text-white text-base font-medium sm:text-lg;
-}
-
-.login-form input{
-    @apply w-full rounded p-1.5 text-sm sm:text-base sm:p-3 bg-gray-200 dark:bg-gray-300 dark:text-gray-700 text-sm;
+input{
+    @apply w-full rounded px-2 py-1 text-sm shadow-xl;
 }
 
 .bottom-img {
-    @apply hidden sm:block;
     position: absolute;
     bottom: 0;
     right: 0;
@@ -60,7 +60,6 @@
 }
 
 .top-img {
-    @apply hidden sm:block;
     position: absolute;
     top: 0;
     left: 0;
@@ -70,8 +69,4 @@
     border-bottom-right-radius: 50%;
     opacity: 0.6;
     object-fit: cover;
-}
-
-.login-btn {
-    @apply bg-[#3D52A0] w-full p-1 sm:p-2 text-white font-medium rounded-md text-base sm:text-xl text-center cursor-pointer mt-20;
 }

@@ -1,4 +1,3 @@
-import { ImSpinner8 } from "react-icons/im";
 import { useState } from "react";
 import { loginUser } from "../../services/dataService";
 import { useNavigate, Link } from "react-router-dom";
@@ -7,15 +6,11 @@ import './Login.css';
 import img1 from "../../assets/login-img1.jpg";
 import img2 from "../../assets/login-img2.jpg";
 import ErrorModal from "../../components/ErrorModal/ErrorModal";
-import { AiOutlineEye } from "react-icons/ai";
-import { AiOutlineEyeInvisible } from "react-icons/ai";
 
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
-    const [showPassword, setShowPassword] = useState(false)
-    const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
     const { setUser } = useUser();
@@ -23,15 +18,12 @@ export default function Login() {
     const handleLogin = async (e) => {
         e.preventDefault();
         setError("");
-        setLoading(true);
         try {
             const data = await loginUser(email, password);
             setUser(data.user);
             navigate(data.user.role === 'MENTOR' ? '/mentor/home' : '/mentee/home');
         } catch (err) {
             setError(err.message);
-        } finally {
-            setLoading(false);
         }
     };
 
@@ -50,7 +42,7 @@ export default function Login() {
                         <h2>Welcome to MentorMe</h2>
                         <p>Sign in to your account to continue your mentorship journey</p>
                     </div>
-                    <label> School Email
+                    <label>Email Address
                         <input
                             type="text"
                             placeholder="name@example.com"
@@ -58,23 +50,19 @@ export default function Login() {
                             onChange={(e) => setEmail(e.target.value)}
                             required />
                     </label>
-                    <label className="relative">Password
+                    <label>Password
                         <input
-                            type={showPassword ? "text" : "password"}
+                            type="password"
                             placeholder="Enter your password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required />
-                        <button type="button" className="absolute right-2 top-3/4" onClick={() => setShowPassword(prev => !prev)}>
-                            {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
-                        </button>
                     </label>
-                    <button className="login-btn" disabled={loading} type="submit">{loading ? <ImSpinner8 className="animate-spin" /> : "Sign In"}</button>
+                    <button className="btn-submit" type="submit">Sign In</button>
                     <div className="bottom-content">
                         <p className="link-text">Do not have an account? <Link className="link" to="/auth/signup">Sign Up</Link></p>
                     </div>
                 </form>
-
                 <img src={img2} alt="Bottom right image" className="bottom-img" />
             </div>
         </div>
