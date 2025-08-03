@@ -1,65 +1,75 @@
 @import 'tailwindcss';
 
-
-.signup-container {
-    @apply bg-gradient-to-l from-[#EDE8F5] via-[#EDE8F5] to-[#ADBBDA] dark:from-gray-800 dark:to-gray-900 flex justify-center items-center min-h-screen px-4;
-
+.signup {
+    @apply min-h-screen flex bg-gradient-to-l from-[#EDE8F5] via-[#EDE8F5] to-[#ADBBDA] dark:from-gray-800 dark:to-gray-900;
 }
 
-.signup-form {
-    @apply flex flex-col relative overflow-hidden w-[500px] max-w-full min-h-[400px] sm:min-h-[600px] bg-white dark:bg-gray-800 border border-gray-200 p-6 rounded-2xl shadow-lg;
+.left-side {
+    @apply w-1/3 bg-gray-100 flex flex-col justify-start items-center gap-4 p-6 dark:bg-gray-800 dark:text-white;
 }
 
-.animate-container {
-    @apply flex transition-transform duration-500 ease-in-out;
+.left-side h2 {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+    font-weight: 700;
 }
 
-.step-form {
-    @apply flex flex-col gap-4;
-}
-
-.animate-form {
-    @apply w-full flex-shrink-0;
-}
-
-.section-title {
-    @apply font-bold text-2xl text-center mb-5 dark:text-white;
-}
-
-.step-form-input {
-    @apply p-1.5 sm:p-3 text-sm sm:text-base bg-gray-200 dark:bg-gray-300 rounded-lg w-full;
-}
-
-.step-form textarea {
-    @apply p-2 text-sm sm:text-base sm:p-3 bg-gray-200 rounded-lg border-none dark:bg-gray-300 dark:text-black;
-}
-
-.role-buttons {
-    @apply flex justify-center gap-4 mt-1 sm:mt-5;
-}
-
-.role-btn {
-    @apply px-2 py-0.5 text-sm sm:px-4 sm:py-1.5 sm:text-base rounded-full cursor-pointer;
-}
-
-.form-actions {
-    @apply flex justify-center gap-2 mt-5 sm:mt-10;
-}
-
-.form-btn {
-    @apply bg-[#3D52A0] w-full p-1 sm:p-2 text-base sm:text-xl text-white font-medium rounded-md cursor-pointer;
+.left-side h3 {
+    font-size: 1.575rem;
+    line-height: 1.25rem;
+    font-weight: 400;
 }
 
 .search-drop {
-    @apply px-3 py-2 w-full absolute max-h-50 rounded-md shadow-lg bg-white overflow-x-auto;
+    @apply px-3 py-2 w-full absolute h-50 rounded-md shadow-lg bg-white overflow-x-auto;
+}
+
+.search {
+    @apply hidden;
 }
 
 .school {
     @apply text-sm cursor-pointer hover:bg-[#ADBBDA];
 }
 
-.classification {
-    @apply p-3 bg-gray-200 rounded-lg border-none dark:bg-gray-300 text-gray-600;
+.first-section {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    font-weight: 700;
+}
+
+select,
+textarea,
+input {
+    @apply w-full border border-gray-100 rounded px-2 py-1 text-sm shadow-xl;
+}
+
+label {
+    @apply block mt-2 mb-1 font-medium;
+}
+
+.section-title {
+    @apply text-xl font-bold mt-8 mb-2;
+}
+
+.sign-up-form {
+    width: 66.666667%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1.25rem 4rem 1.25rem 4rem;
+}
+
+.content {
+    @apply grid grid-cols-2 gap-4;
+}
+
+.role-pick {
+    @apply flex gap-10
+}
+
+.role {
+    @apply bg-[#3D52A0] hover:bg-[#7091E6] hover:text-black text-white cursor-pointer p-3 rounded-full;
 }
 
 .select-interest {
@@ -74,6 +84,21 @@
     @apply font-bold cursor-pointer hover:text-gray-700;
 }
 
-.bottom-content p{
-    @apply text-gray-200;
+
+.btn-submit {
+    @apply font-medium bg-[#7091E6] px-6 py-3 rounded mt-8 hover:bg-[#3D52A0] hover:text-white hover:cursor-pointer;
+}
+
+.bottom-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.bottom-content p {
+    margin-top: 1rem;
+}
+
+.link {
+    font-weight: 500;
+    color: #3D52A0;
 }
