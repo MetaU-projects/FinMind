@@ -1,37 +1,30 @@
-const { FIVE_MINUTES } = require('../config/constants');
 const prisma = require('../config/prismaClient');
-const { getOrSetCache } = require('../utils/cache');
 const { RequestStatus, Role } = require('../utils/statusEnums');
 
 const getMentors = async (req, res) => {
     const menteeId = req.session.userId;
-    const cacheKey = 'mentors:all';
-    const ttl = FIVE_MINUTES;
-
     try {
-        const mentors = await getOrSetCache(cacheKey, ttl, async () => {
-            return await prisma.user.findMany({
-                where: {
-                    role: Role.MENTOR,
-                    mentorMentorships: { none: { menteeId: menteeId } },
-                    mentorRequests: { none: { menteeId: menteeId } }
+        const mentors = await prisma.user.findMany({
+            where: {
+                role: Role.MENTOR,
+                mentorMentorships: { none: { menteeId: menteeId } },
+                mentorRequests: { none: { menteeId: menteeId } }
+            },
+            select: {
+                id: true,
+                name: true,
+                role: true,
+                school: true,
+                major: true,
+                classification: true,
+                bio: true,
+                interest: {
+                    select: {
+                        interest: true,
+                    }
                 },
-                select: {
-                    id: true,
-                    name: true,
-                    role: true,
-                    school: true,
-                    major: true,
-                    classification: true,
-                    bio: true,
-                    interest: {
-                        select: {
-                            interest: true,
-                        }
-                    },
-                    preference: true
-                }
-            });
+                preference: true
+            }
         });
         res.json(mentors);
     } catch (err) {
