@@ -10,6 +10,8 @@ import Footer from "../../components/Footer/Footer";
 import ProfileModal from "../../components/ProfileModal/ProfileModal";
 import { sendRequest } from "../../services/menteeService";
 import { useUser } from "../../contexts/UserContext";
+import CardSkeleton from "../../components/loading/CardSkeleton";
+import ErrorModal from "../../components/ErrorModal/ErrorModal";
 
 export default function HomeMentee() {
     const [pendingRequests, setPendingRequests] = useState([]);
@@ -19,20 +21,31 @@ export default function HomeMentee() {
     const [mentorId, setMentorId] = useState(null)
     const [pickMentor, setPickMentor] = useState(null);
     const [activePanel, setActivePanel] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("")
     const { user } = useUser();
 
     const fetchData = async () => {
-        const results = await getAvailableMentors();
-        const pendingResults = await getAllPendingRequests();
-        const recomData = await getRecommendedMentors();
-        setPendingRequests(pendingResults);
-        setMentors(results);
-        setRecommend(recomData);
+        try {
+            setLoading(true);
+            const results = await getAvailableMentors();
+            const pendingResults = await getAllPendingRequests();
+            const recomData = await getRecommendedMentors();
+            setPendingRequests(pendingResults);
+            setMentors(results);
+            setRecommend(recomData);
+        } catch (err) {
+            setError(err.message)
+        } finally {
+            setLoading(false);
+        }
     }
 
     const handleMentorSearch = async (query) => {
+        setLoading(true);
         const data = await searchMentors(query);
         setMentors(data);
+        setLoading(false);
     }
 
     useEffect(() => {
@@ -51,6 +64,7 @@ export default function HomeMentee() {
 
     return (
         <div>
+            {error && <ErrorModal error={error} setError={setError} />}
             <div className="home-page">
                 <div className="home-header">
                     <Header togglePanel={togglePanel} />
@@ -67,18 +81,21 @@ export default function HomeMentee() {
                     <ToolBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} onSearch={handleMentorSearch} setMentors={setMentors} getData={fetchData} />
                 </div>
                 <div className="home-content">
-                    <MentorList
-                        mentors={mentors}
-                        setMentors={setMentors}
-                        onRequest={setMentorId}
-                        onSendRequest={handleConnectionReq}
-                        setPendingRequests={setPendingRequests}
-                        onSelect={setPickMentor}
-                    />
+                    {!loading ? (
+                        <MentorList
+                            mentors={mentors}
+                            setMentors={setMentors}
+                            onRequest={setMentorId}
+                            onSendRequest={handleConnectionReq}
+                            setPendingRequests={setPendingRequests}
+                            onSelect={setPickMentor}
+                        />
+                    ) : (
+                        <CardSkeleton />
+                    )}
                 </div>
                 <Footer />
             </div>
-
             {pickMentor &&
                 <ProfileModal setPickMentor={setPickMentor} userInfo={pickMentor} sendMentorId={setMentorId} onResponse={handleConnectionReq} />
             }

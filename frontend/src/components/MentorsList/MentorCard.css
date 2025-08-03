@@ -57,9 +57,11 @@
 .tooltiptext {
     position: absolute;
     visibility: hidden;
+    padding: 6px;
+    border-radius: 10px;
     width: 200px;
     font-size: 0.875rem;
-    background-color:  white;
+    background-color:  #e1e1e1;
     left: 50%;
     bottom: 100%;
     margin-left: -60px;
@@ -80,5 +82,5 @@
     margin-left: -5px;
     border-width: 6px;
     border-style: solid;
-    border-color: white transparent transparent transparent;
+    border-color: #e1e1e1 transparent transparent transparent;
 }
