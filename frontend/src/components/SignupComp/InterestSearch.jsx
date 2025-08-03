@@ -36,7 +36,7 @@ export default function InterestSearch({ onSelect }) {
 
     return (
         <div className="interest-search">
-            <input className="step-form-input" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search Interests" />
+            <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="search interests" />
             {query &&
                 <ul className="interest-list">
                     {filterInterests.map(i => (
