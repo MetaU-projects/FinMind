@@ -28,6 +28,7 @@ export default function Connections() {
     const [totalUpcoming, setTotalUpcoming] = useState(0);
     const [activeTasks, setActiveTasks] = useState(0);
     const [showDetails, setShowDetails] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const refreshCounts = useCallback(async () => {
         const [total, active] = await Promise.all([
@@ -40,9 +41,11 @@ export default function Connections() {
 
     useEffect(() => {
         const fetchConnections = async () => {
+            setLoading(true);
             const results = await getAllConnections(user.role);
             await refreshCounts();
             setConnections(results);
+            setLoading(false);
         }
         fetchConnections();
     }, [user.role])
@@ -100,12 +103,18 @@ export default function Connections() {
                 <div className="connections-content">
                     {(!showDetails || window.innerWidth >= 1024) &&
                         (<div className="connections-left">
-                            <ConnectionList
-                                connections={connections}
-                                setConnections={setConnections}
-                                role={user.role}
-                                onSelect={handleSelect}
-                            />
+                            {loading ? (
+                                <div className="flex justify-center items-center h-32">
+                                    <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-blue-800 border-solid" />
+                                </div>
+                            ) : (
+                                <ConnectionList
+                                    connections={connections}
+                                    setConnections={setConnections}
+                                    role={user.role}
+                                    onSelect={handleSelect}
+                                />
+                            )}
                         </div>)
                     }
                     {(showDetails || window.innerWidth >= 1024) && selectedConnection ?

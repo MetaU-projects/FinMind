@@ -3,8 +3,9 @@ import { useEffect, useState } from 'react';
 import NewTaskModal from "./TaskComps/NewTaskModal";
 import TaskColumn from "./TaskComps/TaskColumn";
 import { getTasks, updateTask } from "../../services/taskService";
-import { taskStatus } from "../../utils/status";
+import { Role, taskStatus } from "../../utils/status";
 import ErrorModal from "../ErrorModal/ErrorModal";
+import { useUser } from "../../contexts/UserContext";
 
 export default function Tasks({ connection, onCountUpdate }) {
     const [addTask, setAddTask] = useState(false);
@@ -12,6 +13,8 @@ export default function Tasks({ connection, onCountUpdate }) {
     const [inProgress, setInProgress] = useState([]);
     const [complete, setComplete] = useState([]);
     const [error, setError] = useState("");
+    const { user } = useUser();
+    const role = user.role === "MENTEE" ? "mentor" : "mentee";
 
     const fetchData = async () => {
         try {
@@ -61,7 +64,8 @@ export default function Tasks({ connection, onCountUpdate }) {
                     <h2>Tasks</h2>
                     <p>Manage tasks and goals for this connection</p>
                 </div>
-                <button onClick={() => setAddTask(true)} className="add-task"><AiOutlinePlus />New Task</button>
+                {user.role === Role.MENTOR && <button onClick={() => setAddTask(true)} className="add-task"><AiOutlinePlus />New Task</button>}
+                {user.role === Role.MENTEE && <h2 className="bg-[#3D52A0] text-white rounded-lg p-2"><strong>{connection.mentor.name}</strong> Assigns Tasks</h2>}
             </div>
 
             <div className="task-cards">

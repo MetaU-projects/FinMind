@@ -21,7 +21,7 @@
 }
 
 .header-icon {
-    @apply text-xl lg:text-3xl text-blue-900 cursor-pointer;
+    @apply text-sm lg:text-lg text-blue-900 cursor-pointer;
 }
 
 .header-log {

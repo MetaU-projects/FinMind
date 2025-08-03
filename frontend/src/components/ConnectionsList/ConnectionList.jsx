@@ -12,7 +12,7 @@ export default function ConnectionList({ connections, setConnections, role, onSe
             await endMentorship(connectionId);
             setConnections(connections.filter(connection => connection.id !== connectionId));
         } catch (err) {
-            setError("Error ending connection");
+            setError(err.message);
         }
     }
 

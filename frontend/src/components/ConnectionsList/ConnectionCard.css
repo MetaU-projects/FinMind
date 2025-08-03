@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
 .connection-card {
-    @apply bg-[#ADBBDA] rounded-lg shadow p-3 flex flex-col gap-2 hover:shadow-md transition;
+    @apply bg-gray-200 rounded-lg shadow p-3 flex flex-col gap-2 hover:shadow-lg transition cursor-pointer;
 }
 
 .connection-top {
@@ -17,7 +17,7 @@
 }
 
 .connection-bio {
-    @apply text-gray-700;
+    @apply text-gray-700 line-clamp-3;
 }
 
 .divider {

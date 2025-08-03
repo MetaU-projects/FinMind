@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
 .col-container {
-    @apply w-full sm:w-[48%] md:w-[32%] bg-white rounded-lg p-4 shadow-md dark:bg-gray-700 overflow-y-auto;
+    @apply w-full sm:w-[48%] md:w-[32%]  bg-white rounded-lg p-4 shadow-md dark:bg-gray-700 overflow-y-auto;
 }
 
 .col-title {
@@ -13,7 +13,7 @@
 }
 
 .task-container {
-    @apply bg-white rounded-md p-2 lg:p-4 shadow-sm border border-gray-200 dark:bg-gray-600 lg:py-5;
+    @apply bg-gray-50 rounded-md p-2 lg:p-4 shadow-sm border border-gray-200 dark:bg-gray-600 lg:py-5;
 }
 
 .task-top-text {
@@ -37,11 +37,11 @@
 }
 
 .status {
-    @apply p-0.5 sm:px-2 sm:py-0.5 rounded-full text-white text-xs bg-[#3D52A0];
+    @apply p-0.5 sm:px-2 sm:py-0.5 rounded-full text-white text-xs;
 }
 
 .priority {
-    @apply p-0.5 sm:px-2 sm:py-0.5 rounded-full text-white text-xs bg-red-500;
+    @apply p-0.5 sm:px-2 sm:py-0.5 rounded-full text-white text-xs;
 }
 
 .action-dropdown {

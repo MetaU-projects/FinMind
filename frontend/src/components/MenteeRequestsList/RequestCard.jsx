@@ -1,8 +1,8 @@
 import { RxAvatar } from "react-icons/rx";
 
-export default function RequestCard({ mentee, onAccept, onReject }) {
+export default function RequestCard({ mentee, onAccept, onReject, onSelect }) {
     return (
-        <div className='card'>
+        <div className='flex flex-col justify-between bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm hover:shadow-lg transition border border-gray-200'>
             <div className="card-icon">
                 <RxAvatar className="avatar" />
             </div>
@@ -10,7 +10,7 @@ export default function RequestCard({ mentee, onAccept, onReject }) {
                 <h3>{mentee.name}</h3>
                 <p>{mentee.classification}</p>
             </div>
-            <p className="dark:text-gray-200">{mentee.bio}</p>
+            <p className="dark:text-gray-200 line-clamp-3" onClick={() => onSelect(mentee)}>{mentee.bio}</p>
             <div className="card-skills">
                 {mentee.interest.map(skill => (
                     <span key={skill}>{skill.interest.name}</span>

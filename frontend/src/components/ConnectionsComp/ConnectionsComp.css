@@ -97,7 +97,7 @@
 }
 
 .task-top {
-    @apply flex items-center justify-between mb-5;
+    @apply flex items-center justify-between mb-5 p-4 sm:p-6;
 }
 
 .task-text h2 {

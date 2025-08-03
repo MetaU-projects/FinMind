@@ -41,7 +41,7 @@
 }
 
 .connections-right {
-    @apply w-full w-2/3  p-4 rounded-lg bg-white dark:bg-gray-900;
+    @apply w-full w-2/3 p-4 rounded-lg bg-white dark:bg-gray-900;
 }
 
 .back-btn {
@@ -65,7 +65,7 @@
 }
 
 .right-content {
-    @apply mt-4;
+    @apply mt-4 bg-gray-100;
 }
 
 .connections-count {

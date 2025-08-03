@@ -1,13 +1,15 @@
+import { MdOutlinePending } from "react-icons/md"; 
 import { MdOutlineRecommend } from "react-icons/md"; 
-import { IoMdNotifications } from "react-icons/io";
 import { logoutUser } from "../../services/dataService"
 import { useUser } from "../../contexts/UserContext"
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import "./Header.css"
 
 export default function Header({ togglePanel }) {
     const { user, setUser } = useUser();
     const navigate = useNavigate();
+    const location = useLocation();
+    const currentPath = location.pathname;
 
     const handlelogout = async () => {
         await logoutUser();
@@ -24,11 +26,15 @@ export default function Header({ togglePanel }) {
                         <Link className="nav-link" to={user.role === 'MENTOR' ? '/mentor/home' : '/mentee/home'}> Home </Link>
                         <Link className="nav-link" to='/connections'>Connections</Link>
                     </nav>
+                    {currentPath === "/mentee/home" && user?.role === "MENTEE" ? (
                     <div className="header-actions">
-                        <IoMdNotifications className="header-icon" onClick={() => togglePanel('pending')} />
-                        <MdOutlineRecommend className="header-icon" onClick={() => togglePanel('recommended')} />
+                        <div className="flex items-center text-sm cursor-pointer" onClick={() => togglePanel('pending')}><MdOutlinePending className="header-icon"/>Pending</div>
+                        <div className="flex items-center text-sm cursor-pointer" onClick={() => togglePanel('recommended')}><MdOutlineRecommend className="header-icon"/>Recommendations</div>
                         <button className="header-log" onClick={handlelogout}>Logout</button>
                     </div>
+                ) : (
+                    <button className="header-log" onClick={handlelogout}>Logout</button>
+                )}
                 </div>
             ) : (
                 <div className="header-wrapper">

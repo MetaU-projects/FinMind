@@ -76,7 +76,6 @@ const endMentorship = async (req, res) => {
         }
 
         const { menteeId, mentorId } = connection;
-        await prisma.mentorship.delete({ where: { id: connectionId } });
 
         const request = await prisma.request.findFirst({
             where: { menteeId, mentorId }
@@ -85,9 +84,20 @@ const endMentorship = async (req, res) => {
         if (request) {
             await prisma.request.delete({ where: { id: request.id } });
         }
+
+        const tasks = await prisma.task.findFirst({
+            where: { mentorshipId: connectionId }
+        });
+
+        if(tasks) {
+            await prisma.task.delete({ where: {id: tasks.id} })
+        }
+
+        await prisma.mentorship.delete({ where: { id: connectionId } });
+        
         res.status(204).send();
     } catch (err) {
-        res.status(404).json({ error: "Error ending connection", details: err.message });
+        res.status(500).json({ error: "Error ending connection", details: err.message });
     }
 }
 

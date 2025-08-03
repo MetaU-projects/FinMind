@@ -80,7 +80,7 @@ export default function HomeMentee() {
             </div>
 
             {pickMentor &&
-                <ProfileModal setPickMentor={setPickMentor} user={pickMentor} sendMentorId={setMentorId} onResponse={handleConnectionReq} />
+                <ProfileModal setPickMentor={setPickMentor} userInfo={pickMentor} sendMentorId={setMentorId} onResponse={handleConnectionReq} />
             }
         </div>
     )
