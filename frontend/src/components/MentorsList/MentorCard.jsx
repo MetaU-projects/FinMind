@@ -24,14 +24,14 @@ export default function MentorCard({ mentor, onConnect, onSelect }) {
                         <p>{mentor.classification} {mentor.major}</p>
                     </div>
                 </div>
-                <p className="card-bio" onClick={() => onSelect(mentor)}>{mentor.bio}</p>
-                <div className="card-skills">
-                    {Array.isArray(mentor.interest) && mentor.interest.map(skill => (
-                        <span key={mentor.interest.id}>{skill.interest.name}</span>
-                    ))}
-                </div>
-                <button className="btn" onClick={onConnect}><FaUserPlus className="connect-icon" /> Connect</button>
             </div>
+            <p className="card-bio">{mentor.bio}</p>
+            <div className="card-skills">
+                {mentor.interest.map(skill => (
+                    <span key={skill.id}>{skill.interest.name}</span>
+                ))}
+            </div>
+            <button className="btn" onClick={onConnect}><FaUserPlus className="connect-icon" /> Connect</button>
         </div>
     )
 }
