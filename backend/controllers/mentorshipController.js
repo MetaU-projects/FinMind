@@ -1,4 +1,5 @@
 const prisma = require('../config/prismaClient');
+const { invalidateCache } = require('../utils/cache');
 const { ConnectionStatus, Role } = require('../utils/statusEnums');
 
 const getAllConnections = async (req, res) => {
@@ -44,6 +45,7 @@ const createMentorship = async (req, res) => {
             return res.status(404).json({ error: "Connection declined" });
         }
         const connected = await prisma.mentorship.create({ data: { menteeId, mentorId } });
+        await invalidateCache(`user:${menteeId}:recommendations`);
         res.status(201).json(connected);
     } catch (err) {
         res.status(404).json({ error: "Error creating a connection!", details: err.message });
@@ -98,6 +100,8 @@ const requestConnection = async (req, res) => {
             data: { menteeId, mentorId },
             include: { mentor: true }
         });
+        
+        await invalidateCache(`user:${menteeId}:recommendations`);
         res.status(201).json(request);
     } catch (err) {
         res.status(404).json({ error: "Error sending request!", details: err.message });
