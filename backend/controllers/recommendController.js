@@ -1,14 +1,14 @@
 const prisma = require('../config/prismaClient');
 const { Role } = require('../utils/statusEnums');
 const bfsAlgorithm = require('../utils/recommendUtils');
-const { TOP_NUMBER, WEIGHTS, TEN_HOUR_SECONDS } = require('../config/constants');
+const { TOP_NUMBER, WEIGHTS, TEN_HOUR_SECONDS, FIVE_MINUTES } = require('../config/constants');
 const recommendFromBios = require('../utils/generateRecommendations');
 const { getOrSetCache } = require('../utils/cache');
 
 const mentorRecomendations = async (req, res) => {
     const menteeId = req.session.userId;
     const cacheKey = `user:${menteeId}:recommendations`;
-    const ttl = TEN_HOUR_SECONDS;
+    const ttl = FIVE_MINUTES;
 
     try {
         const topMentors = await getOrSetCache(cacheKey, ttl, async () => {
