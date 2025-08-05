@@ -12,10 +12,10 @@ const createTask = async (req, res) => {
                 description,
                 priority
             }
-        })
-        res.status(201).json(task)
+        });
+        res.status(201).json(task);
     } catch (err) {
-        res.status(500).json({ error: "Error creating a session", details: err.message })
+        res.status(500).json({ error: "Error creating a session", details: err.message });
     }
 }
 
@@ -67,7 +67,40 @@ const activeTasks = async (req, res) => {
         });
         res.status(200).json(totalActiveTasks)
     } catch (err) {
-        res.status(404).json({ error: "Error getting total tasks", details: err.message })
+        res.status(404).json({ error: "Error getting total tasks", details: err.message });
+    }
+}
+
+const deleteTask = async (req, res) => {
+    const taskId = parseInt(req.params.taskId); 
+
+    if (Number.isNaN(taskId)) {
+        return res.status(400).json({ error: "Task Id is not a number" });
+    }
+
+    try {
+        await prisma.task.delete({ where: { id: taskId } });
+        res.status(204).json("Task has been successfully deleted");
+    } catch(err) {
+        res.status(500).json({ error: "Error deleting task", details: err.message });
+    }
+}
+
+const editTask = async (req, res) => {
+    const { taskId, title, description, priority } = req.body;
+
+    try {
+        const updatedTask = await prisma.task.update({
+            where: { id: taskId },
+            data: {
+                ...(title!==undefined && { title }),
+                ...(description!==undefined && { description }),
+                ...(priority!==undefined && { priority })
+            }
+        });
+        res.status(200).json(updatedTask);
+    } catch(err) {
+        res.status(500).json({ error: "Error editing task", details: err.message });
     }
 }
 
@@ -75,5 +108,7 @@ module.exports = {
     createTask,
     updateTask,
     getTasks,
-    activeTasks
+    activeTasks,
+    editTask,
+    deleteTask
 }

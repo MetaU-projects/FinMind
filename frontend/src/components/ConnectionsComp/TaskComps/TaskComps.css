@@ -32,8 +32,16 @@
     @apply text-xs sm:text-sm text-gray-600 mb-3 dark:text-white;
 }
 
+.task-action {
+    @apply flex items-center justify-between;
+}
+
 .task-status {
     @apply flex flex-wrap gap-2 mt-2;
+}
+
+.task-edits {
+    @apply flex dark:text-white text-lg cursor-pointer gap-1
 }
 
 .status {

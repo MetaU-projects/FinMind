@@ -7,7 +7,7 @@ const mentorRecomendations = require('../controllers/recommendController');
 const suggestSession = require('../controllers/sessionController');
 const { getInterests } = require('../controllers/interestController');
 const { createSession, removeSession, sessionsHistory, upcomingSessions, getTotalUpcoming } = require('../controllers/schedule.controller');
-const { getTasks, createTask, updateTask, activeTasks } = require('../controllers/taskController');
+const { getTasks, createTask, updateTask, activeTasks, deleteTask, editTask } = require('../controllers/taskController');
 const { searchMentors } = require('../controllers/searchController');
 
 
@@ -32,6 +32,8 @@ router.post('/task', isAuthenticated, createTask);
 router.get('/task/:mentorshipId', isAuthenticated, getTasks);
 router.patch('/task/update', isAuthenticated, updateTask);
 router.get('/task/active/total', isAuthenticated, activeTasks);
+router.delete('/task/remove/:taskId', isAuthenticated, deleteTask);
+router.patch('/task/edit', isAuthenticated, editTask);
 router.get('/session/total', isAuthenticated, getTotalUpcoming);
 router.get('/mentor/search', isAuthenticated, searchMentors);
 

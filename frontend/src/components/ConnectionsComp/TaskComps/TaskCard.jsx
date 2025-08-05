@@ -1,12 +1,16 @@
+import { AiOutlineEdit } from "react-icons/ai";
+import { AiOutlineDelete } from "react-icons/ai";
 import { useState } from "react";
 import "./TaskComps.css";
 import { AiOutlineEllipsis } from "react-icons/ai";
 import { taskStatus } from "../../../utils/status";
 import ErrorModal from "../../ErrorModal/ErrorModal";
+import EditTaskModal from "./EditTaskModal";
 
-export default function TaskCard({ task, onStatusChange }) {
+export default function TaskCard({ task, onStatusChange, onDelete, onEdit }) {
     const [action, setAction] = useState(false);
-    const [error, setError] = useState("")
+    const [error, setError] = useState("");
+    const [showEditModal, setShowEditModal] = useState(false);
 
     const handleTaskAction = async (value) => {
         setAction(false);
@@ -57,11 +61,23 @@ export default function TaskCard({ task, onStatusChange }) {
                     </select>
                 }
                 <p className="task-description">{task.description}</p>
-                <div className="task-status">
-                    <span className={`status ${getStatusColor(task.status)}`}>{task.status}</span>
-                    <span className={`priority ${getPriorityColor(task.priority)}`}>{task.priority}</span>
+                <div className="task-action">
+                    <div className="task-status">
+                        <span className={`status ${getStatusColor(task.status)}`}>{task.status}</span>
+                        <span className={`priority ${getPriorityColor(task.priority)}`}>{task.priority}</span>
+                    </div>
+                    <div className="task-edits">
+                        <AiOutlineEdit onClick={() => setShowEditModal(true)} />
+                        <AiOutlineDelete onClick={() => onDelete(task.id)} />
+                    </div>
                 </div>
             </div>
+            <EditTaskModal
+                isOpen={showEditModal}
+                task={task}
+                onClose={() => setShowEditModal(false)}
+                onSubmit={onEdit}
+            />
         </div>
     )
 }

@@ -26,7 +26,7 @@ export default function MentorCard({ mentor, onConnect, onSelect }) {
 
                 <p className="card-bio">{mentor.bio}</p>
                 <div className="card-skills">
-                    {mentor.interest.map(skill => (
+                    {Array.isArray(mentor.interest) && mentor.interest.map(skill => (
                         <span key={skill.id}>{skill.interest.name}</span>
                     ))}
                 </div>

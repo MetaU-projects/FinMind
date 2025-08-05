@@ -9,6 +9,8 @@ import { removeRequest } from "../../services/menteeService";
 import { createMentorship } from "../../services/mentorshipService";
 import { requestStatus } from "../../utils/status";
 import SlideShow from "./SlideShow";
+import MentorChecklist from "./MentorChecklist";
+import QuickFeedbackModal from "./QuickFeedbackModal";
 
 export default function HomeMentor() {
     const { user } = useUser();
@@ -41,17 +43,18 @@ export default function HomeMentor() {
     }
 
     const tips = [
-        { text: "🌱 Growth comes from asking questions.", img: "/public/tip1.jpg" },
-        { text: "🤝 Great mentors guide, not give answers.", img: "/public/tip2.jpg" },
-        { text: "📌 Be specific with your goals — it helps mentors help you.", img: "/public/tip3.jpg" },
-        { text: "💬 Don’t be afraid to follow up after a session.", img: "/public/tip4.jpg" }
+        { text: "🌱 Growth comes from asking questions.", img: "/tip1.jpg" },
+        { text: "🤝 Great mentors guide, not give answers.", img: "/tip2.jpg" },
+        { text: "📌 Be specific with your goals — it helps mentors help you.", img: "/tip3.jpg" },
+        { text: "💬 Don’t be afraid to follow up after a session.", img: "/tip4.jpg" },
+        { text: "📆 Smart scheduling: Suggested times that work for both of you.", img: "/f4.jpg" },
+        { text: "🧠 AI-powered mentor recommendations tailored to your goals.", img: "/f3.jpg" },
+        { text: "💡 Explore mentors by skills, schools, or shared interests.", img: "/f1.jpg" },
+        { text: "🔔 Stay in the loop with real-time updates and alerts.", img: "/f2.jpg" }
     ];
 
     const features = [
-        { text: "📆 Smart scheduling: Suggested times that work for both of you.", img: "/public/f4.jpg" },
-        { text: "🧠 AI-powered mentor recommendations tailored to your goals.", img: "/public/f3.jpg" },
-        { text: "💡 Explore mentors by skills, schools, or shared interests.", img: "/public/f1.jpg" },
-        { text: "🔔 Stay in the loop with real-time updates and alerts.", img: "/public/f2.jpg" }
+
     ];
 
 
@@ -90,13 +93,14 @@ export default function HomeMentor() {
                         </div>
                     </div>
                     <div className="flex flex-col gap-4">
-                        <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow h-[40vh]">
+                        <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-2xl shadow h-[40vh]">
+                            <h2 className="text-lg text-center mb-3 font-medium dark:text-white">Don't miss anything during your sessions</h2>
+                                <MentorChecklist />
+                                <QuickFeedbackModal />
+                        </div>
+                        <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-xl shadow h-[40vh]">
                             <h2 className="text-lg text-center font-medium dark:text-white">💡 Tip for the day!</h2>
                             <SlideShow slides={tips} />
-                        </div>
-                        <div className="bg-white dark:bg-gray-800 p-4 rounded-2xl shadow h-[40vh]">
-                            <h2 className="text-lg text-center font-medium dark:text-white">More features coming soon</h2>
-                            <SlideShow slides={features} />
                         </div>
                     </div>
                 </div>

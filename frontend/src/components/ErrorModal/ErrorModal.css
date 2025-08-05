@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
 .err-overlay {
-    @apply fixed inset-5 backdrop-blur-xs flex items-center justify-center z-60;
+    @apply fixed inset-0 backdrop-blur-xs flex items-center justify-center z-60;
 }
 
 .err-container {

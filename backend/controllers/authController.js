@@ -37,12 +37,12 @@ const signup = async (req, res) => {
                 classification,
                 bio,
                 interest: {
-                    createMany: {
+                    create: {
                         data: interestIds.map(id => ({ interestId: id })),
                     }
                 },
                 preference: {
-                    createMany: {
+                    create: {
                         data: availability
                     }
                 }

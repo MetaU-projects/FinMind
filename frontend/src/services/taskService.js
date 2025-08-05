@@ -38,3 +38,22 @@ export const getActiveTasks = async () => {
         throw new Error(err.response?.data?.error);
     }
 }
+
+export const removeTask = async (taskId) => {
+    try {
+        const response = await task.delete(`/task/remove/${taskId}`);
+        return response.data;
+    } catch(err) {
+        throw new Error(err.response?.data?.error);
+    }
+}
+
+export const editTask = async (taskDetails) => {
+    const data = { ...taskDetails }
+    try {
+        const response = await task.patch('/task/edit', data);
+        return response.data;
+    } catch (err) {
+        throw new Error(err.response?.data?.error);
+    }
+}

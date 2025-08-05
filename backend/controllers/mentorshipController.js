@@ -87,7 +87,11 @@ const endMentorship = async (req, res) => {
             await prisma.request.delete({ where: { id: request.id } });
         }
 
-        const tasks = await prisma.task.delete({
+        await prisma.task.deleteMany({
+            where: { mentorshipId: connectionId }
+        });
+
+        await prisma.session.deleteMany({
             where: { mentorshipId: connectionId }
         });
 

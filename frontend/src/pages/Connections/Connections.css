@@ -37,11 +37,11 @@
 }
 
 .connections-left {
-    @apply w-full lg:w-1/3 border-r border-gray-200 gap-4 rounded-lg bg-white dark:bg-gray-700;
+    @apply w-100 lg:w-1/3 gap-4 rounded-lg overflow-y-auto;
 }
 
 .connections-right {
-    @apply w-full w-2/3 p-4 rounded-lg bg-white dark:bg-gray-900;
+    @apply w-full lg:w-2/3 p-4 rounded-lg bg-white dark:bg-gray-900;
 }
 
 .back-btn {
@@ -65,7 +65,7 @@
 }
 
 .right-content {
-    @apply mt-4 bg-gray-100;
+    @apply mt-4;
 }
 
 .connections-count {
