@@ -1,11 +1,10 @@
 
 import MentorCard from "./MentorCard";
 
-export default function MentorList({ setPendingRequests, mentors, setMentors, onSelect, onRequest, onSendRequest }) {
+export default function MentorList({ mentors, onSelect, onRequest, loadingMentor }) {
 
     const handleConnect = (mentorId) => {
         onRequest(mentorId)
-        onSendRequest()
     }
 
     return (
@@ -16,6 +15,7 @@ export default function MentorList({ setPendingRequests, mentors, setMentors, on
                     mentor={mentor}
                     onConnect={() => handleConnect(mentor.id)}
                     onSelect={onSelect}
+                    loadingMentor={loadingMentor}
                 />
             ))}
         </div>

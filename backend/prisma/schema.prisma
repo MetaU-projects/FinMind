@@ -135,7 +135,7 @@ enum WeekDay {
   MONDAY
   TUESDAY
   WEDNESDAY
-  THURDAY
+  THURSDAY
   FRIDAY
 }
 

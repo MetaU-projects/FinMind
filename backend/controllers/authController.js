@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const prisma = require('../config/prismaClient');
 const { Role } = require('../utils/statusEnums');
 const { invalidateCache } = require('../utils/cache');
+const { WeekDay } = require('../src/generated/prisma');
 
 const signup = async (req, res) => {
     const { name,
@@ -40,7 +41,11 @@ const signup = async (req, res) => {
                     create: interestIds.map(id => ({ interestId: id })),
                 },
                 preference: {
-                    create: availability
+                    create: availability.map(({ day, startTime, endTime }) => ({
+                        day: WeekDay[day],
+                        startTime,
+                        endTime
+                    }))
                 }
             }
         });

@@ -3,17 +3,16 @@ import { useState } from "react"
 import "./ConnectionsComp.css"
 import { MS_PER_SECOND } from "../../utils/constants";
 import { createSession } from "../../services/mentorshipService";
-import ErrorModal from "../ErrorModal/ErrorModal";
 import { formatUnixTimes } from "../../utils/formatUnixTime";
 import { Role, sessionCancel } from "../../utils/status";
 import { useUser } from "../../contexts/UserContext";
+import { toast } from "react-hot-toast";
 
 export default function Schedule({ connection, timeSuggestions, update, onCountUpdate }) {
     const [date, setDate] = useState("");
     const [startTime, setStartTime] = useState("");
     const [endTime, setEndTime] = useState("");
     const [note, setNote] = useState("");
-    const [error, setError] = useState("")
     const [canCancel, setCanCancel] = useState(true);
     const { user } = useUser();
     const role = user.role === Role.MENTEE ? 'mentor' : 'mentee';
@@ -44,11 +43,16 @@ export default function Schedule({ connection, timeSuggestions, update, onCountU
                 reason: note,
                 cancelable: canCancel
             });
+            toast.success("Session created successfully!");
             handleClear();
             update(connection);
             onCountUpdate?.();
         } catch (err) {
-            setError(err.message);
+            if (err.response?.status === 409) {
+                toast.error(err.response.data.message);
+            } else {
+                toast.error("Something went wrong. Please try again!");
+            }
         }
     }
 
@@ -61,9 +65,6 @@ export default function Schedule({ connection, timeSuggestions, update, onCountU
 
     return (
         <div>
-            {error &&
-                <ErrorModal error={error} setError={setError} />
-            }
             <div className="wrapper">
                 <form onSubmit={handleSubmit} className="schedule-container">
                     <h2 className="schedule-title">Schedule a meeting with {connection[role].name}</h2>
@@ -97,8 +98,9 @@ export default function Schedule({ connection, timeSuggestions, update, onCountU
                         <div className="schedule-btns2">
                             <h3>Cancellable?</h3>
                             <div className="cancellable">
-                                <button onClick={() => setCanCancel(sessionCancel.YES)} type="button" className="btn send-schedule">Yes</button>
-                                <button onClick={() => setCanCancel(sessionCancel.NO)} type="button" className="btn send-schedule">No</button>
+                                {/* className="btn send-schedule" */}
+                                <button onClick={() => setCanCancel(sessionCancel.YES)} type="button" className={`yes-no ${canCancel === sessionCancel.YES ? 'bg-[#3D52A0] text-white' : 'bg-gray-200 text-black'}`}>Yes</button>
+                                <button onClick={() => setCanCancel(sessionCancel.NO)} type="button"  className={`yes-no ${canCancel === sessionCancel.NO ? 'bg-[#3D52A0] text-white' : 'bg-gray-200 text-black'}`}>No</button>
                             </div>
                         </div>
                         <div className="schedule-btns">
@@ -118,7 +120,7 @@ export default function Schedule({ connection, timeSuggestions, update, onCountU
                                     <h3><strong>{formatUnixTimes(session[0], session[1])}</strong></h3>
                                 </div>
                             </div>
-                        ))) : 
+                        ))) :
                         (timeSuggestions.resolvedSession.length !== 0 ? (
                             <div className="session">
                                 <h3>Reschedule To meet with mentor</h3>
@@ -135,7 +137,7 @@ export default function Schedule({ connection, timeSuggestions, update, onCountU
                                 </div>
                             </div>
                         ) : (
-                            <div>{timeSuggestions.message}</div>
+                            <div>Calculating best times to schedule a session for you</div>
                         )
                         )
                     }

@@ -160,6 +160,10 @@
     @apply text-sm w-full sm:w-auto px-2 py-1 sm:px-4 sm:py-2 rounded-md bg-[#3D52A0] text-white hover:bg-[#ADBBDA] hover:text-black;
 }
 
+.yes-no {
+    @apply text-sm w-full sm:w-auto px-2 py-1 sm:px-4 sm:py-2 rounded-md;
+}
+
 .btn {
     cursor: pointer;
 }

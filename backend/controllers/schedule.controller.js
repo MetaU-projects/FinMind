@@ -8,7 +8,7 @@ dayjs.extend(isoWeek);
 const getTotalUpcoming = async (req, res) => {
     const userId = req.session.userId;
 
-    const now = Math.floor(Date.now() /1000);
+    const now = Math.floor(Date.now() / 1000);
     const endOfWeek = dayjs().endOf('isoWeek').unix();
     try {
         const totalUpcoming = await prisma.session.count({
@@ -34,6 +34,45 @@ const getTotalUpcoming = async (req, res) => {
 const createSession = async (req, res) => {
     const { mentorshipId, startTime, endTime, reason, cancelable } = req.body;
     try {
+
+        const connection = await prisma.mentorship.findUnique({
+            where: { id: mentorshipId },
+            select: {
+                mentorId: true,
+                menteeId: true,
+            }
+        });
+
+        if (!connection) {
+            return res.status(404).json({ message: "Connection not found." });
+        }
+
+        const { mentorId, menteeId } = connection;
+
+        const exisitingConflict = await prisma.session.findFirst({
+            where: {
+                OR: [
+                    {
+                        mentorship: {
+                            mentorId: mentorId
+                        },
+                        startTime: { lt: endTime },
+                        endTime: { gt: startTime },
+                    },
+                    {
+                        mentorship: {
+                            menteeId: menteeId
+                        },
+                        startTime: { lt: endTime },
+                        endTime: { gt: startTime },
+                    }
+                ]
+            },
+        });
+
+        if (exisitingConflict) {
+            return res.status(409).json({ message: "This session overlaps with an existing one" })
+        }
         const session = await prisma.session.create({
             data: {
                 mentorshipId,
@@ -70,8 +109,8 @@ const removeSession = async (req, res) => {
         }
 
         const { startTime, endTime, cancelable, mentorship } = session;
-        if(!cancelable) {
-            return res.status(200).json({ message: "This session cannot be cancelled", suggestions: [] })
+        if (!cancelable) {
+            return res.status(200).json({ message: "This session cannot be cancelled", suggestions: [] })
         }
 
         const otherUserId = userId === mentorship.mentorId ? mentorship.menteeId : mentorship.mentorId;

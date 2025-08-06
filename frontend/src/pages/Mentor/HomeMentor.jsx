@@ -53,10 +53,6 @@ export default function HomeMentor() {
         { text: "🔔 Stay in the loop with real-time updates and alerts.", img: "/f2.jpg" }
     ];
 
-    const features = [
-
-    ];
-
 
     return (
         <div className="home-page">
@@ -106,7 +102,7 @@ export default function HomeMentor() {
                 </div>
             </div>
             {pickMentee && (
-                <ProfileModal userInfo={pickMentee} setPickMentor={setPickMentee} handleReqResponse={handleReqResponse} setReqStatus={setReqStatus} />
+                <ProfileModal userInfo={pickMentee} setPickMentor={setPickMentee} />
             )}
             <Footer />
         </div>

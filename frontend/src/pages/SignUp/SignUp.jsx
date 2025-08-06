@@ -12,6 +12,7 @@ import ErrorModal from "../../components/ErrorModal/ErrorModal";
 import InterestSearch from "../../components/SignupComp/InterestSearch";
 import { Role } from "../../utils/status";
 import AvailabilityInput from "../../components/SignupComp/AvailabilityInput";
+import { toast } from "react-hot-toast";
 
 export default function SignUp() {
     const [name, setName] = useState("");
@@ -80,6 +81,7 @@ export default function SignUp() {
                 interestIds
             });
             setUser(data);
+            toast.success("Successfully signed up!");
             navigate('/auth/login');
         } catch (err) {
             setError(err.message);

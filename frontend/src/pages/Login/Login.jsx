@@ -9,6 +9,7 @@ import img2 from "../../assets/login-img2.jpg";
 import ErrorModal from "../../components/ErrorModal/ErrorModal";
 import { AiOutlineEye } from "react-icons/ai";
 import { AiOutlineEyeInvisible } from "react-icons/ai";
+import { toast } from "react-hot-toast";
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -28,6 +29,7 @@ export default function Login() {
             const data = await loginUser(email, password);
             setUser(data.user);
             navigate(data.user.role === 'MENTOR' ? '/mentor/home' : '/mentee/home');
+            toast.success("Successfully logged in!");
         } catch (err) {
             setError(err.message);
         } finally {

@@ -22,7 +22,7 @@
 }
 
 .mentor {
-    @apply bg-[#7091E6] cursor-pointer text-black px-8 py-3 rounded-md hover:bg-[#3D52A0] hover:text-white transition font-medium;
+    @apply flex items-center gap-2 bg-[#7091E6] cursor-pointer text-black px-8 py-3 rounded-md hover:bg-[#3D52A0] hover:text-white transition font-medium;
 }
 
 .mentee {

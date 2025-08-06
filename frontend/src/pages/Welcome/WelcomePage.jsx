@@ -1,3 +1,4 @@
+import { BiArrowToRight } from "react-icons/bi"; 
 import { useNavigate } from "react-router-dom"
 import Header from "../../components/Header/Header";
 import './WelcomePage.css'
@@ -5,7 +6,6 @@ import Footer from "../../components/Footer/Footer";
 
 export default function WelcomePage() {
     const navigate = useNavigate();
-    const go = role => navigate('/auth/signup', { state: { role } });
     return (
         <div>
             <Header />
@@ -16,9 +16,8 @@ export default function WelcomePage() {
                         Whether you're seeking guidance or ready to share your wisdom, our platform provides
                         the perfect environment for growth and success.
                     </p>
-                    <div className="role-btn">
-                        <button className="mentor" onClick={() => go('mentor')}>Become a Mentor</button>
-                        <button className="mentee" onClick={() => go('mentee')}>Become a Mentee</button>
+                    <div className="">
+                        <button className="mentor" onClick={() => navigate('/auth/signup')}>Get Started <BiArrowToRight /></button>
                     </div>
                 </section>
 

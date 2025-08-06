@@ -1,6 +1,15 @@
 import { createAPIInstance, API_BASE_URL } from "../utils/api";
 const mentorship = createAPIInstance(API_BASE_URL);
 
+export const getUserInfo = async() => {
+    try {
+        const response = await mentorship.get(`/user/info`);
+        return response.data;
+    } catch (err) {
+        throw err;
+    }
+}
+
 export const getAllConnections = async (role) => {
     try {
         const response = await mentorship.get(`/connections?role=${role}`);
@@ -44,7 +53,7 @@ export const createSession = async (sessionInfo) => {
         const response = await mentorship.post('/session', data);
         return response.data;
     } catch (err) {
-        throw new Error(err.response?.data?.error);
+        throw err;
     }
 }
 

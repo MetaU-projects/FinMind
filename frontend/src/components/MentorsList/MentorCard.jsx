@@ -1,7 +1,7 @@
 import { FaUserPlus } from "react-icons/fa";
 import './MentorCard.css';
 
-export default function MentorCard({ mentor, onConnect, onSelect }) {
+export default function MentorCard({ mentor, onConnect, onSelect, loadingMentor }) {
     return (
         <div>
             <div className='card'>
@@ -24,13 +24,15 @@ export default function MentorCard({ mentor, onConnect, onSelect }) {
                     </div>
                 </div>
 
-                <p className="card-bio">{mentor.bio}</p>
+                <p className="card-bio" onClick={() => onSelect(mentor)}>{mentor.bio}</p>
                 <div className="card-skills">
                     {Array.isArray(mentor.interest) && mentor.interest.map(skill => (
                         <span key={skill.id}>{skill.interest.name}</span>
                     ))}
                 </div>
-                <button className="btn" onClick={onConnect}><FaUserPlus className="connect-icon" /> Connect</button>
+                <button className="btn" onClick={onConnect} disabled={loadingMentor === mentor.id}><FaUserPlus className="connect-icon" />
+                {loadingMentor === mentor.id ? "Connecting..." : "Connect"}
+                </button>
             </div>
         </div>
     )

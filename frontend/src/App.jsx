@@ -7,15 +7,19 @@ import WithAuth from './components/auth/WithAuth';
 import HomeMentee from './pages/Mentee/HomeMentee';
 import HomeMentor from './pages/Mentor/HomeMentor';
 import Connections from './pages/Connections/Connections';
+import { Toaster } from "react-hot-toast";
+import ProfilePage from './pages/ProfilePage/ProfilePage';
 
 export default function App() {
 
   const ProtectedMentorHome = WithAuth(HomeMentor, ['MENTOR']);
   const ProtectedMenteeHome = WithAuth(HomeMentee, ['MENTEE']);
   const ProtectedConnections = WithAuth(Connections, ['MENTEE', "MENTOR"]);
+  const ProtectedProfile = WithAuth(ProfilePage, ['MENTEE', "MENTOR"]);
 
   return (
     <div className='App'>
+      <Toaster />
       <Routes>
         <Route path='/' element={<WelcomePage />} />
         <Route path='/auth/signup' element={<SignUp />} />
@@ -23,6 +27,7 @@ export default function App() {
         <Route path='/mentor/home' element={<ProtectedMentorHome />} />
         <Route path='/mentee/home' element={<ProtectedMenteeHome />} />
         <Route path='/connections' element={<ProtectedConnections />} />
+        <Route path='/user/info' element={<ProtectedProfile />} />
       </Routes>
     </div>
   );

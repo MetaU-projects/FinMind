@@ -5,7 +5,7 @@
 }
 
 .interest-list {
-    @apply absolute p-2 mt-2 rounded bg-gray-200 dark:bg-gray-600 dark:text-white;
+    @apply absolute max-h-50 overflow-x-auto p-2 mt-2 rounded bg-gray-200 dark:bg-gray-600 dark:text-white;
 }
 
 .interest-name {

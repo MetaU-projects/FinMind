@@ -2,6 +2,27 @@ const prisma = require('../config/prismaClient');
 const { invalidateCache } = require('../utils/cache');
 const { ConnectionStatus, Role } = require('../utils/statusEnums');
 
+const getUserInfo = async (req, res) => {
+    const userId = req.session.userId;
+    try {
+        const userInfo = await prisma.user.findUnique({ 
+            where: { id: userId },
+            include: {
+                interest: {
+                    include: {
+                        interest: true
+                    }
+                },
+                preference: true
+            }
+        });
+        res.status(200).json(userInfo);
+    } catch(err) {
+        res.status(500).json({ error: "Error getting user's data", details: err.message});
+    }
+}
+
+
 const getAllConnections = async (req, res) => {
     const userId = req.session.userId;
     const { role } = req.query;
@@ -24,7 +45,7 @@ const getAllConnections = async (req, res) => {
                 res.status(404).json({ error: "Role is invalid!" });
         }
     } catch (err) {
-        res.status(404).json({ error: "No active connections" }, err);
+        res.status(404).json({ error: "No active connections", details: err.message});
     }
 }
 
@@ -105,16 +126,18 @@ const endMentorship = async (req, res) => {
 
 const requestConnection = async (req, res) => {
     const { menteeId, mentorId } = req.body;
+    if (!menteeId || !mentorId) {
+        return res.status(400).json({message: "Missing menteeId or mentorId"})
+    }
     try {
         const request = await prisma.request.create({
             data: { menteeId, mentorId },
             include: { mentor: true }
         });
-        
         await invalidateCache(`user:${menteeId}:recommendations`);
         res.status(201).json(request);
     } catch (err) {
-        res.status(404).json({ error: "Error sending request!", details: err.message });
+        res.status(500).json({ error: "Error sending request!", details: err.message });
     }
 }
 
@@ -132,6 +155,7 @@ const updateRequestStatus = async (req, res) => {
 }
 
 module.exports = {
+    getUserInfo,
     getAllConnections,
     requestConnection,
     updateRequestStatus,

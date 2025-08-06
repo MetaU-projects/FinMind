@@ -1,5 +1,6 @@
-import { MdOutlinePending } from "react-icons/md"; 
-import { MdOutlineRecommend } from "react-icons/md"; 
+import { BsPersonCircle } from "react-icons/bs";
+import { MdOutlinePending } from "react-icons/md";
+import { MdOutlineRecommend } from "react-icons/md";
 import { logoutUser } from "../../services/dataService"
 import { useUser } from "../../contexts/UserContext"
 import { Link, useNavigate, useLocation } from 'react-router-dom'
@@ -27,14 +28,17 @@ export default function Header({ togglePanel }) {
                         <Link className="nav-link" to='/connections'>Connections</Link>
                     </nav>
                     {currentPath === "/mentee/home" && user?.role === "MENTEE" ? (
-                    <div className="header-actions">
-                        <div className="flex items-center text-sm cursor-pointer" onClick={() => togglePanel('pending')}><MdOutlinePending className="header-icon"/>Pending</div>
-                        <div className="flex items-center text-sm cursor-pointer" onClick={() => togglePanel('recommended')}><MdOutlineRecommend className="header-icon"/>Recommendations</div>
-                        <button className="header-log" onClick={handlelogout}>Logout</button>
-                    </div>
-                ) : (
-                    <button className="header-log" onClick={handlelogout}>Logout</button>
-                )}
+                        <div className="header-actions">
+                            <div className="flex items-center text-sm cursor-pointer" onClick={() => togglePanel('pending')}><MdOutlinePending className="header-icon" />Pending</div>
+                            <div className="flex items-center text-sm cursor-pointer" onClick={() => togglePanel('recommended')}><MdOutlineRecommend className="header-icon" />Recommendations</div>
+                            <button className="header-log" onClick={handlelogout}>Logout</button>
+                        </div>
+                    ) : (
+                        <div>
+                            <Link to='/user/info'><BsPersonCircle /></Link>
+                            <button className="header-log" onClick={handlelogout}>Logout</button>
+                        </div>
+                    )}
                 </div>
             ) : (
                 <div className="header-wrapper">

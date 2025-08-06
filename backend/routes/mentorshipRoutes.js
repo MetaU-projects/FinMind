@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { getMentors, pendingRequests, removeRequest } = require('../controllers/menteeController');
-const { getAllConnections, requestConnection, updateRequestStatus, createMentorship, updateMentorship, endMentorship } = require('../controllers/mentorshipController');
+const { getAllConnections, requestConnection, updateRequestStatus, createMentorship, updateMentorship, endMentorship, getUserInfo } = require('../controllers/mentorshipController');
 const { getMenteeRequests } = require('../controllers/mentorController');
 const isAuthenticated = require('../middlewares/isAuthenticated');
 const mentorRecomendations = require('../controllers/recommendController');
@@ -12,6 +12,7 @@ const { searchMentors } = require('../controllers/searchController');
 
 
 router.get('/mentee/home', isAuthenticated, getMentors);
+router.get('/user/info', isAuthenticated, getUserInfo);
 router.get('/connections', isAuthenticated, getAllConnections);
 router.post('/request', isAuthenticated, requestConnection);
 router.patch('/request/update', isAuthenticated, updateRequestStatus);

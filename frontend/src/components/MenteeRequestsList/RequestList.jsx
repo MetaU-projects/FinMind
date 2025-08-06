@@ -1,10 +1,5 @@
 import RequestCard from "./RequestCard";
-import { useState, useEffect } from "react";
-import { useUser } from "../../contexts/UserContext";
-import { getMenteeRequests, requestResponse } from "../../services/mentorService";
-import { createMentorship } from "../../services/mentorshipService";
 import { requestStatus } from "../../utils/status";
-import { removeRequest } from "../../services/menteeService";
 
 export default function RequestList({ requests, onSelect, setMenteeId, setRequestId, setReqStatus, onReqResponse }) {
     const handleResponse = (requestId, menteeId, status) => {

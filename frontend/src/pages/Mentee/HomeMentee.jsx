@@ -11,6 +11,7 @@ import ProfileModal from "../../components/ProfileModal/ProfileModal";
 import { sendRequest } from "../../services/menteeService";
 import { useUser } from "../../contexts/UserContext";
 import CardSkeleton from "../../components/loading/CardSkeleton";
+import { toast } from "react-hot-toast";
 import ErrorModal from "../../components/ErrorModal/ErrorModal";
 
 export default function HomeMentee() {
@@ -18,10 +19,10 @@ export default function HomeMentee() {
     const [mentors, setMentors] = useState([]);
     const [recommend, setRecommend] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
-    const [mentorId, setMentorId] = useState(null)
     const [pickMentor, setPickMentor] = useState(null);
     const [activePanel, setActivePanel] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [loadingMentor, setLoadingMentor] = useState(null);
     const [error, setError] = useState("")
     const { user } = useUser();
 
@@ -52,10 +53,21 @@ export default function HomeMentee() {
         fetchData();
     }, []);
 
-    const handleConnectionReq = async () => {
-        const newRequest = await sendRequest(user.id, mentorId);
+    const handleConnectionReq = async (clickedMentorId) => {
+        if(!user?.id || !clickedMentorId){
+            toast.error("Invalid user or mentor");
+            return;
+        }
+        setLoadingMentor(clickedMentorId);
+        try{
+        const newRequest = await sendRequest(user.id, clickedMentorId);
+        setMentors(mentors.filter(mentor => mentor.id !== clickedMentorId));
         setPendingRequests(prev => [...prev, newRequest]);
-        setMentors(mentors.filter(mentor => mentor.id !== mentorId));
+        } catch(err) {
+            toast.error("Could not send request");
+        } finally {
+            setLoadingMentor(null);
+        }
     }
 
     const togglePanel = (panel) => {
@@ -85,10 +97,10 @@ export default function HomeMentee() {
                         <MentorList
                             mentors={mentors}
                             setMentors={setMentors}
-                            onRequest={setMentorId}
-                            onSendRequest={handleConnectionReq}
+                            onRequest={handleConnectionReq}
                             setPendingRequests={setPendingRequests}
                             onSelect={setPickMentor}
+                            loadingMentor={loadingMentor}
                         />
                     ) : (
                         <CardSkeleton />
@@ -97,7 +109,7 @@ export default function HomeMentee() {
                 <Footer />
             </div>
             {pickMentor &&
-                <ProfileModal setPickMentor={setPickMentor} userInfo={pickMentor} sendMentorId={setMentorId} onResponse={handleConnectionReq} />
+                <ProfileModal setPickMentor={setPickMentor} userInfo={pickMentor} />
             }
         </div>
     )
