@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react"
 import { allInterests } from "../../services/mentorshipService";
 import "./SignupComp.css";
 
-export default function InterestSearch({ onSelect }) {
+export default function InterestSearch({ selecteds = [], onSelect }) {
     const [interests, setInterests] = useState([]);
     const [interestMap, setInterestMap] = useState({});
     const [query, setQuery] = useState('');

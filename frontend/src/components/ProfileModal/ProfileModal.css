@@ -5,7 +5,7 @@
 }
 
 .profile-container {
-    @apply relative bg-white gap-3 lg:gap-10 border border-gray-300 dark:bg-gray-900 rounded-xl p-6 w-[90%] sm:w-[80%] md:w-[60%] lg:w-[50%] xl:w-[40%] h-[50vh] lg:h-[60vh] flex flex-col;
+    @apply relative bg-white gap-3 lg:gap-10 border border-gray-300 dark:bg-gray-900 rounded-xl p-6 w-[90%] sm:w-[80%] md:w-[60%] lg:w-[50%] xl:w-[40%] h-[60%] lg:h-[70%] flex flex-col;
 }
 
 .profile-top h2 {

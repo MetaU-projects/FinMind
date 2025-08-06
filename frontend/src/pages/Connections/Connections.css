@@ -69,11 +69,11 @@
 }
 
 .tabPick {
-    @apply bg-blue-600 text-white shadow-sm;
+    @apply bg-[#3D52A0] text-white shadow-sm;
 }
 
 .tabUnpick {
-    @apply bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-750;
+    @apply bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700;
 }
 
 .right-content {

@@ -9,6 +9,7 @@ const { getInterests } = require('../controllers/interestController');
 const { createSession, removeSession, sessionsHistory, upcomingSessions, getTotalUpcoming } = require('../controllers/schedule.controller');
 const { getTasks, createTask, updateTask, activeTasks, deleteTask, editTask } = require('../controllers/taskController');
 const { searchMentors } = require('../controllers/searchController');
+const { updateUserProfile, updateUserPassword } = require('../controllers/userController');
 
 
 router.get('/mentee/home', isAuthenticated, getMentors);
@@ -37,5 +38,7 @@ router.delete('/task/remove/:taskId', isAuthenticated, deleteTask);
 router.patch('/task/edit', isAuthenticated, editTask);
 router.get('/session/total', isAuthenticated, getTotalUpcoming);
 router.get('/mentor/search', isAuthenticated, searchMentors);
+router.patch('/profile/update', isAuthenticated, updateUserProfile);
+router.patch('/password/update', isAuthenticated, updateUserPassword);
 
 module.exports = router;

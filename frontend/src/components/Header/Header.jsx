@@ -26,6 +26,8 @@ export default function Header({ togglePanel }) {
                     <nav className="nav-links">
                         <Link className="nav-link" to={user.role === 'MENTOR' ? '/mentor/home' : '/mentee/home'}> Home </Link>
                         <Link className="nav-link" to='/connections'>Connections</Link>
+                        <Link className="nav-link" to='/user/info'><BsPersonCircle /></Link>
+
                     </nav>
                     {currentPath === "/mentee/home" && user?.role === "MENTEE" ? (
                         <div className="header-actions">
@@ -35,7 +37,6 @@ export default function Header({ togglePanel }) {
                         </div>
                     ) : (
                         <div>
-                            <Link to='/user/info'><BsPersonCircle /></Link>
                             <button className="header-log" onClick={handlelogout}>Logout</button>
                         </div>
                     )}

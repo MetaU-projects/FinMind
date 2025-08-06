@@ -3,6 +3,8 @@ const cors = require('cors');
 const session = require('express-session');
 require('dotenv').config();
 
+console.log('DEBUG REDIS_URL:', process.env.REDIS_URL);
+
 const authRoutes = require('./routes/authRoutes');
 const mentorshipRoutes = require('./routes/mentorshipRoutes');
 

@@ -49,6 +49,29 @@
 }
 
 .tooltip {
+    @apply relative inline-block;
+}
+
+.tooltiptext {
+    @apply absolute left-1/2 -translate-x-1/2 bottom-full mb-3 z-10 min-w-[220px] bg-[#e1e1e1] dark:bg-[#5b6ea0] text-black dark:text-white rounded-xl shadow-lg px-4 py-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none;
+}
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%) translateY(100%);
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid #e1e1e1;
+}
+
+.dark .tooltip .tooltiptext::after {
+    border-top-color: #5b6ea0;
+}
+
+/* .tooltip {
     position: relative;
     display: inline-block;
     cursor: pointer;
@@ -83,4 +106,4 @@
     border-width: 6px;
     border-style: solid;
     border-color: #e1e1e1 transparent transparent transparent;
-}
+} */
