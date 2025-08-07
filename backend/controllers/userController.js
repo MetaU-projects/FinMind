@@ -31,7 +31,7 @@ const updateUserProfile = async (req, res) => {
                         create: interests.map(id => ({ interestId: id })),
                     }
                 }),
-                ...WeekDay(Array.isArray(preference) && {
+                ...(Array.isArray(preference) && {
                     preference: {
                         deleteMany: {},
                         create: preference.map(({ day, startTime, endTime }) => ({

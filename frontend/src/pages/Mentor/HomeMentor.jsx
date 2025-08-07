@@ -16,9 +16,6 @@ export default function HomeMentor() {
     const { user } = useUser();
     const [requests, setRequests] = useState([]);
     const [pickMentee, setPickMentee] = useState(null);
-    const [requestId, setRequestId] = useState(null);
-    const [menteeId, setMenteeId] = useState(null);
-    const [reqStatus, setReqStatus] = useState(null);
 
     useEffect(() => {
         const fetchRequests = async () => {
@@ -28,10 +25,10 @@ export default function HomeMentor() {
         fetchRequests();
     }, []);
 
-    const handleReqResponse = async () => {
+    const handleReqResponse = async (requestId, menteeId, status) => {
         const respondedAt = new Date();
-        await requestResponse(requestId, reqStatus, respondedAt);
-        switch (reqStatus) {
+        await requestResponse(requestId, status, respondedAt);
+        switch (status) {
             case requestStatus.ACCEPTED:
                 await createMentorship(menteeId, user.id);
                 break;
@@ -77,9 +74,6 @@ export default function HomeMentor() {
                                 <RequestList
                                     requests={requests}
                                     onSelect={setPickMentee}
-                                    setRequestId={setRequestId}
-                                    setMenteeId={setMenteeId}
-                                    setReqStatus={setReqStatus}
                                     onReqResponse={handleReqResponse}
                                 />
                             ) : (

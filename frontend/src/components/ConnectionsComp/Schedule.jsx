@@ -121,7 +121,7 @@ export default function Schedule({ connection, timeSuggestions, update, onCountU
                                 </div>
                             </div>
                         ))) :
-                        (timeSuggestions.resolvedSession.length !== 0 ? (
+                        (timeSuggestions.resolvedSession ? (
                             <div className="session">
                                 <h3>Reschedule To meet with mentor</h3>
                                 <div className="time">

@@ -1,12 +1,9 @@
 import RequestCard from "./RequestCard";
 import { requestStatus } from "../../utils/status";
 
-export default function RequestList({ requests, onSelect, setMenteeId, setRequestId, setReqStatus, onReqResponse }) {
+export default function RequestList({ requests, onSelect, onReqResponse }) {
     const handleResponse = (requestId, menteeId, status) => {
-        setRequestId(requestId); 
-        setMenteeId(menteeId); 
-        setReqStatus(status);
-        onReqResponse();
+        onReqResponse(requestId, menteeId, status);
     }
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 rounded-xl">
